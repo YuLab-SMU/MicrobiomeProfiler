@@ -13,5 +13,13 @@ run_app()
 
 devtools::load_all()
 devtools::document()
+usethis::use_build_ignore(c("Makefile", "README.md", "README.Rmd", "CONDUCT.md", ".Rproj.user", ".Rproj","myapp"))
 devtools::check()
 devtools::build()
+
+# get path to example package
+pkg_path <- system.file()
+
+library(goodpractice)
+# run gp() on it
+g <- gp("D:/yulab/enrichMicrobiomepkg/v2/MicrobiomeProfiler")

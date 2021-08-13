@@ -7,18 +7,18 @@ Authors@R: c(
     )
 Description: Functional enrichment analysis for microbiome data.
 License: GPL-3
+URL: https://github.com/YuLab-SMU/MicrobiomeProfiler/
+BugReports: https://github.com/YuLab-SMU/MicrobiomeProfiler/issues
 Imports: 
-    clusterProfiler,
+    clusterProfiler(>= 4.0.2),
     config,
-    dplyr,
     DT,
     enrichplot,
     golem,
     magrittr,
-    shiny,
+    shiny(>= 1.6.0),
     shinyWidgets,
     shinycustomloader,
-    shinyjs,
     htmltools,
     ggplot2
 Encoding: UTF-8
@@ -26,3 +26,6 @@ LazyData: true
 RoxygenNote: 7.1.1
 Depends: 
     R (>= 4.1.0)
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3

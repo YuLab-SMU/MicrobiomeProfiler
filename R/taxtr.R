@@ -3,8 +3,7 @@
 #' @param Input a query vector of microbe ncbi ids or ScientificName
 #' @param Type The Type of Input, should be "TaxId" or "ScientificName"
 #' @param Level The taxon level of Input, only "species" and "genus" are accepted.
-#'
-#' @return
+#' @return a dataframe
 #' @export
 #'
 #' @examples

@@ -1,8 +1,8 @@
 default:
-  golem_name: enrichMicrobiome
+  golem_name: MicrobiomeProfiler
   golem_version: 0.0.0.9000
   app_prod: no
 production:
   app_prod: yes
 dev:
-  golem_wd: !expr here::here()
+  golem_wd: D:/yulab/enrichMicrobiomepkg/v2/MicrobiomeProfiler

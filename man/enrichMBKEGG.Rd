@@ -21,13 +21,13 @@ enrichMBKEGG(
 
 \item{pAdjustMethod}{one of "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none".}
 
-\item{universe}{universe background genes. If missing, the all metabolites from smpdb database will be used as background.}
+\item{universe}{universe background genes. If missing, use KEGG as default.}
 
 \item{minGSSize}{minimal size of genes annotated by KEGG term for testing.}
 
 \item{maxGSSize}{maximal size of genes annotated for testing.}
 
-\item{qvalueCutoff}{qvalue cutoff on enrichment tests to report as significant.}
+\item{qvalueCutoff}{qvalue cutoff on enrichment tests to report.}
 }
 \value{
 A \code{enrichResult} instance.

@@ -19,19 +19,24 @@ enrichKO(
 
 \item{pvalueCutoff}{adjusted pvalue cutoff on enrichment tests to report.}
 
-\item{pAdjustMethod}{one of "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none".}
+\item{pAdjustMethod}{one of "holm","hochberg","hommel","bonferroni","BH","BY","fdr","none".}
 
-\item{universe}{universe background genes. If missing, the all K genes will be used as background.}
+\item{universe}{universe background genes. If missing, use all K genes.}
 
 \item{minGSSize}{minimal size of genes annotated by KEGG term for testing.}
 
 \item{maxGSSize}{maximal size of genes annotated for testing.}
 
-\item{qvalueCutoff}{qvalue cutoff on enrichment tests to report as significant.}
+\item{qvalueCutoff}{qvalue cutoff on enrichment tests to report.}
 }
 \value{
-
+A \code{enrichResult} instance.
 }
 \description{
 KO enrichment for microbiome data
+}
+\examples{
+\dontrun{
+ kk <- enrichKO(IPF)
+}
 }

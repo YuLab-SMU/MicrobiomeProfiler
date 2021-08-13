@@ -36,12 +36,14 @@ usethis::use_data(
     human_vagina,
     taxid2genus,
     taxid2sp,
+    IPF,
+    mb_examplelist,
     internal = TRUE,
     overwrite = TRUE,
     compress = "xz"
 )
 
-usethis::use_data(human_gut2014,human_gut2016,human_vagina,human_skin,IPF,IPF_universe,mb_examplelist,overwrite = TRUE)
+#usethis::use_data(human_gut2014,human_gut2016,human_vagina,human_skin,overwrite = TRUE)
 
 
 
@@ -73,7 +75,7 @@ usethis::use_test( "app" )
 # Documentation
 
 ## Vignette ----
-usethis::use_vignette("enrichMicrobiome")
+usethis::use_vignette("MicrobiomeProfiler")
 devtools::build_vignettes()
 
 ## Code Coverage----

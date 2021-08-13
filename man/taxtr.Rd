@@ -14,7 +14,7 @@ taxtr(Input, Type, Level)
 \item{Level}{The taxon level of Input, only "species" and "genus" are accepted.}
 }
 \value{
-
+a dataframe
 }
 \description{
 convertion of microne ncbi id and ScientificName

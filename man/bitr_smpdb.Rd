@@ -21,7 +21,8 @@ You can choose one id type as input and convert to other id type
 }
 \examples{
 \dontrun{
- results <- bitr_smpdb(c("HMDB0000538","HMDB0000161","HMDB0000045"),from_Type = "HMDB.ID",to_Type = "ChEBI.ID")
+ results <- bitr_smpdb(c("HMDB0000538","HMDB0000161","HMDB0000045"),
+ from_Type = "HMDB.ID",to_Type = "ChEBI.ID")
 }
 
 }
