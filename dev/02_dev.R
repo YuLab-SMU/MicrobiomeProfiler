@@ -20,6 +20,8 @@ usethis::use_package("dplyr")
 usethis::use_package("enrichplot")
 usethis::use_package("magrittr")
 usethis::use_package("DT")
+usethis::use_package("graphics")
+usethis::use_package("utils")
 
 load("D:/yulab/FAMshiny/data/universe_gene_sets.rda")
 load("D:/yulab/FAMshiny/data/example_data.rda")
@@ -43,7 +45,7 @@ usethis::use_data(
     compress = "xz"
 )
 
-#usethis::use_data(human_gut2014,human_gut2016,human_vagina,human_skin,overwrite = TRUE)
+usethis::use_data(Psoriasis_data,Rat_data,microbiota_data,overwrite = TRUE)
 
 
 
