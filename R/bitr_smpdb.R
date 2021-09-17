@@ -20,10 +20,9 @@ magrittr::`%<>%`
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#'  results <- bitr_smpdb(c("HMDB0000538","HMDB0000161","HMDB0000045"),
-#'  from_Type = "HMDB.ID",to_Type = "ChEBI.ID")
-#' }
+#'
+#' bitr_smpdb(c("HMDB0000538","HMDB0000161","HMDB0000045"),
+#' from_Type = "HMDB.ID",to_Type = "ChEBI.ID")
 #'
 bitr_smpdb <- function(mbid,from_Type, to_Type){
     idmap <- smpdb_data

@@ -20,7 +20,11 @@ a dataframe
 convertion of microne ncbi id and ScientificName
 }
 \examples{
-\dontrun{
-taxtr(Input = c("2840314","2839514","2839126","2794228"), Type = "TaxId", Level = "genus")
-}
+
+taxtr(Input = c("2840314","2839514","2839126","2794228"),
+Type = "TaxId", Level = "genus")
+
+taxtr(Input = c("Escherichia coli","Lactococcus lactis"),
+Type = "ScientificName", Level = "species")
+
 }

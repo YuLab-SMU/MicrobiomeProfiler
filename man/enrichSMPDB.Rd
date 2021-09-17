@@ -35,3 +35,9 @@ A \code{enrichResult} instance.
 \description{
 Metabolism enrichment analysis for microbiome data
 }
+\examples{
+
+smp <- enrichSMPDB(c("PW_C000164","PW_C000078","PW_C000040"))
+head(smp)
+
+}

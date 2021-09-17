@@ -10,6 +10,13 @@
 #' @importFrom clusterProfiler enricher
 #' @return A \code{enrichResult} instance.
 #' @export
+#' @examples
+#'
+#' mblist3 <- bitr_smpdb(c("PW_C000164","PW_C000078","PW_C000040"),
+#' from_Type = "Metabolite.ID",to_Type = "KEGG.ID")
+#' mb3 <- enrichMBKEGG(mblist3$KEGG.ID)
+#' head(mb3)
+#'
 enrichMBKEGG <- function(metabo_list,
                        pvalueCutoff      = 0.05,
                        pAdjustMethod     = "BH",

@@ -11,9 +11,11 @@
 #' @return A \code{enrichResult} instance.
 #' @export
 #' @examples
-#' \dontrun{
-#'  kk <- enrichKO(IPF)
-#' }
+#'
+#'   data(Rat_data)
+#'   ko <- enrichKO(Rat_data)
+#'   head(ko)
+#'
 enrichKO <- function(gene,
                      pvalueCutoff      = 0.05,
                      pAdjustMethod     = "BH",

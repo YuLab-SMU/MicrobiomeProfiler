@@ -7,6 +7,7 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
+#' @examples mod_Metaboenrichment_ui("Metaboenrichment_ui")
 mod_Metaboenrichment_ui <- function(id,
                                     label = "Input: Metabolite list",
                                     universelist = list("SMPDB",
@@ -68,12 +69,13 @@ mod_Metaboenrichment_ui <- function(id,
 #'
 #' @importFrom shiny NS tagList
 #' @importFrom DT DTOutput datatable renderDT JS
+#' @examples mod_Metaboenrichment_ui2("Metaboenrichment_ui")
 mod_Metaboenrichment_ui2 <- function(id){
   ns <- NS(id)
   tagList(
     tags$div(shinycustomloader::withLoader(DT::DTOutput(ns("dt")),
                                            loader = "loader10"),
-             style = "height:300px;"),
+             style = "height:320px;"),
     # verbatimTextOutput(ns("selectedRows")),
     tags$br(),
     actionButton(ns("update"),"Update",
@@ -81,7 +83,7 @@ mod_Metaboenrichment_ui2 <- function(id){
                  text-align: center;font-size: 16px;
                  font-family: 'Times New Roman', Times, serif;"),
     helpText("Tip: If you want to show your interested terms,
-             just choose the row and then click the the Update button.")
+             just choose the rows and then click the Update button.")
 
 
   )
@@ -98,6 +100,7 @@ mod_Metaboenrichment_ui2 <- function(id){
 #' @importFrom shiny NS tagList
 #' @importFrom shinycustomloader withLoader
 #' @importFrom shinyWidgets colorPickr
+#' @examples mod_Metaboenrichment_ui3("Metaboenrichment_ui")
 mod_Metaboenrichment_ui3 <- function(id){
   ns <- NS(id)
   tagList(
@@ -213,7 +216,7 @@ mod_Metaboenrichment_server <- function(id){
         output$background1 <- renderUI({
           ns <- session$ns
           textAreaInput(ns("universelist1"), "Input: Customer Defined Universe",
-                        placeholder = "Universe format likes example")
+                        placeholder = "PW_C000414\nPW_C000105\n...")
 
         })
       } else {
@@ -337,7 +340,8 @@ mod_Metaboenrichment_server <- function(id){
                                 ncol(dat)-1L+colIndex)),
              columnDefs = list( # hide the ROWID column
                list(visible = FALSE, targets = ncol(dat)-1L+colIndex)
-             ),lengthMenu = c(5, 10), pageLength = 5
+             ),lengthMenu = c(5, 10), pageLength = 5,
+             scrollY="220px"
            )
          )
          dep <- htmltools::htmlDependency("jqueryui", "1.12.1",
@@ -411,7 +415,7 @@ mod_Metaboenrichment_server <- function(id){
 
        output$downdotPolt <- downloadHandler(
          filename = function(){
-           paste("result.",input$format,sep = "")
+           paste0("Dotplot_",Sys.Date(),".",input$format)
          },
          content = function(file){
            if(input$update == 0){
@@ -432,7 +436,7 @@ mod_Metaboenrichment_server <- function(id){
 
        output$downbarPolt <- downloadHandler(
          filename = function(){
-           paste("result.",input$format2,sep = "")
+           paste0("Barplot_",Sys.Date(),".",input$format2)
          },
          content = function(file){
            if(input$update == 0){

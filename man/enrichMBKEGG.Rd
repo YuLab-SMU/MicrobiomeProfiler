@@ -35,3 +35,11 @@ A \code{enrichResult} instance.
 \description{
 Metabolism enrichment analysis for microbiome data
 }
+\examples{
+
+mblist3 <- bitr_smpdb(c("PW_C000164","PW_C000078","PW_C000040"),
+from_Type = "Metabolite.ID",to_Type = "KEGG.ID")
+mb3 <- enrichMBKEGG(mblist3$KEGG.ID)
+head(mb3)
+
+}

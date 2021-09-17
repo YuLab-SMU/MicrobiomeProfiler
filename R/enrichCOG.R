@@ -10,6 +10,11 @@
 #' @importFrom clusterProfiler enricher
 #' @return A \code{enrichResult} instance.
 #' @export
+#' @examples
+#'
+#' data(Psoriasis_data)
+#' cog <- enrichCOG(Psoriasis_data)
+#'
 enrichCOG <- function(gene,
                       pvalueCutoff      = 0.05,
                       pAdjustMethod     = "BH",

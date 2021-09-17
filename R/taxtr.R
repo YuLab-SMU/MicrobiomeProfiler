@@ -7,11 +7,14 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#' taxtr(Input = c("2840314","2839514","2839126","2794228"), Type = "TaxId", Level = "genus")
-#' }
-taxtr <- function(Input, Type, Level){
-
+#'
+#' taxtr(Input = c("2840314","2839514","2839126","2794228"),
+#' Type = "TaxId", Level = "genus")
+#'
+#' taxtr(Input = c("Escherichia coli","Lactococcus lactis"),
+#' Type = "ScientificName", Level = "species")
+#'
+taxtr <- function(Input, Type, Level) {
     if(Level == "genus"){
         taxid2name <- taxid2genus
     }else{
@@ -24,14 +27,10 @@ taxtr <- function(Input, Type, Level){
     }
 
     res <- unique(as.data.frame(taxid2name[taxid2name[[Type]]%in% Input,]))
-
     n <- res[, 1] %>% unique %>% length
-    if(! all(Input %in% taxid2name[[Type]])){
-        warning(paste0(round(n/length(Input)*100, 2), "%"), " of input are fail to map...")
-
+    n2 <- length(Input) - n
+    if (n2) {
+        warning(paste0(round(n2/length(Input)*100, 2), "%"), " of input gene IDs are fail to map...")
     }
-
     return(res)
 }
-
-

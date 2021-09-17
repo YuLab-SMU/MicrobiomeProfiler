@@ -1,31 +1,38 @@
 Package: MicrobiomeProfiler
-Title: an shiny package for microbiome functional enrichment analysis
-Version: 0.0.0.9
+Title: An shiny package for microbiome functional enrichment analysis
+Version: 0.99.0
 Authors@R: c(
     person(given = "Meijun",family = "Chen",role = c("aut", "cre"),email = "mjchen1996@outlook.com"),
     person(given = "Guangchuang", family = "Yu", email = "guangchuangyu@gmail.com", role  = c("aut", "ctb"), comment = c(ORCID = "0000-0002-6485-8781"))
     )
-Description: Functional enrichment analysis for microbiome data.
-License: GPL-3
+Description: This is an R/shiny package to perform functional enrichment analysis for microbiome data. 
+             This package was based on clusterProfiler. Moreover, MicrobiomeProfiler support KEGG enrichment analysis,
+             COG enrichment analysis, Microbe-Disease association enrichment analysis, Metabo-Pathway analysis.
+License: GPL-2
 URL: https://github.com/YuLab-SMU/MicrobiomeProfiler/
 BugReports: https://github.com/YuLab-SMU/MicrobiomeProfiler/issues
 Imports: 
-    clusterProfiler(>= 4.0.2),
+    clusterProfiler (>= 4.0.2),
     config,
     DT,
     enrichplot,
     golem,
     magrittr,
-    shiny(>= 1.6.0),
+    shiny (>= 1.6.0),
     shinyWidgets,
     shinycustomloader,
     htmltools,
-    ggplot2
+    ggplot2,
+    graphics,
+    utils
 Encoding: UTF-8
-LazyData: true
-RoxygenNote: 7.1.1
+biocViews: Microbiome, Software, Visualization,KEGG
+RoxygenNote: 7.1.2
 Depends: 
     R (>= 4.1.0)
 Suggests: 
+    rmarkdown,
+    knitr,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+VignetteBuilder: knitr

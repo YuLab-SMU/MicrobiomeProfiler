@@ -1,1 +1,16 @@
-Makefile
+^.*\.Rproj$
+^\.Rproj\.user$
+^data-raw$
+dev_history.R
+^dev$
+$run_dev.*
+^Makefile$
+^README\.md$
+^README\.Rmd$
+^CONDUCT\.md$
+^\.Rproj$
+^myapp$
+^\.gitignore$
+^NEWS\.md$
+^\.Rdata$
+^\.Rhistory$

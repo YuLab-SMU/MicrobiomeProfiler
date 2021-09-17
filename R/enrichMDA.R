@@ -10,6 +10,13 @@
 #' @importFrom clusterProfiler enricher
 #' @return A \code{enrichResult} instance.
 #' @export
+#' @examples
+#'
+#' data(microbiota_data)
+#' mdlist <- taxtr(microbiota_data, Type = "ScientificName", Level = "genus")
+#' mda <- enrichMDA(mdlist$TaxId)
+#' head(mda)
+#'
 enrichMDA <- function(microbe_list,
                       pvalueCutoff      = 0.05,
                       pAdjustMethod     = "BH",

@@ -36,7 +36,9 @@ A \code{enrichResult} instance.
 KO enrichment for microbiome data
 }
 \examples{
-\dontrun{
- kk <- enrichKO(IPF)
-}
+
+  data(Rat_data)
+  ko <- enrichKO(Rat_data)
+  head(ko)
+
 }

@@ -35,3 +35,9 @@ A \code{enrichResult} instance.
 \description{
 COG enrichment analysis for microbiome data
 }
+\examples{
+
+data(Psoriasis_data)
+cog <- enrichCOG(Psoriasis_data)
+
+}
