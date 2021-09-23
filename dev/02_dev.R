@@ -45,7 +45,7 @@ usethis::use_data(
     compress = "xz"
 )
 
-usethis::use_data(Psoriasis_data,Rat_data,microbiota_data,overwrite = TRUE)
+usethis::use_data(Psoriasis_data,Rat_data,microbiota_data,overwrite = TRUE,compress = "xz")
 
 
 
