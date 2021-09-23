@@ -21,7 +21,7 @@ taxtr <- function(Input, Type, Level) {
         if(Level == "species"){
             taxid2name <- taxid2sp
         }else{
-            stop(paste("Level parameter should be genus or species..."))
+            stop(paste0("Level parameter should be genus or species..."))
         }
 
     }

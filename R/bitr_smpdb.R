@@ -28,20 +28,19 @@ bitr_smpdb <- function(mbid,from_Type, to_Type){
     idmap <- smpdb_data
     ids <- c("Metabolite.ID","Metabolite.Name",
              "HMDB.ID","KEGG.ID","ChEBI.ID","DrugBank.ID")
-    mgs<- paste("should be one of these type:",
+    mgs<- paste0("should be one of these type:",
                 "Metabolite.ID","Metabolite.Name",
-                "HMDB.ID","KEGG.ID","ChEBI.ID","DrugBank.ID", sep = " ")
+                "HMDB.ID","KEGG.ID","ChEBI.ID","DrugBank.ID", collapse = " ")
     mbid %<>% as.character %>% unique
     if(! from_Type %in% ids){
-        stop(paste("from_Type",mgs,sep = " "))
+        stop(paste0("from_Type ",mgs))
     }
     if(! to_Type %in% ids){
-        stop(paste("to_Type",mgs,sep = " "))
+        stop(paste0("to_Type ",mgs))
     }
     res <- unique(as.data.frame(idmap[idmap[[from_Type]] %in% mbid,
                                       c(from_Type,to_Type)]))
 
-    #res <- unique(idmap[idmap[[from_Type]] %in% mbid, c(from_Type,to_Type)])
     n <- res[, 1] %>% unique %>% length
     if(! all(mbid %in% idmap[[from_Type]])){
         warning(paste0(round(n/length(mbid)*100, 2), "%"),
