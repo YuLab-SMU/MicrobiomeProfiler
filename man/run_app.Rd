@@ -43,7 +43,5 @@ Shiny application object.
 Run the Shiny Application
 }
 \examples{
-\donttest{
 if (interactive()) {run_app()}
-}
 }

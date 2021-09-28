@@ -9,9 +9,7 @@
 #' @return Shiny application object.
 #' @export
 #' @examples
-#' \donttest{
 #' if (interactive()) {run_app()}
-#' }
 run_app <- function(
   onStart = NULL,
   options = list(),
