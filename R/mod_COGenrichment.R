@@ -469,8 +469,3 @@ mod_COGenrichment_server <- function(id){
 }
 
 
-## To be copied in the UI
-# mod_COGenrichment_ui("COGenrichment_ui_1")
-
-## To be copied in the server
-# mod_COGenrichment_server("COGenrichment_ui_1")

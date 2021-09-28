@@ -479,8 +479,3 @@ mod_KOenrichment_server <- function(id){
     })
 }
 
-## To be copied in the UI
-# mod_KOenrichment_ui("KOenrichment_ui_1")
-
-## To be copied in the server
-# mod_KOenrichment_server("KOenrichment_ui_1")

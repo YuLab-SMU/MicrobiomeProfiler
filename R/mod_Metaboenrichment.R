@@ -470,11 +470,3 @@ mod_Metaboenrichment_server <- function(id){
   })
 }
 
-## To be copied in the UI
-# mod_Metaboenrichment_ui("Metaboenrichment_ui_1")
-# mod_Metaboenrichment_ui2("Metaboenrichment_ui_1")
-# mod_Metaboenrichment_ui3("Metaboenrichment_ui_1")
-
-
-## To be copied in the server
-# mod_Metaboenrichment_server("Metaboenrichment_ui_1")

@@ -455,8 +455,3 @@ mod_MDenrichment_server <- function(id){
   })
 }
 
-## To be copied in the UI
-# mod_MDenrichment_ui("MDenrichment_ui_1")
-
-## To be copied in the server
-# mod_MDenrichment_server("MDenrichment_ui_1")
