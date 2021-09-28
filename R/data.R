@@ -26,10 +26,10 @@ NA
 #'
 #' @description Reported on Forslund K,et al.2016 (doi: 10.1038/nature15766)
 #'
-#' @name microbiota_data
+#' @name microbiota_taxlist
 #' @aliases microbiota_data
 #' @docType data
 #' @keywords data
 #' @examples
-#' data(microbiota_data)
+#' data(microbiota_taxlist)
 NA

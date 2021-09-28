@@ -440,9 +440,6 @@ mod_MDenrichment_server <- function(id){
             }
           )
         }else{
-          # output[["selectedRows"]] <- renderText({
-          #   "Inputlist is empty."
-          # })
           if(!is.null(input$genelist)){
             showNotification("There is no significant result.
                              Please check the input.",duration = 0)

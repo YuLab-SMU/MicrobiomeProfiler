@@ -26,6 +26,11 @@ usethis::use_package("utils")
 load("D:/yulab/FAMshiny/data/universe_gene_sets.rda")
 load("D:/yulab/FAMshiny/data/example_data.rda")
 
+mbkegg <- read.table(file = "D:/yulab/data/kegg_path_compound.txt", header = F)
+mbkegg$map <- gsub("path:","",mbkegg$V1)
+mbkegg$cpd <- gsub("cpd:","",mbkegg$V2)
+cpd2kegg <- mbkegg[,c(3,4)]
+
 usethis::use_data(
     ko2pathway,
     cog_20,
@@ -36,8 +41,8 @@ usethis::use_data(
     human_gut2016,
     human_skin,
     human_vagina,
-    taxid2genus,
-    taxid2sp,
+    # taxid2genus,
+    # taxid2sp,
     IPF,
     mb_examplelist,
     internal = TRUE,
@@ -45,7 +50,7 @@ usethis::use_data(
     compress = "xz"
 )
 
-usethis::use_data(Psoriasis_data,Rat_data,microbiota_data,overwrite = TRUE,compress = "xz")
+usethis::use_data(Psoriasis_data,Rat_data,microbiota_taxlist,overwrite = TRUE,compress = "xz")
 
 
 

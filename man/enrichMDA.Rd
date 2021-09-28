@@ -37,9 +37,8 @@ Microbe-Disease associations enrichment analysis
 }
 \examples{
 
-data(microbiota_data)
-mdlist <- taxtr(microbiota_data, Type = "ScientificName", Level = "genus")
-mda <- enrichMDA(mdlist$TaxId)
+data(microbiota_taxlist)
+mda <- enrichMDA(microbiota_taxlist)
 head(mda)
 
 }

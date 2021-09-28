@@ -138,7 +138,7 @@ mod_COGenrichment_ui3 <- function(id){
                                    shinyWidgets::colorPickr(ns("highcolor"),
                                               label=NULL, "#46bac2", width=6))
                                )
-                             ), # color set for dotplot
+                             ), # color set
                              downloadButton(ns("downdotPolt"),"Download")
                            )
                )
@@ -453,9 +453,6 @@ mod_COGenrichment_server <- function(id){
             }
           )
         }else{
-          # output[["selectedRows"]] <- renderText({
-          #   "Inputlist is empty."
-          # })
           if(!is.null(input$genelist)){
             showNotification("There is no significant result.
                              Please check the input.",duration = 0)

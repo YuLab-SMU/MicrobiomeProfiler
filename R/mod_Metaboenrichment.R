@@ -456,9 +456,6 @@ mod_Metaboenrichment_server <- function(id){
          }
        )
      }else{
-       # output[["selectedRows"]] <- renderText({
-       #   "Inputlist is empty."
-       # })
        if(!is.null(input$genelist) | !is.null(input$universelist1)){
          showNotification("There is no significant result.
                           Please check the input.",duration = 0)
