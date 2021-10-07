@@ -2,7 +2,8 @@
 #'
 #' @param metabo_list a vector of metabolites in HMDB.ID
 #' @param pvalueCutoff adjusted pvalue cutoff on enrichment tests to report.
-#' @param pAdjustMethod one of "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none".
+#' @param pAdjustMethod one of "holm", "hochberg", "hommel", "bonferroni",
+#' "BH", "BY", "fdr", "none".
 #' @param universe universe background genes. If missing, use HMDB db.
 #' @param minGSSize minimal size of genes annotated by KEGG term for testing.
 #' @param maxGSSize maximal size of genes annotated for testing.
@@ -15,7 +16,6 @@
 #' x1 <- bitr_smpdb(c("PW_C000164","PW_C000078","PW_C000040"),
 #' from_Type = "Metabolite.ID",to_Type = "HMDB.ID")
 #' x2 <- enrichHMDB(x1$HMDB.ID)
-#'
 #'
 enrichHMDB <- function(metabo_list,
                         pvalueCutoff      = 0.05,
@@ -36,8 +36,8 @@ enrichHMDB <- function(metabo_list,
     if (is.null(res))
         return(res)
 
-    res@ontology <- "Metabolite"
-    res@organism <- "microbiome"
+    slot(res,"ontology") <- "Metabolite"
+    slot(res,"organism") <- "microbiome"
 
     return(res)
 }

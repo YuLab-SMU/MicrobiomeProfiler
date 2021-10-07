@@ -2,8 +2,10 @@
 #'
 #' @param microbe_list a vector of microbe ncbi tax ids.
 #' @param pvalueCutoff adjusted pvalue cutoff on enrichment tests to report.
-#' @param pAdjustMethod one of "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none".
-#' @param universe universe background genes. If missing, use disbiome as default.
+#' @param pAdjustMethod one of "holm", "hochberg", "hommel", "bonferroni",
+#' "BH", "BY", "fdr", "none".
+#' @param universe universe background genes. If missing, use disbiome as
+#' default.
 #' @param minGSSize minimal size of genes annotated by KEGG term for testing.
 #' @param maxGSSize maximal size of genes annotated for testing.
 #' @param qvalueCutoff qvalue cutoff on enrichment tests to report.
@@ -36,7 +38,7 @@ enrichMDA <- function(microbe_list,
     if (is.null(res))
         return(res)
 
-    res@ontology <- "Microbe"
-    res@organism <- "microbiome"
+    slot(res,"ontology") <- "Microbe"
+    slot(res,"organism") <- "microbiome"
     return(res)
 }

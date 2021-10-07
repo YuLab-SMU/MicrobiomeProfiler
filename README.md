@@ -6,7 +6,13 @@ data ( G Yu, et al., 2012).
 
 # Installation
 
-You can install `MicrobiomeProfiler` from github using devtools :
+Installation via BiocManager:
+
+    if (!require("BiocManager"))
+        install.packages("BiocManager")
+    BiocManager::install("MicrobiomeProfiler")
+
+Or install `MicrobiomeProfiler` from github using devtools :
 
     ## Note that having installed clusterProfiler,config,DT,enrichplot,golem,magrittr,shiny,shinyWidgets,shinycustomloader,htmltools,ggplot2
     if (!requireNamespace("devtools", quietly=TRUE))
@@ -16,7 +22,7 @@ You can install `MicrobiomeProfiler` from github using devtools :
 # Quick Guides
 
     library(MicrobiomeProfiler)
-    run_app()
+    run_MicrobiomeProfiler()
 
 # Reference
 

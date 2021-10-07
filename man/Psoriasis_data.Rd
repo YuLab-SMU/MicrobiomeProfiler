@@ -3,9 +3,16 @@
 \docType{data}
 \name{Psoriasis_data}
 \alias{Psoriasis_data}
-\title{134 significantly different functional COGs between Psoriasis patients and controls}
+\title{Example data: 134 significantly different functional
+COGs between Psoriasis patients and controls}
+\value{
+\url{https://www.frontiersin.org
+/articles/10.3389/fcimb.2021.605825/full}
+}
 \description{
-Reported on Xiao S,et al.2021 (doi:10.3389/fcimb.2021.605825)
+This example data was
+reported on Xiao S,et al.2021 (doi:10.3389/fcimb.2021.605825) and used for
+COG enrichment analysis.
 }
 \examples{
 data(Psoriasis_data)

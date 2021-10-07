@@ -19,7 +19,8 @@ enrichHMDB(
 
 \item{pvalueCutoff}{adjusted pvalue cutoff on enrichment tests to report.}
 
-\item{pAdjustMethod}{one of "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none".}
+\item{pAdjustMethod}{one of "holm", "hochberg", "hommel", "bonferroni",
+"BH", "BY", "fdr", "none".}
 
 \item{universe}{universe background genes. If missing, use HMDB db.}
 
@@ -40,6 +41,5 @@ Metabolism enrichment analysis for microbiome data
 x1 <- bitr_smpdb(c("PW_C000164","PW_C000078","PW_C000040"),
 from_Type = "Metabolite.ID",to_Type = "HMDB.ID")
 x2 <- enrichHMDB(x1$HMDB.ID)
-
 
 }

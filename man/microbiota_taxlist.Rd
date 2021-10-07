@@ -4,11 +4,17 @@
 \name{microbiota_taxlist}
 \alias{microbiota_taxlist}
 \alias{microbiota_data}
-\title{54 bacterial genera tested for significantly between T2D metformin samples}
+\title{Example data: 54 bacterial genera tested for significantly
+between T2D metformin samples}
 \description{
-Reported on Forslund K,et al.2016 (doi: 10.1038/nature15766)
+This example data was reported
+on Forslund K,et al.2016 (doi: 10.1038/nature15766) and used for
+Microbe-Disease Association analysis.
 }
 \examples{
 data(microbiota_taxlist)
+}
+\references{
+\url{https://www.nature.com/articles/nature15766}
 }
 \keyword{data}

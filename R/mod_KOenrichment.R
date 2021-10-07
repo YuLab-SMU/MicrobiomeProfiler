@@ -127,14 +127,14 @@ mod_KOenrichment_ui3 <- function(id){
                                             max = 2000,step = 50),
                                tags$table(
                                  tags$tr(
-                                   tags$td(tags$label("Color1: ")),
+                                   tags$td(tags$label("Color1 ")),
                                    tags$td(
                                      shinyWidgets::colorPickr(ns("lowcolor"),
                                      label=NULL, "#D150A7",width=6))
 
                                  ),
                                  tags$tr(
-                                   tags$td(tags$label("Color2: ")),
+                                   tags$td(tags$label("Color2 ")),
                                    tags$td(
                                      shinyWidgets::colorPickr(ns("highcolor"),
                                      label=NULL, "#46bac2", width=6))
@@ -164,14 +164,14 @@ mod_KOenrichment_ui3 <- function(id){
                                             value = 500,step = 10),
                                tags$table(
                                  tags$tr(
-                                   tags$td(tags$label("Color1: ")),
+                                   tags$td(tags$label("Color1 ")),
                                    tags$td(
                                      shinyWidgets::colorPickr(ns("lowcolor2"),
                                      label=NULL, "#D150A7",width=6))
 
                                  ),
                                  tags$tr(
-                                   tags$td(tags$label("Color2: ")),
+                                   tags$td(tags$label("Color2 ")),
                                    tags$td(
                                      shinyWidgets::colorPickr(ns("highcolor2"),
                                      label=NULL, "#46bac2", width=6))

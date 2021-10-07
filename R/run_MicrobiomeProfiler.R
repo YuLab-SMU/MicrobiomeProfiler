@@ -9,8 +9,8 @@
 #' @return Shiny application object.
 #' @export
 #' @examples
-#' if (interactive()) {run_app()}
-run_app <- function(
+#' if (interactive()) {run_MicrobiomeProfiler()}
+run_MicrobiomeProfiler <- function(
   onStart = NULL,
   options = list(),
   enableBookmarking = NULL,

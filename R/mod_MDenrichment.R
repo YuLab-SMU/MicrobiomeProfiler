@@ -3,6 +3,7 @@
 #' @description A shiny Module.
 #'
 #' @param id,input,output,session Internal parameters for {shiny}.
+#' @param label,universelist parameters for input ui
 #'
 #' @noRd
 #'
@@ -113,14 +114,14 @@ mod_MDenrichment_ui3 <- function(id){
                                           min = 300,max = 2000,step = 50),
                              tags$table(
                                tags$tr(
-                                 tags$td(tags$label("Color1: ")),
+                                 tags$td(tags$label("Color1 ")),
                                  tags$td(shinyWidgets::colorPickr(
                                    ns("lowcolor"),label=NULL,
                                    "#D150A7",width=6))
 
                                ),
                                tags$tr(
-                                 tags$td(tags$label("Color2: ")),
+                                 tags$td(tags$label("Color2 ")),
                                  tags$td(shinyWidgets::colorPickr(
                                    ns("highcolor"),label=NULL,
                                    "#46bac2", width=6))
@@ -148,14 +149,14 @@ mod_MDenrichment_ui3 <- function(id){
                                           value = 500,step = 10),
                              tags$table(
                                tags$tr(
-                                 tags$td(tags$label("Color1: ")),
+                                 tags$td(tags$label("Color1 ")),
                                  tags$td(shinyWidgets::colorPickr(
                                    ns("lowcolor2"),label=NULL,
                                    "#D150A7",width=6))
 
                                ),
                                tags$tr(
-                                 tags$td(tags$label("Color2: ")),
+                                 tags$td(tags$label("Color2 ")),
                                  tags$td(shinyWidgets::colorPickr(
                                    ns("highcolor2"),label=NULL,
                                    "#46bac2", width=6))
@@ -196,8 +197,10 @@ mod_MDenrichment_server <- function(id){
     BgRatio <- NULL
     observeEvent(input$ex,{
       updateTextAreaInput(session, "genelist",
-                          value = paste0(disbiome_data$organism_ncbi_id[1:50],
-                                         collapse = "\n"))
+                          value = paste0(
+                            disbiome_data$organism_ncbi_id[seq_len(50)],
+                                         collapse = "\n")
+                          )
     })
     observeEvent(input$clean,{
       updateTextAreaInput(session, "genelist", value = "")

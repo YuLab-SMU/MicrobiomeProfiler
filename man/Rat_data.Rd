@@ -3,11 +3,18 @@
 \docType{data}
 \name{Rat_data}
 \alias{Rat_data}
-\title{91 KEGG Orthologies (KOs) showing significant associations with weaning weight}
+\title{Example data: 91 KEGG Orthologies (KOs) showing
+significant associations with weaning weight}
 \description{
-Reported on Fang S,et al.2019 (doi: 10.1111/1751-7915.13485)
+This example data was reported on
+Fang S,et al.2019 (doi: 10.1111/1751-7915.13485) and used for KEGG
+enrichment analysis.
 }
 \examples{
 data(Rat_data)
+}
+\references{
+\url{https://sfamjournals.onlinelibrary.wiley.com
+/doi/10.1111/1751-7915.13485}
 }
 \keyword{data}

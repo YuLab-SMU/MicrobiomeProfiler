@@ -19,7 +19,8 @@ enrichMBKEGG(
 
 \item{pvalueCutoff}{adjusted pvalue cutoff on enrichment tests to report.}
 
-\item{pAdjustMethod}{one of "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none".}
+\item{pAdjustMethod}{one of "holm", "hochberg", "hommel", "bonferroni",
+"BH", "BY", "fdr", "none".}
 
 \item{universe}{universe background genes. If missing, use KEGG as default.}
 

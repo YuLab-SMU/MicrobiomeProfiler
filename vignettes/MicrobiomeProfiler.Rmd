@@ -1,6 +1,15 @@
 ---
 title: "Introduction to MicrobiomeProfiler"
-output: rmarkdown::html_vignette
+author: "Meijun Chen and GuangChuang Yu"
+output:
+  BiocStyle::html_document:
+    self_contained: yes
+    toc: true
+    toc_float: true
+    toc_depth: 3
+    code_folding: show
+date: "`r Sys.Date()`"
+bibliography: MicrobiomeProfiler.bib
 vignette: >
   %\VignetteIndexEntry{MicrobiomeProfiler}
   %\VignetteEngine{knitr::rmarkdown}
@@ -13,21 +22,33 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 ```
+#  Install package
+```{r eval = FALSE}
+if (!require("BiocManager"))
+    install.packages("BiocManager")
+BiocManager::install("MicrobiomeProfiler")
+```
 
-## 1.Overview of MicrobiomeProfiler
+# Introduction
 
 `MicrobiomeProfiler` is a functional enrichment tool for microbiome data based `clusterProfiler`. It is an R/shiny package with user-friendly interface.
 
-## 2.Getting Started Quickly
+As showed in following figure, the sidebar panel was the input options and the main panel was designed to show output results (Also can be seen in other analysis).
+
+```{r, echo=FALSE, fig.width = 20, dpi=600, fig.align="center", fig.cap="**KEGG enrichment analysis**"}
+knitr::include_graphics("./screenshot_1.png")
+```
+
+# Getting Started Quickly
 
 Run the application:
 ```
 library(MicrobiomeProfiler)
-run_app()
+run_MicrobiomeProfiler()
 
 ```
 
-## 3.Supported Analysis
+# Supported Analysis
 
 Also, `MicrobiomeProfiler` provides several enrich functions for optional analysis.
 
@@ -45,8 +66,32 @@ There are four reference gene catalogs collected from publications can be used a
 |human_skin |Integrated human skin microbial non-redundant gene catalog | |
 |human_vagina | a comprehensive human vaginal non-redundant gene catalog (VIRGO) that includes 6751 KEGG orthology|
 
+# Case Study
 
-## Annotation database
+## Data input
+ 
+To click the `Example` button, the example gene list would be showed in the input area. Also, more parameters can be set below the input area, for instance, p value cutoff. There is a customer_defined_universe choice for users to define the specific universe for enrichment analysis (Also for other enrichment analysis). After that, click the `Submit` button to process analysis. The `Clean` button was designed for cleaning the current results.
+
+```{r, echo=FALSE, fig.width = 20, dpi=600, fig.align="center", fig.cap="**Customize the universe**"}
+knitr::include_graphics("./screenshot_2.png")
+knitr::include_graphics("./screenshot_3.png")
+```
+And then, the universe input box would be showed below.
+
+## Run example
+Here we show the case study of example: **Comparative functional KEGG enrichment analysis between Lung Microbioe in IPF and Healthy Individuals**. 295 significantly differential KEGG orthologs between Lung Microbioe in idiopathnic pulmonary fibrosis Patients (IPF) and healthy individuals were reported for KEGG enrichment analysis.
+
+```{r, echo=FALSE, fig.width = 20, dpi=600, fig.align="center", fig.cap="**Case study**"}
+knitr::include_graphics("./screenshot_4.png")
+```
+
+The default visualization result showed top 10 significant terms. In addition, users can click the interested terms on the table, and click the `Update` to get the results. Furthermore, there are some output settings to adjust the output figure. 
+
+```{r, echo=FALSE, fig.width = 20, dpi=600, fig.align="center", fig.cap="**To show interested tetms**"}
+knitr::include_graphics("./screenshot_5.png")
+```
+
+# Annotation database
 
 `MicrobiomeProfiler` has utilized four database.
 
@@ -55,21 +100,7 @@ There are four reference gene catalogs collected from publications can be used a
 + Disbiome: Linking microbiome to disease
 + SMPDB: The Small Molecule Pathway Database
 
-## Case Study
-**Comparative functional KEGG enrichment analysis between Lung Microbioe in IPF and Healthy Individuals**
-
-295 significantly differential KEGG orthologs between Lung Microbioe in idiopathnic pulmonary fibrosis Patients (IPF) and healthy individuals were reported for KEGG enrichment analysis. Here using customer-defined universe will get more demanding results.
-
-**Parameter Sets:**
-
-| Parameter&nbsp;              | IPF results with all KOs (left)&nbsp; | IPF results with customer-defined universe (right)&nbsp; |
-| :--------------------------- | ------------------------------------- | -------------------------------------------------------- |
-| Universe Gene Set:&nbsp;     | ko&nbsp;                              | customer-defined universe: 2706 KOs&nbsp;                |
-| pvalue cutoff:&nbsp;         | 0.05&nbsp;                            | 0.05&nbsp;                                               |
-| p.adjust method:&nbsp;       | BH&nbsp;                              | BH&nbsp;                                                 |
-| p.adjust value cutoff:&nbsp; | 0.05&nbsp;                            | 0.05&nbsp;                                                   |
-
-```{r, echo=FALSE, fig.width = 20, dpi=600, fig.align="center", fig.cap="**Comparative functional KEGG enrichment analysis results**"}
-knitr::include_graphics("./IPF.png")
+#  Session Information
+```{r echo = FALSE}
+sessionInfo()
 ```
-

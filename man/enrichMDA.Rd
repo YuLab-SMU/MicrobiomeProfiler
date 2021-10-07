@@ -19,9 +19,11 @@ enrichMDA(
 
 \item{pvalueCutoff}{adjusted pvalue cutoff on enrichment tests to report.}
 
-\item{pAdjustMethod}{one of "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none".}
+\item{pAdjustMethod}{one of "holm", "hochberg", "hommel", "bonferroni",
+"BH", "BY", "fdr", "none".}
 
-\item{universe}{universe background genes. If missing, use disbiome as default.}
+\item{universe}{universe background genes. If missing, use disbiome as
+default.}
 
 \item{minGSSize}{minimal size of genes annotated by KEGG term for testing.}
 

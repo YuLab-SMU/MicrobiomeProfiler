@@ -2,7 +2,8 @@
 #'
 #' @param gene a vector of K gene id (e.g. K00001).
 #' @param pvalueCutoff adjusted pvalue cutoff on enrichment tests to report.
-#' @param pAdjustMethod one of "holm","hochberg","hommel","bonferroni","BH","BY","fdr","none".
+#' @param pAdjustMethod one of "holm","hochberg","hommel","bonferroni","BH",
+#' "BY","fdr","none".
 #' @param universe universe background genes. If missing, use all K genes.
 #' @param minGSSize minimal size of genes annotated by KEGG term for testing.
 #' @param maxGSSize maximal size of genes annotated for testing.
@@ -35,8 +36,8 @@ enrichKO <- function(gene,
     if (is.null(res))
         return(res)
 
-    res@ontology <- "KEGG"
-    res@organism <- "microbiome"
+    slot(res,"ontology") <- "KEGG"
+    slot(res,"organism") <- "microbiome"
 
     return(res)
 }
