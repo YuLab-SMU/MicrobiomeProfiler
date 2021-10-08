@@ -1,7 +1,8 @@
 test_that("test enrich function works", {
     library(MicrobiomeProfiler)
     data("Psoriasis_data")
-
+    data("Rat_data")
+    data("microbiota_taxlist")
     ko <- MicrobiomeProfiler::enrichKO(IPF)
     expect_s4_class(ko, class ="enrichResult")
 
@@ -17,7 +18,7 @@ test_that("test enrich function works", {
     mda <- MicrobiomeProfiler::enrichMDA(microbiota_taxlist)
     expect_s4_class(mda,class ="enrichResult")
 
-    data("microbiota_taxlist")
+
     mda2 <- MicrobiomeProfiler::enrichMDA(Psoriasis_data)
     expect_equal(mda2, NULL)
 
