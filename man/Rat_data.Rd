@@ -3,7 +3,7 @@
 \docType{data}
 \name{Rat_data}
 \alias{Rat_data}
-\title{Example data: 91 KEGG Orthologies (KOs) showing
+\title{Example data: a vector of 91 KEGG Orthologies (KOs) showing
 significant associations with weaning weight}
 \description{
 This example data was reported on

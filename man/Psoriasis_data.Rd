@@ -3,7 +3,7 @@
 \docType{data}
 \name{Psoriasis_data}
 \alias{Psoriasis_data}
-\title{Example data: 134 significantly different functional
+\title{Example data: a vector of 134 significantly different functional
 COGs between Psoriasis patients and controls}
 \value{
 \url{https://www.frontiersin.org

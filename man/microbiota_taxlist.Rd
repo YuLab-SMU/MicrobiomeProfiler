@@ -4,7 +4,7 @@
 \name{microbiota_taxlist}
 \alias{microbiota_taxlist}
 \alias{microbiota_data}
-\title{Example data: 54 bacterial genera tested for significantly
+\title{Example data: a vector of 54 bacterial genera tested for significantly
 between T2D metformin samples}
 \description{
 This example data was reported

@@ -1,21 +1,19 @@
-test_that("enrich function works", {
-  library(MicrobiomeProfiler)
-  ko <- MicrobiomeProfiler::enrichKO(IPF)
-  expect_s4_class(ko, class ="enrichResult")
+library(MicrobiomeProfiler)
 
-  data("Psoriasis_data")
-  cog <- MicrobiomeProfiler::enrichCOG(Psoriasis_data)
-  expect_s4_class(cog, class ="enrichResult")
+testServer(mod_KOenrichment_server, {
+  session$genelist <- Rat_data
+  expect_true(is.data.frame(output$dt))
+})
 
-  mb <- MicrobiomeProfiler::enrichSMPDB(mb_examplelist)
-  expect_s4_class(mb, class ="enrichResult")
 
-  data("microbiota_taxlist")
-  mda <- MicrobiomeProfiler::enrichMDA(microbiota_taxlist)
-  expect_s4_class(mda,class ="enrichResult")
 
-  y2 <- c("C00002","C00041","C00020")
-  mb3 <- MicrobiomeProfiler::enrichMBKEGG(y2)
-  expect_s4_class(mb3,class ="enrichResult")
+testServer(mod_COGenrichment_server, {
+  session$genelist <- Psoriasis_data
+  expect_true(is.data.frame(output$dt))
+})
 
+
+testServer(mod_MDenrichment_server, {
+  session$genelist <- microbiota_taxlist
+  expect_true(is.data.frame(output$dt))
 })

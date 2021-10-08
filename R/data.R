@@ -1,4 +1,4 @@
-#' @title Example data: 134 significantly different functional
+#' @title Example data: a vector of 134 significantly different functional
 #' COGs between Psoriasis patients and controls
 #'
 #' @description This example data was
@@ -15,7 +15,7 @@
 #' data(Psoriasis_data)
 NA
 
-#' @title Example data: 91 KEGG Orthologies (KOs) showing
+#' @title Example data: a vector of 91 KEGG Orthologies (KOs) showing
 #' significant associations with weaning weight
 #'
 #' @description This example data was reported on
@@ -32,7 +32,7 @@ NA
 #' data(Rat_data)
 NA
 
-#' @title Example data: 54 bacterial genera tested for significantly
+#' @title Example data: a vector of 54 bacterial genera tested for significantly
 #' between T2D metformin samples
 #'
 #' @description This example data was reported
