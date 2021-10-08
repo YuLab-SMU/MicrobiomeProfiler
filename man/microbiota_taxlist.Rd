@@ -6,6 +6,9 @@
 \alias{microbiota_data}
 \title{Example data: a vector of 54 bacterial genera tested for significantly
 between T2D metformin samples}
+\format{
+a vector of 54 genera tax ids
+}
 \description{
 This example data was reported
 on Forslund K,et al.2016 (doi: 10.1038/nature15766) and used for

@@ -5,6 +5,9 @@
 \alias{Rat_data}
 \title{Example data: a vector of 91 KEGG Orthologies (KOs) showing
 significant associations with weaning weight}
+\format{
+a vector of 91 KEGG Orthologies (KOs)
+}
 \description{
 This example data was reported on
 Fang S,et al.2019 (doi: 10.1111/1751-7915.13485) and used for KEGG

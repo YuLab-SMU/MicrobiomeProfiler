@@ -5,6 +5,9 @@
 \alias{Psoriasis_data}
 \title{Example data: a vector of 134 significantly different functional
 COGs between Psoriasis patients and controls}
+\format{
+a vector of 134 COGs
+}
 \value{
 \url{https://www.frontiersin.org
 /articles/10.3389/fcimb.2021.605825/full}

@@ -7,6 +7,7 @@
 #'
 #' @name Psoriasis_data
 #' @aliases Psoriasis_data
+#' @format a vector with 134 COGs
 #' @docType data
 #' @keywords data
 #' @returns \url{https://www.frontiersin.org
@@ -24,6 +25,7 @@ NA
 #'
 #' @name Rat_data
 #' @aliases Rat_data
+#' @format a vector with 91 KEGG Orthologies (KOs)
 #' @docType data
 #' @keywords data
 #' @references \url{https://sfamjournals.onlinelibrary.wiley.com
@@ -41,6 +43,7 @@ NA
 #'
 #' @name microbiota_taxlist
 #' @aliases microbiota_data
+#' @format a vector with 54 genera tax ids
 #' @docType data
 #' @keywords data
 #' @references \url{https://www.nature.com/articles/nature15766}
