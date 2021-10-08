@@ -26,7 +26,4 @@ test_that("test enrich function works", {
     expect_s4_class(mb4,class ="enrichResult")
 
 
-
-
-
 })
