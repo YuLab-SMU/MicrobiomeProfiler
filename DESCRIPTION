@@ -1,9 +1,9 @@
 Package: MicrobiomeProfiler
-Title: An shiny package for microbiome functional enrichment analysis
+Title: An R/shiny package for microbiome functional enrichment analysis
 Version: 0.99.9
 Authors@R: c(
     person(given = "Meijun",family = "Chen",role = c("aut", "cre"),email = "mjchen1996@outlook.com",comment = c(ORCID = "0000-0003-2486-8106")),
-    person(given = "Guangchuang", family = "Yu", email = "guangchuangyu@gmail.com", role  = c("aut", "ctb"), comment = c(ORCID = "0000-0002-6485-8781"))
+    person(given = "Guangchuang", family = "Yu", email = "guangchuangyu@gmail.com", role  = c("aut", "ths"), comment = c(ORCID = "0000-0002-6485-8781"))
     )
 Description: This is an R/shiny package to perform functional enrichment analysis for microbiome data. 
              This package was based on clusterProfiler. Moreover, MicrobiomeProfiler support KEGG enrichment analysis,

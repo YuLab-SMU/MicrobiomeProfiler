@@ -2,7 +2,7 @@
 
 `MicrobiomeProfiler` is an R-shiny package based on `clusterProfiler`,
 is user-friendly tool for functional enrichment analysis in microbiome
-data ( G Yu, et al., 2012).
+data (T Wu, et al., 2021).
 
 # Installation
 
@@ -26,7 +26,5 @@ Or install `MicrobiomeProfiler` from github using devtools :
 
 # Reference
 
-***G Yu***, LG Wang, Y Han, QY He. clusterProfiler: an R package for
-comparing biological themes among gene clusters. *OMICS: A Journal of
-Integrative Biology* 2012, 16(5):284-287.
-<doi:%5B10.1089/omi.2011.0118>\](<http://dx.doi.org/10.1089/omi.2011.0118>)
++ T Wu<sup>#</sup>, E Hu<sup>#</sup>, S Xu, M Chen, P Guo, Z Dai, T Feng, L Zhou, W Tang, L Zhan, X Fu, S Liu, X Bo<sup>\*</sup>, **G Yu**<sup>\*</sup>. clusterProfiler 4.0: A universal enrichment tool for interpreting omics data. ***The Innovation***. 2021, 2(3):100141. doi: [10.1016/j.xinn.2021.100141](https://doi.org/10.1016/j.xinn.2021.100141)
+
