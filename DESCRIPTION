@@ -24,7 +24,8 @@ Imports:
     htmltools,
     ggplot2,
     graphics,
-    utils
+    utils,
+    pkgload
 Encoding: UTF-8
 biocViews: Microbiome, Software, Visualization,KEGG
 RoxygenNote: 7.1.2
