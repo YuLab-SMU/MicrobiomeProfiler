@@ -6,7 +6,7 @@
 \title{Example data: a vector of 91 KEGG Orthologies (KOs) showing
 significant associations with weaning weight}
 \format{
-a vector of 91 KEGG Orthologies (KOs)
+a vector with 91 KEGG Orthologies (KOs)
 }
 \description{
 This example data was reported on

@@ -7,7 +7,7 @@
 \title{Example data: a vector of 54 bacterial genera tested for significantly
 between T2D metformin samples}
 \format{
-a vector of 54 genera tax ids
+a vector with 54 genera tax ids
 }
 \description{
 This example data was reported
