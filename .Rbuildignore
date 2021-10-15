@@ -14,3 +14,5 @@ $run_dev.*
 ^NEWS\.md$
 ^\.Rdata$
 ^\.Rhistory$
+^app\.R$
+^rsconnect$
