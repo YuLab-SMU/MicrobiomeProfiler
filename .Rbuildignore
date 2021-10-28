@@ -14,3 +14,4 @@ $run_dev.*
 ^NEWS\.md$
 ^\.Rdata$
 ^\.Rhistory$
+new_bioc_version.sh
