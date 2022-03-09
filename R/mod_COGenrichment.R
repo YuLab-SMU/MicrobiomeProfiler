@@ -278,13 +278,14 @@ mod_COGenrichment_server <- function(id){
 
         }
 
-        if(!is.null(kk)){
+        if(nrow(as.data.frame(kk)) != 0){
           dat <- as.data.frame(kk)
           dat$ROWID <- paste0("row-", seq_len(nrow(dat)))
           rowNames <- TRUE # whether to show row names in the table
           colIndex <- as.integer(rowNames)
 
           output$dt <- DT::renderDT({
+            req(!is.null(dat))
             validate(
               need(sum(kk$p.adjust < 0.05) != 0,"No significant results!")
             )
@@ -459,7 +460,6 @@ mod_COGenrichment_server <- function(id){
                              Please check the input.",duration = 0)
           }
         }
-
 
       })
 

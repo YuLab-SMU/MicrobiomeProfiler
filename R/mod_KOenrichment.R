@@ -294,7 +294,7 @@ mod_KOenrichment_server <- function(id){
 
         }
 
-        if(!is.null(kk)){
+        if(nrow(as.data.frame(kk)) != 0){
           dat <- as.data.frame(kk)
           dat$ROWID <- paste0("row-", seq_len(nrow(dat)))
           rowNames <- TRUE # whether to show row names in the table
