@@ -236,6 +236,11 @@ mod_COGenrichment_server <- function(id){
 
     observeEvent(
       input$btn,{
+
+        output$dotPlot <- NULL
+        output$barPlot <- NULL
+        output$dt <- NULL
+
         gene_list <- reactive({
           validate(
             need(!is.null(input$genelist), c("Input is empty."))

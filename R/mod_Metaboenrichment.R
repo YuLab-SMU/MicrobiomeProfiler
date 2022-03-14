@@ -227,6 +227,11 @@ mod_Metaboenrichment_server <- function(id){
       }
     })
    observeEvent(input$btn,{
+
+     output$dotPlot <- NULL
+     output$barPlot <- NULL
+     output$dt <- NULL
+
      metabolitelist <- reactive({
        unlist(strsplit(input$genelist, split = "\\s"))
      })
