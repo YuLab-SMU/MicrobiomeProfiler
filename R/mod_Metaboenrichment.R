@@ -1,4 +1,3 @@
-#' Metaboenrichment UI Function
 #'
 #' @description A shiny Module.
 #'
@@ -299,9 +298,9 @@ mod_Metaboenrichment_server <- function(id){
        colIndex <- as.integer(rowNames)
 
        output$dt <- DT::renderDT({
-         validate(
-           need(sum(kk$p.adjust < 0.05) != 0,"No significant results!")
-         )
+         # validate(
+         #   need(sum(kk$p.adjust < 0.05) != 0,"No significant results!")
+         # )
          dtable <- DT::datatable(
            dat, rownames = rowNames,
            extensions = "Select",
@@ -371,9 +370,9 @@ mod_Metaboenrichment_server <- function(id){
        output$dotPlot <- renderPlot({
 
          if(input$update == 0){
-           validate(
-             need(sum(kk$p.adjust < 0.05) != 0,"No significant results!")
-           )
+           # validate(
+           #   need(sum(kk$p.adjust < 0.05) != 0,"No significant results!")
+           # )
            dotplot(kk) +
              scale_color_gradient(low=input$lowcolor,high=input$highcolor) +
              guides(color = guide_colorbar(reverse = TRUE))
@@ -389,9 +388,9 @@ mod_Metaboenrichment_server <- function(id){
 
        output$barPlot <- renderPlot({
          if(input$update == 0){
-           validate(
-             need(sum(kk$p.adjust < 0.05) != 0,"No significant results!")
-           )
+           # validate(
+           #   need(sum(kk$p.adjust < 0.05) != 0,"No significant results!")
+           # )
            barplot(kk) +
              scale_fill_gradient(low=input$lowcolor2,high=input$highcolor2) +
              guides(color = guide_colorbar(reverse = TRUE))
