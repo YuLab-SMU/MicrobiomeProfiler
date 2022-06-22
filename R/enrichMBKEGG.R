@@ -32,8 +32,8 @@ enrichMBKEGG <- function(metabo_list,
                     minGSSize     = minGSSize,
                     maxGSSize     = maxGSSize,
                     qvalueCutoff  = qvalueCutoff,
-                    TERM2GENE = cpd2kegg[c("map","cpd")],
-                    TERM2NAME = ko2pathway[c("pathway","description")])
+                    TERM2GENE = cpd2kegg[c("pathway","cpd")],
+                    TERM2NAME = cpd2kegg[c("pathway","description")])
     if (is.null(res))
         return(res)
 
