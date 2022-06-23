@@ -187,6 +187,7 @@ mod_Metaboenrichment_ui3 <- function(id){
 #' @importFrom ggplot2 scale_color_gradient
 #' @importFrom ggplot2 scale_fill_gradient
 #' @importFrom ggplot2 guides
+#' @importFrom ggplot2 xlab
 #' @importFrom ggplot2 guide_colorbar
 #' @importFrom enrichplot dotplot
 #' @importFrom ggplot2 ggsave
@@ -375,13 +376,15 @@ mod_Metaboenrichment_server <- function(id){
            # )
            dotplot(kk) +
              scale_color_gradient(low=input$lowcolor,high=input$highcolor) +
-             guides(color = guide_colorbar(reverse = TRUE))
+             guides(color = guide_colorbar(reverse = TRUE)) +
+             ggplot2::xlab("Metabolite Ratio")
          } else{
            validate(need(selectedRows() != "",
                          "Please select one row at least."))
            dotplot(kk,showCategory=kk[selectedRows(),]$Description) +
              scale_color_gradient(low=input$lowcolor,high=input$highcolor) +
-             guides(color = guide_colorbar(reverse = TRUE))
+             guides(color = guide_colorbar(reverse = TRUE)) +
+             ggplot2::xlab("Metabolite Ratio")
 
          }
        })
@@ -426,7 +429,8 @@ mod_Metaboenrichment_server <- function(id){
            if(input$update == 0){
              dotplot(kk) +
                scale_color_gradient(low=input$lowcolor,high=input$highcolor) +
-               guides(color = guide_colorbar(reverse = TRUE))
+               guides(color = guide_colorbar(reverse = TRUE)) +
+               ggplot2::xlab("Metabolite Ratio")
              ggplot2::ggsave(file, width = input$w/72,
                              height = input$h/72, dpi = input$dpi)
            } else{
