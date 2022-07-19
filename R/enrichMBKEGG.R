@@ -1,6 +1,7 @@
 #' Metabolism enrichment analysis for microbiome data
 #'
 #' @param metabo_list a vector of metabolites in KEGG.ID
+#' @param gson a "GSON' object.
 #' @param pvalueCutoff adjusted pvalue cutoff on enrichment tests to report.
 #' @param pAdjustMethod one of "holm", "hochberg", "hommel", "bonferroni",
 #' "BH", "BY", "fdr", "none".
@@ -13,18 +14,28 @@
 #' @export
 #' @examples
 #'
-#' mblist3 <- bitr_smpdb(c("PW_C000164","PW_C000078","PW_C000040"),
-#' from_Type = "Metabolite.ID",to_Type = "KEGG.ID")
-#' mb3 <- enrichMBKEGG(mblist3$KEGG.ID)
+#' mblist3 <- c("C00019","C00020","C00022")
+#' mb3 <- enrichMBKEGG(mblist3)
 #' head(mb3)
 #'
 enrichMBKEGG <- function(metabo_list,
+                         gson,
                        pvalueCutoff      = 0.05,
                        pAdjustMethod     = "BH",
                        universe,
                        minGSSize         = 10,
                        maxGSSize         = 500,
                        qvalueCutoff      = 0.2) {
+
+    if(missing(gson)){
+        cpd <- cpd_gson
+    }else if(inherits(gson, "GSON")){
+        cpd <- gson
+    } else{
+        stop("gson should be a GSON object")
+    }
+
+
     res <- enricher(gene = metabo_list,
                     pvalueCutoff  = pvalueCutoff,
                     pAdjustMethod = pAdjustMethod,
@@ -32,8 +43,8 @@ enrichMBKEGG <- function(metabo_list,
                     minGSSize     = minGSSize,
                     maxGSSize     = maxGSSize,
                     qvalueCutoff  = qvalueCutoff,
-                    TERM2GENE = cpd2kegg[c("pathway","cpd")],
-                    TERM2NAME = cpd2kegg[c("pathway","description")])
+                    TERM2GENE = slot(cpd,"gsid2gene"),
+                    TERM2NAME = slot(cpd,"gsid2name"))
     if (is.null(res))
         return(res)
 

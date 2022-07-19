@@ -1,6 +1,7 @@
 #' Metabolism enrichment analysis for microbiome data
 #'
 #' @param metabo_list a vector of metabolites in HMDB.ID
+#' @param gson a 'GSON' object
 #' @param pvalueCutoff adjusted pvalue cutoff on enrichment tests to report.
 #' @param pAdjustMethod one of "holm", "hochberg", "hommel", "bonferroni",
 #' "BH", "BY", "fdr", "none".
@@ -13,17 +14,24 @@
 #' @export
 #' @examples
 #'
-#' x1 <- bitr_smpdb(c("PW_C000164","PW_C000078","PW_C000040"),
-#' from_Type = "Metabolite.ID",to_Type = "HMDB.ID")
-#' x2 <- enrichHMDB(x1$HMDB.ID)
+#' x1 <- c("HMDB0000001","HMDB0000005","HMDB0000008")
+#' x2 <- enrichHMDB(x1)
 #'
 enrichHMDB <- function(metabo_list,
+                       gson,
                         pvalueCutoff      = 0.05,
                         pAdjustMethod     = "BH",
                         universe,
                         minGSSize         = 10,
                         maxGSSize         = 500,
                         qvalueCutoff      = 0.2) {
+    if(missing(gson)){
+        hmdb <- hmdb_gson
+    } else if(inherits(gson, "GSON")){
+        hmdb <- gson
+    } else{
+        stop("gson should be a GSON object")
+    }
     res <- enricher(gene = metabo_list,
                     pvalueCutoff  = pvalueCutoff,
                     pAdjustMethod = pAdjustMethod,
@@ -31,8 +39,8 @@ enrichHMDB <- function(metabo_list,
                     minGSSize     = minGSSize,
                     maxGSSize     = maxGSSize,
                     qvalueCutoff  = qvalueCutoff,
-                    TERM2GENE = smpdb_data[c("SMPDB.ID","HMDB.ID")],
-                    TERM2NAME = smpdb_data[c("SMPDB.ID","Pathway.Name")])
+                    TERM2GENE = slot(hmdb,"gsid2gene"),
+                    TERM2NAME = slot(hmdb,"gsid2name"))
     if (is.null(res))
         return(res)
 

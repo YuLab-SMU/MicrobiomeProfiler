@@ -6,6 +6,7 @@
 \usage{
 enrichMBKEGG(
   metabo_list,
+  gson,
   pvalueCutoff = 0.05,
   pAdjustMethod = "BH",
   universe,
@@ -16,6 +17,8 @@ enrichMBKEGG(
 }
 \arguments{
 \item{metabo_list}{a vector of metabolites in KEGG.ID}
+
+\item{gson}{a "GSON' object.}
 
 \item{pvalueCutoff}{adjusted pvalue cutoff on enrichment tests to report.}
 
@@ -38,9 +41,8 @@ Metabolism enrichment analysis for microbiome data
 }
 \examples{
 
-mblist3 <- bitr_smpdb(c("PW_C000164","PW_C000078","PW_C000040"),
-from_Type = "Metabolite.ID",to_Type = "KEGG.ID")
-mb3 <- enrichMBKEGG(mblist3$KEGG.ID)
+mblist3 <- c("C00019","C00020","C00022")
+mb3 <- enrichMBKEGG(mblist3)
 head(mb3)
 
 }

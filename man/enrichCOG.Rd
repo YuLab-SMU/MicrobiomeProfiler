@@ -6,6 +6,8 @@
 \usage{
 enrichCOG(
   gene,
+  gson,
+  dtype,
   pvalueCutoff = 0.05,
   pAdjustMethod = "BH",
   universe,
@@ -16,6 +18,10 @@ enrichCOG(
 }
 \arguments{
 \item{gene}{a vector of COG ids.}
+
+\item{gson}{gson object.}
+
+\item{dtype}{one of "category", "pathway"}
 
 \item{pvalueCutoff}{adjusted pvalue cutoff on enrichment tests to report.}
 
@@ -39,6 +45,6 @@ COG enrichment analysis for microbiome data
 \examples{
 
 data(Psoriasis_data)
-cog <- enrichCOG(Psoriasis_data)
+cog <- enrichCOG(Psoriasis_data,dtype="category")
 
 }

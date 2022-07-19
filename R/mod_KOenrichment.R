@@ -10,7 +10,15 @@
 #' @importFrom shiny NS tagList
 #' @examples mod_KOenrichment_ui("KOenrichment_ui")
 mod_KOenrichment_ui <- function(id,label = "Input: K gene list",
-                                universelist = list("ko",
+                                universelist = list("KEGG",
+                                                    "KEGG_Metabolism",
+                                                    # "KEGG_Gen_Info_Processing",
+                                                    # "KEGG_Env_Info_Processing",
+                                                    # "KEGG_Human_Diseases",
+                                                    # "KEGG_Cellular_Processes",
+                                                    # "KEGG_Organismal_Systems",
+                                                    # "KEGG_Human_Diseases",
+                                                    # "KEGG_Drug_Development",
                                                     "human_gut2014",
                                                     "human_gut2016",
                                                     "human_skin",
@@ -258,9 +266,10 @@ mod_KOenrichment_server <- function(id){
           unlist(strsplit(input$universelist1, split = "\\s"))
         })
 
-        if (input$Universe == "ko"){
+        if (input$Universe == "KEGG"){
           kk <- isolate(
             enrichKO(gene = gene_list(),
+                     gson=ko_gson,
                      pvalueCutoff = input$pvalue,
                      pAdjustMethod = input$padjustmethod,
                      minGSSize = 10,
@@ -272,29 +281,45 @@ mod_KOenrichment_server <- function(id){
 
         else{
 
-          if (input$Universe == "customer_defined_universe"){
+          if (input$Universe == "KEGG_Metabolism"){
             kk <- isolate(
               enrichKO(gene = gene_list(),
+                       gson=kom_gson,
                        pvalueCutoff = input$pvalue,
                        pAdjustMethod = input$padjustmethod,
                        minGSSize = 10,
                        maxGSSize = 500,
-                       universe = ko_universe_list(),
                        qvalueCutoff =input$qvalue)
             )
-          }
 
-          else{
-            universe_geneset <- get(input$Universe)
-            kk <- isolate(
-              enrichKO(gene = gene_list(),
-                       pvalueCutoff = input$pvalue,
-                       pAdjustMethod = input$padjustmethod,
-                       minGSSize = 10,
-                       maxGSSize = 500,
-                       universe = universe_geneset,
-                       qvalueCutoff =input$qvalue)
-            )
+          }
+          else {
+            if (input$Universe == "customer_defined_universe"){
+              kk <- isolate(
+                enrichKO(gene = gene_list(),
+                         gson=ko_gson,
+                         pvalueCutoff = input$pvalue,
+                         pAdjustMethod = input$padjustmethod,
+                         minGSSize = 10,
+                         maxGSSize = 500,
+                         universe = ko_universe_list(),
+                         qvalueCutoff =input$qvalue)
+              )
+            }
+
+            else{
+              universe_geneset <- get(input$Universe)
+              kk <- isolate(
+                enrichKO(gene = gene_list(),
+                         gson=ko_gson,
+                         pvalueCutoff = input$pvalue,
+                         pAdjustMethod = input$padjustmethod,
+                         minGSSize = 10,
+                         maxGSSize = 500,
+                         universe = universe_geneset,
+                         qvalueCutoff =input$qvalue)
+              )
+            }
           }
 
         }

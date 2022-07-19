@@ -6,6 +6,7 @@
 \usage{
 enrichMDA(
   microbe_list,
+  gson,
   pvalueCutoff = 0.05,
   pAdjustMethod = "BH",
   universe,
@@ -16,6 +17,8 @@ enrichMDA(
 }
 \arguments{
 \item{microbe_list}{a vector of microbe ncbi tax ids.}
+
+\item{gson}{gson object.}
 
 \item{pvalueCutoff}{adjusted pvalue cutoff on enrichment tests to report.}
 

@@ -14,7 +14,8 @@
 #' @importFrom enrichplot dotplot
 #' @examples mod_COGenrichment_ui("COGenrichment_ui")
 mod_COGenrichment_ui <- function(id,label = "Input: COG list",
-                                 universelist = list("cog",
+                                 universelist = list("COG_category",
+                                                     "COG_pathway",
                                                 "customer_defined_universe")){
   ns <- NS(id)
   tagList(
@@ -210,7 +211,7 @@ mod_COGenrichment_server <- function(id){
     BgRatio <- NULL
     observeEvent(input$ex,{
       updateTextAreaInput(session, "genelist",
-                          value = paste0(cog_20$V1[seq_len(50)], collapse = "\n"))
+                          value = paste0(unique(cog_example), collapse = "\n"))
     })
     observeEvent(input$clean,{
       updateTextAreaInput(session, "genelist", value = "")
@@ -223,8 +224,14 @@ mod_COGenrichment_server <- function(id){
       if (input$Universe == "customer_defined_universe") {
         output$background1 <- renderUI({
           ns <- session$ns
-          textAreaInput(ns("universelist1"), "Input: Customer Defined Universe",
-                        placeholder = "COG0001\nCOG0007\n...")
+          tagList(
+            conditionalPanel(
+              condition = "input.smoother == ture",
+              selectInput(ns("dtype"),"dtype:",
+                          list("category", "pathway"),selected = "category")),
+            textAreaInput(ns("universelist1"), "Input: Customer Defined Universe",
+                          placeholder = "COG0001\nCOG0007\n...")
+          )
 
         })
       } else {
@@ -254,10 +261,10 @@ mod_COGenrichment_server <- function(id){
           )
           unlist(strsplit(input$universelist1, split = "\\s"))
         })
-
-        if (input$Universe == "cog"){
+        if (input$Universe == "COG_category"){
           kk <- isolate(
             enrichCOG(gene = gene_list(),
+                      gson = cog_category,
                      pvalueCutoff = input$pvalue,
                      pAdjustMethod = input$padjustmethod,
                      minGSSize = 10,
@@ -265,20 +272,46 @@ mod_COGenrichment_server <- function(id){
                      qvalueCutoff =input$qvalue)
           )
 
-        }
+        } else{
+            if (input$Universe == "COG_pathway"){
+              kk <- isolate(
+                enrichCOG(gene = gene_list(),
+                          gson = cog_pathway,
+                          pvalueCutoff = input$pvalue,
+                          pAdjustMethod = input$padjustmethod,
+                          minGSSize = 10,
+                          maxGSSize = 500,
+                          qvalueCutoff =input$qvalue)
+              )
+            }
+              else{ if (input$Universe == "customer_defined_universe"){
+                  if(input$dtype == "category"){
+                  kk <- isolate(
+                    enrichCOG(gene = gene_list(),
+                              gson = cog_category,
+                              pvalueCutoff = input$pvalue,
+                              pAdjustMethod = input$padjustmethod,
+                              minGSSize = 10,
+                              maxGSSize = 500,
+                              universe = cog_universe_list(),
+                              qvalueCutoff =input$qvalue)
+                  )
+                  }
+                else {
+                    kk <- isolate(
+                      enrichCOG(gene = gene_list(),
+                                gson = cog_pathway,
+                                pvalueCutoff = input$pvalue,
+                                pAdjustMethod = input$padjustmethod,
+                                minGSSize = 10,
+                                maxGSSize = 500,
+                                universe = cog_universe_list(),
+                                qvalueCutoff =input$qvalue)
+                    )
+                }
 
-        else{
+            }
 
-          if (input$Universe == "customer_defined_universe"){
-            kk <- isolate(
-              enrichCOG(gene = gene_list(),
-                       pvalueCutoff = input$pvalue,
-                       pAdjustMethod = input$padjustmethod,
-                       minGSSize = 10,
-                       maxGSSize = 500,
-                       universe = cog_universe_list(),
-                       qvalueCutoff =input$qvalue)
-            )
           }
 
         }

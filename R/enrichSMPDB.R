@@ -1,6 +1,7 @@
 #' Metabolism enrichment analysis for microbiome data
 #'
 #' @param metabo_list a vector of metabolites in smpdb Metabolite.ID
+#' @param gson a 'GSON' object
 #' @param pvalueCutoff adjusted pvalue cutoff on enrichment tests to report.
 #' @param pAdjustMethod one of "holm", "hochberg", "hommel", "bonferroni",
 #' "BH", "BY", "fdr", "none".
@@ -17,12 +18,21 @@
 #' head(smp)
 #'
 enrichSMPDB <- function(metabo_list,
+                        gson,
                       pvalueCutoff      = 0.05,
                       pAdjustMethod     = "BH",
                       universe,
                       minGSSize         = 10,
                       maxGSSize         = 500,
                       qvalueCutoff      = 0.2) {
+    if(missing(gson)){
+        smpdb <- smpdb_gson
+    } else if(inherits(gson, "GSON")){
+        smpdb <- gson
+    } else{
+        stop("gson shoulb be a GSON object")
+    }
+
     res <- enricher(gene = metabo_list,
                     pvalueCutoff  = pvalueCutoff,
                     pAdjustMethod = pAdjustMethod,
@@ -30,8 +40,8 @@ enrichSMPDB <- function(metabo_list,
                     minGSSize     = minGSSize,
                     maxGSSize     = maxGSSize,
                     qvalueCutoff  = qvalueCutoff,
-                    TERM2GENE = smpdb_data[c("SMPDB.ID","Metabolite.ID")],
-                    TERM2NAME = smpdb_data[c("SMPDB.ID","Pathway.Name")])
+                    TERM2GENE = slot(smpdb,"gsid2gene"),
+                    TERM2NAME = slot(smpdb,"gsid2name"))
     if (is.null(res))
         return(res)
 

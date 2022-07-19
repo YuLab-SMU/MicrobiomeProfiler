@@ -3,16 +3,16 @@ test_that("test enrich function works", {
     data("Psoriasis_data")
     data("Rat_data")
     data("microbiota_taxlist")
-    ko <- MicrobiomeProfiler::enrichKO(IPF)
+    ko <- MicrobiomeProfiler::enrichKO(Rat_data)
     expect_s4_class(ko, class ="enrichResult")
 
     ko2 <- MicrobiomeProfiler::enrichKO(Psoriasis_data)
     expect_equal(ko2, NULL)
 
-    cog <- MicrobiomeProfiler::enrichCOG(Psoriasis_data)
+    cog <- MicrobiomeProfiler::enrichCOG(Psoriasis_data,dtype = "category")
     expect_s4_class(cog, class ="enrichResult")
 
-    cog2 <- MicrobiomeProfiler::enrichCOG(Rat_data)
+    cog2 <- MicrobiomeProfiler::enrichCOG(Rat_data,dtype = "category")
     expect_equal(cog2, NULL)
 
     mda <- MicrobiomeProfiler::enrichMDA(microbiota_taxlist)
@@ -36,13 +36,11 @@ test_that("test enrich function works", {
     mb4 <- MicrobiomeProfiler::enrichMBKEGG(mb_examplelist)
     expect_equal(mb4, NULL)
 
-    y3 <- MicrobiomeProfiler::bitr_smpdb(mb_examplelist,
-                                         from_Type = "Metabolite.ID",
-                                         to_Type = "HMDB.ID")
-    mb5 <- MicrobiomeProfiler::enrichHMDB(y3$HMDB.ID)
+    y3 <- c("HMDB0000001","HMDB0000005","HMDB0000008")
+    mb5 <- MicrobiomeProfiler::enrichHMDB(y3)
     expect_s4_class(mb5,class ="enrichResult")
 
-    mb6 <- MicrobiomeProfiler::enrichHMDB(y3$Metabolite.ID)
+    mb6 <- MicrobiomeProfiler::enrichHMDB(y2)
     expect_equal(mb6, NULL)
 
 

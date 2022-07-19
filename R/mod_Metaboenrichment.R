@@ -238,8 +238,10 @@ mod_Metaboenrichment_server <- function(id){
      mb_universe_list <- reactive({
        unlist(strsplit(input$universelist1, split = "\\s"))
      })
+
     if(input$type == "SMPDB.Metabolite.ID" & input$Universe == "SMPDB"){
         kk <- isolate(enrichSMPDB(metabo_list = metabolitelist(),
+                                  gson = smpdb_gson,
                                        pvalueCutoff = input$pvalue,
                                        pAdjustMethod = input$padjustmethod,
                                        minGSSize = 10,
@@ -247,6 +249,7 @@ mod_Metaboenrichment_server <- function(id){
                                        qvalueCutoff = input$qvalue))
     } else if(input$type == "SMPDB.Metabolite.ID" & input$Universe == "customer_defined_universe"){
         kk <- isolate(enrichSMPDB(metabo_list = metabolitelist(),
+                                  gson = smpdb_gson,
                                        pvalueCutoff = input$pvalue,
                                        pAdjustMethod = input$padjustmethod,
                                        universe=mb_universe_list(),
@@ -256,6 +259,7 @@ mod_Metaboenrichment_server <- function(id){
 
     } else if(input$type == "KEGG.ID"& input$Universe == "KEGG"){
       kk <- isolate(enrichMBKEGG(metabo_list = metabolitelist(),
+                                 gson = cpd_gson,
                                 pvalueCutoff = input$pvalue,
                                 pAdjustMethod = input$padjustmethod,
                                 minGSSize = 10,
@@ -266,6 +270,7 @@ mod_Metaboenrichment_server <- function(id){
 
     } else if(input$type == "KEGG.ID" & input$Universe == "customer_defined_universe"){
       kk <- isolate(enrichMBKEGG(metabo_list = metabolitelist(),
+                                 gson = cpd_gson,
                                 pvalueCutoff = input$pvalue,
                                 pAdjustMethod = input$padjustmethod,
                                 universe=mb_universe_list(),
@@ -275,6 +280,7 @@ mod_Metaboenrichment_server <- function(id){
 
     } else if(input$type == "HMDB.ID"& input$Universe == "HMDB"){
       kk <- isolate(enrichHMDB(metabo_list = metabolitelist(),
+                                 gson = hmdb_gson,
                                  pvalueCutoff = input$pvalue,
                                  pAdjustMethod = input$padjustmethod,
                                  minGSSize = 10,
@@ -282,6 +288,7 @@ mod_Metaboenrichment_server <- function(id){
                                  qvalueCutoff = input$qvalue))
     } else if(input$type == "HMDB.ID" & input$Universe == "customer_defined_universe"){
       kk <- isolate(enrichMBKEGG(metabo_list = metabolitelist(),
+                                 gson = hmdb_gson,
                                  pvalueCutoff = input$pvalue,
                                  pAdjustMethod = input$padjustmethod,
                                  universe=mb_universe_list(),

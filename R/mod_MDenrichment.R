@@ -199,8 +199,7 @@ mod_MDenrichment_server <- function(id){
     observeEvent(input$ex,{
       updateTextAreaInput(session, "genelist",
                           value = paste0(
-                            disbiome_data$organism_ncbi_id[seq_len(50)],
-                                         collapse = "\n")
+                            dis_example,collapse = "\n")
                           )
     })
     observeEvent(input$clean,{

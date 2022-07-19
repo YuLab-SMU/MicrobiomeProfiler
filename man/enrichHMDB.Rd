@@ -6,6 +6,7 @@
 \usage{
 enrichHMDB(
   metabo_list,
+  gson,
   pvalueCutoff = 0.05,
   pAdjustMethod = "BH",
   universe,
@@ -16,6 +17,8 @@ enrichHMDB(
 }
 \arguments{
 \item{metabo_list}{a vector of metabolites in HMDB.ID}
+
+\item{gson}{a 'GSON' object}
 
 \item{pvalueCutoff}{adjusted pvalue cutoff on enrichment tests to report.}
 
@@ -38,8 +41,7 @@ Metabolism enrichment analysis for microbiome data
 }
 \examples{
 
-x1 <- bitr_smpdb(c("PW_C000164","PW_C000078","PW_C000040"),
-from_Type = "Metabolite.ID",to_Type = "HMDB.ID")
-x2 <- enrichHMDB(x1$HMDB.ID)
+x1 <- c("HMDB0000001","HMDB0000005","HMDB0000008")
+x2 <- enrichHMDB(x1)
 
 }
