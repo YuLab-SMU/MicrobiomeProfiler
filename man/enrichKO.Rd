@@ -6,7 +6,6 @@
 \usage{
 enrichKO(
   gene,
-  gson,
   pvalueCutoff = 0.05,
   pAdjustMethod = "BH",
   universe,
@@ -17,8 +16,6 @@ enrichKO(
 }
 \arguments{
 \item{gene}{a vector of K gene id (e.g. K00001).}
-
-\item{gson}{gson object}
 
 \item{pvalueCutoff}{adjusted pvalue cutoff on enrichment tests to report.}
 

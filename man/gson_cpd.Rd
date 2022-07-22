@@ -13,7 +13,8 @@ a 'GSON' object
 download compound annotation of the latest version of KEGG pathway and stored in a 'GSON' object
 }
 \examples{
-
+\dontrun{
 cpd_gson <- gson_cpd()
+}
 
 }

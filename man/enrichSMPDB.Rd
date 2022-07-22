@@ -6,7 +6,6 @@
 \usage{
 enrichSMPDB(
   metabo_list,
-  gson,
   pvalueCutoff = 0.05,
   pAdjustMethod = "BH",
   universe,
@@ -17,8 +16,6 @@ enrichSMPDB(
 }
 \arguments{
 \item{metabo_list}{a vector of metabolites in smpdb Metabolite.ID}
-
-\item{gson}{a 'GSON' object}
 
 \item{pvalueCutoff}{adjusted pvalue cutoff on enrichment tests to report.}
 

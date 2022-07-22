@@ -6,7 +6,6 @@
 \usage{
 enrichMBKEGG(
   metabo_list,
-  gson,
   pvalueCutoff = 0.05,
   pAdjustMethod = "BH",
   universe,
@@ -17,8 +16,6 @@ enrichMBKEGG(
 }
 \arguments{
 \item{metabo_list}{a vector of metabolites in KEGG.ID}
-
-\item{gson}{a "GSON' object.}
 
 \item{pvalueCutoff}{adjusted pvalue cutoff on enrichment tests to report.}
 

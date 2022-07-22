@@ -12,8 +12,9 @@ kegg_rest <- getFromNamespace("kegg_rest","clusterProfiler")
 ##' @importFrom magrittr %<>%
 ##' @export
 ##' @examples
-##'
+##' \dontrun{
 ##' ko_gson <- gson_KO()
+##' }
 ##'
 gson_KO <- function() {
     k1 <- kegg_rest("https://rest.kegg.jp/link/ko/pathway")
@@ -43,10 +44,10 @@ gson_KO <- function() {
 #' @importFrom gson gson
 #' @importFrom stats na.omit setNames
 #' @export
-#'
 #' @examples
-#'
+#' \dontrun{
 #' cpd_gson <- gson_cpd()
+#' }
 #'
 gson_cpd <- function(){
     k1 <- kegg_rest("https://rest.kegg.jp/link/cpd/pathway")

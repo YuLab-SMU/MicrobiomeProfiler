@@ -281,10 +281,8 @@ mod_KOenrichment_server <- function(id){
         else{
 
           if (input$Universe == "KEGG_Metabolism"){
-            kom <- slot(kom_gson,"gsid2gene")
             kk <- isolate(
-              enrichKO(gene = gene_list(),
-                       universe = kom$gene,
+              enrichKO2(gene = gene_list(),
                        pvalueCutoff = input$pvalue,
                        pAdjustMethod = input$padjustmethod,
                        minGSSize = 10,
@@ -297,7 +295,6 @@ mod_KOenrichment_server <- function(id){
             if (input$Universe == "customer_defined_universe"){
               kk <- isolate(
                 enrichKO(gene = gene_list(),
-                         gson=ko_gson,
                          pvalueCutoff = input$pvalue,
                          pAdjustMethod = input$padjustmethod,
                          minGSSize = 10,
@@ -311,7 +308,6 @@ mod_KOenrichment_server <- function(id){
               universe_geneset <- get(input$Universe)
               kk <- isolate(
                 enrichKO(gene = gene_list(),
-                         gson=ko_gson,
                          pvalueCutoff = input$pvalue,
                          pAdjustMethod = input$padjustmethod,
                          minGSSize = 10,
