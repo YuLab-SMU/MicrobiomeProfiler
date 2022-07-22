@@ -1,7 +1,6 @@
 #' Microbe-Disease associations enrichment analysis
 #'
 #' @param microbe_list a vector of microbe ncbi tax ids.
-#' @param gson gson object.
 #' @param pvalueCutoff adjusted pvalue cutoff on enrichment tests to report.
 #' @param pAdjustMethod one of "holm", "hochberg", "hommel", "bonferroni",
 #' "BH", "BY", "fdr", "none".
@@ -20,20 +19,14 @@
 #' head(mda)
 #'
 enrichMDA <- function(microbe_list,
-                      gson,
                       pvalueCutoff      = 0.05,
                       pAdjustMethod     = "BH",
                       universe,
                       minGSSize         = 10,
                       maxGSSize         = 500,
                       qvalueCutoff      = 0.2) {
-    if(missing(gson)){
-        dis_data <- disbiome_data2
-    }else if(inherits(gson, "GSON")){
-        dis_data <- gson
-    } else{
-        stop("gson should be a GSON object")
-    }
+    dis_data <- disbiome_data2
+
     res <- enricher(gene=microbe_list,
                     pvalueCutoff  = pvalueCutoff,
                     pAdjustMethod = pAdjustMethod,

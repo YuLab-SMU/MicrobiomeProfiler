@@ -1,7 +1,6 @@
 #' Metabolism enrichment analysis for microbiome data
 #'
 #' @param metabo_list a vector of metabolites in HMDB.ID
-#' @param gson a 'GSON' object
 #' @param pvalueCutoff adjusted pvalue cutoff on enrichment tests to report.
 #' @param pAdjustMethod one of "holm", "hochberg", "hommel", "bonferroni",
 #' "BH", "BY", "fdr", "none".
@@ -18,20 +17,13 @@
 #' x2 <- enrichHMDB(x1)
 #'
 enrichHMDB <- function(metabo_list,
-                       gson,
                         pvalueCutoff      = 0.05,
                         pAdjustMethod     = "BH",
                         universe,
                         minGSSize         = 10,
                         maxGSSize         = 500,
                         qvalueCutoff      = 0.2) {
-    if(missing(gson)){
-        hmdb <- hmdb_gson
-    } else if(inherits(gson, "GSON")){
-        hmdb <- gson
-    } else{
-        stop("gson should be a GSON object")
-    }
+    hmdb <- hmdb_gson
     res <- enricher(gene = metabo_list,
                     pvalueCutoff  = pvalueCutoff,
                     pAdjustMethod = pAdjustMethod,

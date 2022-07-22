@@ -264,7 +264,7 @@ mod_COGenrichment_server <- function(id){
         if (input$Universe == "COG_category"){
           kk <- isolate(
             enrichCOG(gene = gene_list(),
-                      gson = cog_category,
+                      dtype = "category",
                      pvalueCutoff = input$pvalue,
                      pAdjustMethod = input$padjustmethod,
                      minGSSize = 10,
@@ -276,7 +276,7 @@ mod_COGenrichment_server <- function(id){
             if (input$Universe == "COG_pathway"){
               kk <- isolate(
                 enrichCOG(gene = gene_list(),
-                          gson = cog_pathway,
+                          dtype = "pathway",
                           pvalueCutoff = input$pvalue,
                           pAdjustMethod = input$padjustmethod,
                           minGSSize = 10,
@@ -288,7 +288,7 @@ mod_COGenrichment_server <- function(id){
                   if(input$dtype == "category"){
                   kk <- isolate(
                     enrichCOG(gene = gene_list(),
-                              gson = cog_category,
+                              dtype = "category",
                               pvalueCutoff = input$pvalue,
                               pAdjustMethod = input$padjustmethod,
                               minGSSize = 10,
@@ -300,7 +300,7 @@ mod_COGenrichment_server <- function(id){
                 else {
                     kk <- isolate(
                       enrichCOG(gene = gene_list(),
-                                gson = cog_pathway,
+                                dtype = "pathway",
                                 pvalueCutoff = input$pvalue,
                                 pAdjustMethod = input$padjustmethod,
                                 minGSSize = 10,

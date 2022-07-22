@@ -269,7 +269,6 @@ mod_KOenrichment_server <- function(id){
         if (input$Universe == "KEGG"){
           kk <- isolate(
             enrichKO(gene = gene_list(),
-                     gson=ko_gson,
                      pvalueCutoff = input$pvalue,
                      pAdjustMethod = input$padjustmethod,
                      minGSSize = 10,
@@ -282,9 +281,10 @@ mod_KOenrichment_server <- function(id){
         else{
 
           if (input$Universe == "KEGG_Metabolism"){
+            kom <- slot(kom_gson,"gsid2gene")
             kk <- isolate(
               enrichKO(gene = gene_list(),
-                       gson=kom_gson,
+                       universe = kom$gene,
                        pvalueCutoff = input$pvalue,
                        pAdjustMethod = input$padjustmethod,
                        minGSSize = 10,

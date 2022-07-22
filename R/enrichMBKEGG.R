@@ -1,7 +1,6 @@
 #' Metabolism enrichment analysis for microbiome data
 #'
 #' @param metabo_list a vector of metabolites in KEGG.ID
-#' @param gson a "GSON' object.
 #' @param pvalueCutoff adjusted pvalue cutoff on enrichment tests to report.
 #' @param pAdjustMethod one of "holm", "hochberg", "hommel", "bonferroni",
 #' "BH", "BY", "fdr", "none".
@@ -19,7 +18,6 @@
 #' head(mb3)
 #'
 enrichMBKEGG <- function(metabo_list,
-                         gson,
                        pvalueCutoff      = 0.05,
                        pAdjustMethod     = "BH",
                        universe,
@@ -27,15 +25,7 @@ enrichMBKEGG <- function(metabo_list,
                        maxGSSize         = 500,
                        qvalueCutoff      = 0.2) {
 
-    if(missing(gson)){
-        cpd <- cpd_gson
-    }else if(inherits(gson, "GSON")){
-        cpd <- gson
-    } else{
-        stop("gson should be a GSON object")
-    }
-
-
+    cpd <- cpd_gson
     res <- enricher(gene = metabo_list,
                     pvalueCutoff  = pvalueCutoff,
                     pAdjustMethod = pAdjustMethod,

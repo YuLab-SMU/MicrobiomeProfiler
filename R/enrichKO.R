@@ -1,7 +1,6 @@
 #' KO enrichment for microbiome data
 #'
 #' @param gene a vector of K gene id (e.g. K00001).
-#' @param gson gson object
 #' @param pvalueCutoff adjusted pvalue cutoff on enrichment tests to report.
 #' @param pAdjustMethod one of "holm","hochberg","hommel","bonferroni","BH",
 #' "BY","fdr","none".
@@ -19,20 +18,13 @@
 #'   head(ko)
 #'
 enrichKO <- function(gene,
-                     gson,
                      pvalueCutoff      = 0.05,
                      pAdjustMethod     = "BH",
                      universe,
                      minGSSize         = 10,
                      maxGSSize         = 500,
                      qvalueCutoff      = 0.2) {
-    if(missing(gson)){
-        ko2pathway <- gson_KO()
-    } else if(inherits(gson, "GSON")){
-        ko2pathway <- gson
-    } else{
-        stop("gson should be a GSON object")
-    }
+    ko2pathway <- gson_KO()
     res <- enricher(gene,
                     pvalueCutoff  = pvalueCutoff,
                     pAdjustMethod = pAdjustMethod,
