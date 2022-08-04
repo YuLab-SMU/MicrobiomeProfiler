@@ -12,7 +12,7 @@ kegg_rest <- getFromNamespace("kegg_rest","clusterProfiler")
 ##' @importFrom magrittr %<>%
 ##' @export
 ##' @examples
-##' \dontrun{
+##' \donttest{
 ##' ko_gson <- gson_KO()
 ##' }
 ##'
@@ -45,7 +45,7 @@ gson_KO <- function() {
 #' @importFrom stats na.omit setNames
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' cpd_gson <- gson_cpd()
 #' }
 #'

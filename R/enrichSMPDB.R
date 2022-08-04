@@ -23,16 +23,14 @@ enrichSMPDB <- function(metabo_list,
                       minGSSize         = 10,
                       maxGSSize         = 500,
                       qvalueCutoff      = 0.2) {
-    smpdb <- smpdb_gson
     res <- enricher(gene = metabo_list,
+                    gson = smpdb_gson,
                     pvalueCutoff  = pvalueCutoff,
                     pAdjustMethod = pAdjustMethod,
                     universe      = universe,
                     minGSSize     = minGSSize,
                     maxGSSize     = maxGSSize,
-                    qvalueCutoff  = qvalueCutoff,
-                    TERM2GENE = slot(smpdb,"gsid2gene"),
-                    TERM2NAME = slot(smpdb,"gsid2name"))
+                    qvalueCutoff  = qvalueCutoff)
     if (is.null(res))
         return(res)
 

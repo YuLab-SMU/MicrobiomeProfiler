@@ -23,16 +23,14 @@ enrichHMDB <- function(metabo_list,
                         minGSSize         = 10,
                         maxGSSize         = 500,
                         qvalueCutoff      = 0.2) {
-    hmdb <- hmdb_gson
     res <- enricher(gene = metabo_list,
+                    gson = hmdb_gson,
                     pvalueCutoff  = pvalueCutoff,
                     pAdjustMethod = pAdjustMethod,
                     universe      = universe,
                     minGSSize     = minGSSize,
                     maxGSSize     = maxGSSize,
-                    qvalueCutoff  = qvalueCutoff,
-                    TERM2GENE = slot(hmdb,"gsid2gene"),
-                    TERM2NAME = slot(hmdb,"gsid2name"))
+                    qvalueCutoff  = qvalueCutoff)
     if (is.null(res))
         return(res)
 

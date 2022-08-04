@@ -33,14 +33,13 @@ enrichCOG <- function(gene,
         stop("dtype should be category or pathway")
     }
     res <- enricher(gene,
+                    gson = cog,
                     pvalueCutoff  = pvalueCutoff,
                     pAdjustMethod = pAdjustMethod,
                     universe      = universe,
                     minGSSize     = minGSSize,
                     maxGSSize     = maxGSSize,
-                    qvalueCutoff  = qvalueCutoff,
-                    TERM2GENE = slot(cog,"gsid2gene"),
-                    TERM2NAME = slot(cog,"gsid2name"))
+                    qvalueCutoff  = qvalueCutoff)
     if (is.null(res))
         return(res)
 

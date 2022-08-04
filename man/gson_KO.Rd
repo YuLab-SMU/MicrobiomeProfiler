@@ -13,7 +13,7 @@ a 'GSON' object
 download KO annotation of the latest version of KEGG pathway and stored in a 'GSON' object
 }
 \examples{
-\dontrun{
+\donttest{
 ko_gson <- gson_KO()
 }
 

@@ -25,16 +25,14 @@ enrichMBKEGG <- function(metabo_list,
                        maxGSSize         = 500,
                        qvalueCutoff      = 0.2) {
 
-    cpd <- cpd_gson
     res <- enricher(gene = metabo_list,
+                    gson = cpd_gson,
                     pvalueCutoff  = pvalueCutoff,
                     pAdjustMethod = pAdjustMethod,
                     universe      = universe,
                     minGSSize     = minGSSize,
                     maxGSSize     = maxGSSize,
-                    qvalueCutoff  = qvalueCutoff,
-                    TERM2GENE = slot(cpd,"gsid2gene"),
-                    TERM2NAME = slot(cpd,"gsid2name"))
+                    qvalueCutoff  = qvalueCutoff)
     if (is.null(res))
         return(res)
 

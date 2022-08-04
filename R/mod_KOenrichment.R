@@ -11,7 +11,7 @@
 #' @examples mod_KOenrichment_ui("KOenrichment_ui")
 mod_KOenrichment_ui <- function(id,label = "Input: K gene list",
                                 universelist = list("KEGG",
-                                                    "KEGG_Metabolism",
+                                                    #"KEGG_Metabolism",
                                                     # "KEGG_Gen_Info_Processing",
                                                     # "KEGG_Env_Info_Processing",
                                                     # "KEGG_Human_Diseases",
@@ -276,48 +276,27 @@ mod_KOenrichment_server <- function(id){
                      qvalueCutoff =input$qvalue)
           )
 
-        }
-
-        else{
-
-          if (input$Universe == "KEGG_Metabolism"){
-            kk <- isolate(
-              enrichKO2(gene = gene_list(),
-                       pvalueCutoff = input$pvalue,
-                       pAdjustMethod = input$padjustmethod,
-                       minGSSize = 10,
-                       maxGSSize = 500,
-                       qvalueCutoff =input$qvalue)
-            )
-
-          }
-          else {
-            if (input$Universe == "customer_defined_universe"){
-              kk <- isolate(
-                enrichKO(gene = gene_list(),
-                         pvalueCutoff = input$pvalue,
-                         pAdjustMethod = input$padjustmethod,
-                         minGSSize = 10,
-                         maxGSSize = 500,
-                         universe = ko_universe_list(),
-                         qvalueCutoff =input$qvalue)
-              )
-            }
-
-            else{
-              universe_geneset <- get(input$Universe)
-              kk <- isolate(
-                enrichKO(gene = gene_list(),
-                         pvalueCutoff = input$pvalue,
-                         pAdjustMethod = input$padjustmethod,
-                         minGSSize = 10,
-                         maxGSSize = 500,
-                         universe = universe_geneset,
-                         qvalueCutoff =input$qvalue)
-              )
-            }
-          }
-
+        } else if(input$Universe == "customer_defined_universe"){
+          kk <- isolate(
+            enrichKO(gene = gene_list(),
+                     pvalueCutoff = input$pvalue,
+                     pAdjustMethod = input$padjustmethod,
+                     minGSSize = 10,
+                     maxGSSize = 500,
+                     universe = ko_universe_list(),
+                     qvalueCutoff =input$qvalue)
+          )
+        } else {
+          universe_geneset <- get(input$Universe)
+          kk <- isolate(
+            enrichKO(gene = gene_list(),
+                     pvalueCutoff = input$pvalue,
+                     pAdjustMethod = input$padjustmethod,
+                     minGSSize = 10,
+                     maxGSSize = 500,
+                     universe = universe_geneset,
+                     qvalueCutoff =input$qvalue)
+          )
         }
 
         if(nrow(as.data.frame(kk)) != 0){

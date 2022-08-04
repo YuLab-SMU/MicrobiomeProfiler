@@ -11,7 +11,8 @@
 mod_Metaboenrichment_ui <- function(id,
                                     label = "Input: Metabolite list",
                                     universelist = list("SMPDB",
-                                                        "KEGG","HMDB",
+                                                        "KEGG",
+                                                        "HMDB",
                                                "customer_defined_universe")){
   ns <- NS(id)
   tagList(

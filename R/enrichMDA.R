@@ -25,17 +25,14 @@ enrichMDA <- function(microbe_list,
                       minGSSize         = 10,
                       maxGSSize         = 500,
                       qvalueCutoff      = 0.2) {
-    dis_data <- disbiome_data2
-
     res <- enricher(gene=microbe_list,
+                    gson = disbiome_data2,
                     pvalueCutoff  = pvalueCutoff,
                     pAdjustMethod = pAdjustMethod,
                     universe      = universe,
                     minGSSize     = minGSSize,
                     maxGSSize     = maxGSSize,
-                    qvalueCutoff  = qvalueCutoff,
-                    TERM2GENE = slot(dis_data,"gsid2gene"),
-                    TERM2NAME = slot(dis_data,"gsid2name"))
+                    qvalueCutoff  = qvalueCutoff)
     if (is.null(res))
         return(res)
 
