@@ -1,23 +1,29 @@
-#' MDenrichment UI Function
+#' Gene enrichment UI Function
 #'
 #' @description A shiny Module.
 #'
 #' @param id,input,output,session Internal parameters for {shiny}.
-#' @param label,universelist parameters for input ui
+#' @param label parameters for input ui
 #'
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-#' @examples  mod_MDenrichment_ui("MDenrichment_ui")
-mod_MDenrichment_ui <- function(id,label = "Input: Microbe NCBI Taxid list",
-                                backset = list("Disbiome"),
-                                universelist = list("Default",
-                                "customer_defined_universe")){
+#' @importFrom DT DTOutput datatable renderDT JS
+#' @importFrom ggplot2 scale_color_gradient
+#' @importFrom ggplot2 scale_fill_gradient
+#' @importFrom enrichplot dotplot
+#' @examples mod_COGenrichment_ui("COGenrichment_ui")
+mod_GENEenrichment_ui <- function(id,label = "Input: Gene list"){
   ns <- NS(id)
   tagList(
     tags$div(
+        conditionalPanel(
+            condition = "input.smoother == ture",
+            selectInput(ns("type"),"ID Type",list("KEGG","COG"),
+                        selected = "KEGG")
+        ),
       textAreaInput(ns("genelist"),label=label,
-                    placeholder = "1591\n853\n39491\n..."),
+                    placeholder = "K03430\nK01569\n..."),
       numericInput(ns("pvalue"),"p value cutoff", value = 0.05),
       conditionalPanel(
         condition = "input.smoother == ture",
@@ -25,37 +31,41 @@ mod_MDenrichment_ui <- function(id,label = "Input: Microbe NCBI Taxid list",
                     list("BH", "holm", "hochberg", "hommel",
                          "bonferroni", "BY", "fdr", "none"),selected = "BH")),
       numericInput(ns("qvalue"),"p Ajusted value cutoff",value = 0.05),
+      uiOutput(ns("backset")),
       conditionalPanel(
           condition = "input.smoother == ture",
-          selectInput(ns("backgroundset"),"Select Background Set:",
-                      backset, selected = backset[1])
+          selectInput(ns("Universe"),"Select Universe Gene Set:",
+                      list("Default",
+                           # "human_gut2014",
+                           # "human_gut2016",
+                           # "human_skin",
+                           # "human_vagina",
+                           "customer_defined_universe"),
+                      selected = "Default"),
+
       ),
-      conditionalPanel(
-        condition = "input.smoother == ture",
-        selectInput(ns("Universe"),"Select Universe Gene Set:",
-                    universelist, selected = universelist[1])
-      ),
+      #uiOutput(ns("universe")),
+
       uiOutput(ns("background1")),
       tags$br(),
       actionButton(ns("btn"), label = "Submit",
                    style="background:#6fa6d6;color:white;
                    border: none;text-align: center;font-size: 16px;
                    font-family: 'Times New Roman', Times, serif;"),
-      actionButton(ns("ex"), "Example",
-                   style="background:#57c3c2;color:white;
-                   border: none;text-align: center;font-size: 16px;
+      actionButton(ns("ex"), "Example",style="background:#57c3c2;
+                   color:white;border: none;text-align: center;
+                   font-size: 16px;
                    font-family: 'Times New Roman', Times, serif;"),
-      actionButton(ns("clean"),"Clean",
-                   style="background:#44b5ce;color:white;
-                   border: none;text-align: center;font-size: 16px;
+      actionButton(ns("clean"),"Clean",style="background:#44b5ce;
+                   color:white;border: none;text-align: center;
+                   font-size: 16px;
                    font-family: 'Times New Roman', Times, serif;"),
 
     )
   )
 }
 
-
-#' MDenrichment UI Function II
+#' COGenrichment UI Function II
 #'
 #' @description A shiny Module.
 #'
@@ -65,8 +75,11 @@ mod_MDenrichment_ui <- function(id,label = "Input: Microbe NCBI Taxid list",
 #'
 #' @importFrom shiny NS tagList
 #' @importFrom DT DTOutput datatable renderDT JS
-#' @examples  mod_MDenrichment_ui2("MDenrichment_ui")
-mod_MDenrichment_ui2 <- function(id){
+#' @importFrom ggplot2 scale_color_gradient
+#' @importFrom ggplot2 scale_fill_gradient
+#' @importFrom enrichplot dotplot
+#' @examples mod_COGenrichment_ui2("COGenrichment_ui")
+mod_GENEenrichment_ui2 <- function(id){
   ns <- NS(id)
   tagList(
     tags$div(shinycustomloader::withLoader(DT::DTOutput(ns("dt")),
@@ -76,7 +89,8 @@ mod_MDenrichment_ui2 <- function(id){
     tags$br(),
     actionButton(ns("update"),"Update",
                  style="background:#dd89c1;color:white;
-                 border: none;text-align: center;font-size: 16px;
+                 border: none;text-align: center;
+                 font-size: 16px;
                  font-family: 'Times New Roman', Times, serif;"),
     helpText("Tip: If you want to show your interested terms,
              just choose the rows and then click the Update button.")
@@ -85,7 +99,7 @@ mod_MDenrichment_ui2 <- function(id){
   )
 }
 
-#' MDenrichment UI Function III
+#' COGenrichment UI Function III
 #'
 #' @description A shiny Module.
 #'
@@ -96,8 +110,12 @@ mod_MDenrichment_ui2 <- function(id){
 #' @importFrom shiny NS tagList
 #' @importFrom shinycustomloader withLoader
 #' @importFrom shinyWidgets colorPickr
-#' @examples  mod_MDenrichment_ui3("MDenrichment_ui")
-mod_MDenrichment_ui3 <- function(id){
+#' @importFrom ggplot2 scale_color_gradient
+#' @importFrom ggplot2 scale_fill_gradient
+#' @importFrom enrichplot dotplot
+#' @importFrom ggplot2 ggsave
+#' @examples mod_COGenrichment_ui3("COGenrichment_ui")
+mod_GENEenrichment_ui3 <- function(id){
   ns <- NS(id)
   tagList(
     tabsetPanel(
@@ -112,35 +130,38 @@ mod_MDenrichment_ui3 <- function(id){
                                selectInput(ns("format"),"Format",
                                            list("pdf", "jpg", "png", "tiff"),
                                            selected = "pdf")),
-                             numericInput(ns("dpi"),"Dpi",
-                                          value = 300,step = 100),
-                             numericInput(ns("w"),"Width",value = 500,
-                                          min = 300, max = 2000,step = 50),
-                             numericInput(ns("h"),"Height",value = 350,
-                                          min = 300,max = 2000,step = 50),
+                             numericInput(
+                               ns("dpi"),"Dpi",value = 300,step = 100),
+                             numericInput(ns("w"),"Width",
+                                          value = 500, min = 300,
+                                          max = 2000,step = 50),
+                             numericInput(ns("h"),"Height",
+                                          value = 350, min = 300,
+                                          max = 2000,step = 50),
                              tags$table(
                                tags$tr(
                                  tags$td(tags$label("Color1 ")),
-                                 tags$td(shinyWidgets::colorPickr(
-                                   ns("lowcolor"),label=NULL,
-                                   "#D150A7",width=6))
+                                 tags$td(
+                                   shinyWidgets::colorPickr(ns("lowcolor"),
+                                  label=NULL, "#D150A7",width=6))
 
                                ),
                                tags$tr(
                                  tags$td(tags$label("Color2 ")),
-                                 tags$td(shinyWidgets::colorPickr(
-                                   ns("highcolor"),label=NULL,
-                                   "#46bac2", width=6))
+                                 tags$td(
+                                   shinyWidgets::colorPickr(ns("highcolor"),
+                                              label=NULL, "#46bac2", width=6))
                                )
-                             ), # color set for dotplot
+                             ), # color set
                              downloadButton(ns("downdotPolt"),"Download")
                            )
                )
       ),
       tabPanel("Barplot",
                splitLayout(cellWidths = c("70%","30%"),
-                           tags$div( shinycustomloader::withLoader(
-                             uiOutput(ns("barplot_ui")),loader = "dnaspin")),
+                           tags$div(
+                             shinycustomloader::withLoader(
+                               uiOutput(ns("barplot_ui")),loader = "dnaspin")),
                            tags$div(
                              conditionalPanel(
                                condition = "input.smoother == ture",
@@ -167,7 +188,7 @@ mod_MDenrichment_ui3 <- function(id){
                                    ns("highcolor2"),label=NULL,
                                    "#46bac2", width=6))
                                )
-                             ), # color set for barplot
+                             ), #color set for barplot
                              downloadButton(ns("downbarPolt"),"Download")
                            )
 
@@ -181,7 +202,7 @@ mod_MDenrichment_ui3 <- function(id){
 
 
 
-#' MDenrichment Server Functions
+#' COGenrichment Server Functions
 #'
 #' @noRd
 #'
@@ -189,13 +210,11 @@ mod_MDenrichment_ui3 <- function(id){
 #' @importFrom ggplot2 scale_color_gradient
 #' @importFrom ggplot2 scale_fill_gradient
 #' @importFrom ggplot2 guides
-#' @importFrom ggplot2 xlab
 #' @importFrom ggplot2 guide_colorbar
 #' @importFrom enrichplot dotplot
-#' @importFrom ggplot2 ggsave
 #' @importFrom graphics barplot
 #' @importFrom utils data
-mod_MDenrichment_server <- function(id){
+mod_GENEenrichment_server <- function(id){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
     ID <- NULL
@@ -203,25 +222,52 @@ mod_MDenrichment_server <- function(id){
     GeneRatio <- NULL
     BgRatio <- NULL
     observeEvent(input$ex,{
-      updateTextAreaInput(session, "genelist",
-                          value = paste0(
-                            dis_example,collapse = "\n")
-                          )
+        if(input$type == "KEGG"){
+            updateTextAreaInput(session, "genelist",
+                                value = paste0(IPF,
+                                               collapse = "\n"))
+        }else{
+            updateTextAreaInput(session, "genelist",
+                                value = paste0(unique(cog_example),
+                                               collapse = "\n"))
+        }
     })
     observeEvent(input$clean,{
-      updateTextAreaInput(session, "genelist", value = "")
-      output$dotPlot <- NULL
-      output$barPlot <- NULL
-      output$dt <- NULL
+        updateTextAreaInput(session, "genelist", value = "")
+        output$dotPlot <- NULL
+        output$barPlot <- NULL
+        output$dt <- NULL
+    })
+    observe({
+        if (input$type == "KEGG") {
+            output$backset <- renderUI({
+                ns <- session$ns
+                tagList(
+                    selectInput(ns("backgroundset"),"Select Background Set:",
+                                list("KEGG"), selected = "KEGG")
 
+                )
+            })
+        } else if(input$type == "COG"){
+            output$backset <- renderUI({
+                ns <- session$ns
+                tagList(
+                    selectInput(ns("backgroundset"),"Select Background Set:",
+                                list("COG_category","COG_pathway"),
+                                selected = "COG_category")
+                )
+            })
+        }
     })
 
     observe({
       if (input$Universe == "customer_defined_universe") {
         output$background1 <- renderUI({
           ns <- session$ns
-          textAreaInput(ns("universelist1"), "Input: Customer Defined Universe",
-                        placeholder = "1591\n853\n39491\n...")
+          tagList(
+            textAreaInput(ns("universelist1"), "Input: Customer Defined Universe",
+                          placeholder = "K03430\nK01569\n...")
+          )
 
         })
       } else {
@@ -245,35 +291,105 @@ mod_MDenrichment_server <- function(id){
           unlist(strsplit(input$genelist, split = "\\s"))
         })
 
-        mda_universe_list <- reactive({
+        ko_universe_list <- reactive({
           validate(
             need(!is.null(input$universelist1), c("Universelist is empty."))
           )
           unlist(strsplit(input$universelist1, split = "\\s"))
         })
 
-        if (input$Universe == "Default"){
-          kk <- isolate(
-            enrichMDA(microbe_list = gene_list(),
-                      pvalueCutoff = input$pvalue,
-                      pAdjustMethod = input$padjustmethod,
-                      minGSSize = 10,
-                      maxGSSize = 500,
-                      qvalueCutoff =input$qvalue)
-          )
+        if(input$type == "KEGG"){
+            if (input$Universe == "Default"){
+                kk <- isolate(
+                    enrichKO(gene = gene_list(),
+                             pvalueCutoff = input$pvalue,
+                             pAdjustMethod = input$padjustmethod,
+                             minGSSize = 10,
+                             maxGSSize = 500,
+                             qvalueCutoff =input$qvalue)
+                )
 
-        }
+            } else if(input$Universe == "customer_defined_universe"){
+                kk <- isolate(
+                    enrichKO(gene = gene_list(),
+                             pvalueCutoff = input$pvalue,
+                             pAdjustMethod = input$padjustmethod,
+                             minGSSize = 10,
+                             maxGSSize = 500,
+                             universe = ko_universe_list(),
+                             qvalueCutoff =input$qvalue)
+                )
+            } #else {
+            #     universe_geneset <- get(input$Universe)
+            #     kk <- isolate(
+            #         enrichKO(gene = gene_list(),
+            #                  pvalueCutoff = input$pvalue,
+            #                  pAdjustMethod = input$padjustmethod,
+            #                  minGSSize = 10,
+            #                  maxGSSize = 500,
+            #                  universe = universe_geneset,
+            #                  qvalueCutoff =input$qvalue)
+            #     )
+            # }
 
-        else if (input$Universe == "customer_defined_universe"){
-            kk <- isolate(
-              enrichMDA(microbe_list = gene_list(),
-                        pvalueCutoff = input$pvalue,
-                        pAdjustMethod = input$padjustmethod,
-                        minGSSize = 10,
-                        maxGSSize = 500,
-                        universe = mda_universe_list(),
-                        qvalueCutoff =input$qvalue)
-            )
+        } else if(input$type == "COG"){
+            if (input$backgroundset == "COG_category" ){
+              if(input$Universe == "Default"){
+                kk <- isolate(
+                  enrichCOG(gene = gene_list(),
+                            dtype = "category",
+                            pvalueCutoff = input$pvalue,
+                            pAdjustMethod = input$padjustmethod,
+                            minGSSize = 10,
+                            maxGSSize = 500,
+                            qvalueCutoff =input$qvalue)
+                ) }
+              else{
+                  if(input$Universe == "customer_defined_universe"){
+                    kk <- isolate(
+                      enrichCOG(gene = gene_list(),
+                                dtype = "category",
+                                pvalueCutoff = input$pvalue,
+                                pAdjustMethod = input$padjustmethod,
+                                minGSSize = 10,
+                                maxGSSize = 500,
+                                universe = ko_universe_list(),
+                                qvalueCutoff =input$qvalue)
+                    )
+                  }
+                }
+
+
+
+            } else if (input$backgroundset == "COG_pathway" ){
+                if(input$Universe == "Default"){
+                  kk <- isolate(
+                    enrichCOG(gene = gene_list(),
+                              dtype = "pathway",
+                              pvalueCutoff = input$pvalue,
+                              pAdjustMethod = input$padjustmethod,
+                              minGSSize = 10,
+                              maxGSSize = 500,
+                              qvalueCutoff =input$qvalue)
+                  )
+                } else{
+                  if(input$Universe == "customer_defined_universe"){
+                    kk <- isolate(
+                      enrichCOG(gene = gene_list(),
+                                dtype = "pathway",
+                                pvalueCutoff = input$pvalue,
+                                pAdjustMethod = input$padjustmethod,
+                                minGSSize = 10,
+                                maxGSSize = 500,
+                                universe = ko_universe_list(),
+                                qvalueCutoff =input$qvalue)
+                    )
+                  }
+                }
+
+              }
+
+
         } else{
             kk <- NULL
         }
@@ -287,6 +403,7 @@ mod_MDenrichment_server <- function(id){
           colIndex <- as.integer(rowNames)
 
           output$dt <- DT::renderDT({
+            req(!is.null(dat))
             # validate(
             #   need(sum(kk$p.adjust < 0.05) != 0,"No significant results!")
             # )
@@ -363,16 +480,15 @@ mod_MDenrichment_server <- function(id){
               #   need(sum(kk$p.adjust < 0.05) != 0,"No significant results!")
               # )
               dotplot(kk) +
-                scale_color_gradient(low=input$lowcolor,high=input$highcolor) +
-                guides(color = guide_colorbar(reverse = TRUE)) +
-                ggplot2::xlab("Ratio")
+              ggplot2::scale_color_gradient(low=input$lowcolor,
+                                            high=input$highcolor) +
+                guides(color = guide_colorbar(reverse = TRUE))
             } else{
               validate(need(selectedRows() != "",
                             "Please select one row at least."))
-              dotplot(kk,showCategory=kk[selectedRows(),]$Description) +
+              dotplot(kk,showCategory=kk[selectedRows(),]$Description)+
                 scale_color_gradient(low=input$lowcolor,high=input$highcolor) +
-                guides(color = guide_colorbar(reverse = TRUE)) +
-                ggplot2::xlab("Ratio")
+                guides(color = guide_colorbar(reverse = TRUE))
 
             }
           })
@@ -383,17 +499,17 @@ mod_MDenrichment_server <- function(id){
               #   need(sum(kk$p.adjust < 0.05) != 0,"No significant results!")
               # )
               barplot(kk) +
-                scale_fill_gradient(low=input$lowcolor2,high=input$highcolor2) +
+                scale_fill_gradient(low=input$lowcolor2,high=input$highcolor2)+
                 guides(color = guide_colorbar(reverse = TRUE))
             } else{
-              output$barPlot <- renderPlot({
-                validate(need(selectedRows() != "",
-                              "Please select one row at least."))
-                barplot(kk,showCategory=kk[selectedRows(),]$Description) +
-                  scale_fill_gradient(low=input$lowcolor2,
-                                      high=input$highcolor2) +
-                  guides(color = guide_colorbar(reverse = TRUE))
-              })
+                output$barPlot <- renderPlot({
+                  validate(need(selectedRows() != "",
+                                "Please select one row at least."))
+                  barplot(kk,showCategory=kk[selectedRows(),]$Description) +
+                    scale_fill_gradient(low=input$lowcolor2,
+                                        high=input$highcolor2) +
+                    guides(color = guide_colorbar(reverse = TRUE))
+                })
             }
           })
 
@@ -419,8 +535,7 @@ mod_MDenrichment_server <- function(id){
                 dotplot(kk) +
                   scale_color_gradient(low=input$lowcolor,
                                        high=input$highcolor) +
-                  guides(color = guide_colorbar(reverse = TRUE)) +
-                  ggplot2::xlab("Ratio")
+                  guides(color = guide_colorbar(reverse = TRUE))
                 ggplot2::ggsave(file, width = input$w/72,
                                 height = input$h/72, dpi = input$dpi)
               } else{
@@ -440,11 +555,12 @@ mod_MDenrichment_server <- function(id){
             },
             content = function(file){
               if(input$update == 0){
-                barplot(kk) + scale_fill_gradient(low=input$lowcolor2,
-                                                  high=input$highcolor2) +
+                barplot(kk) +
+                  scale_fill_gradient(low=input$lowcolor2,
+                                      high=input$highcolor2) +
                   guides(color = guide_colorbar(reverse = TRUE))
-                ggplot2::ggsave(file, width = input$w2/72,
-                                height = input$h2/72, dpi = input$dpi2)
+                ggplot2::ggsave(file, width = input$w2/72, height = input$h2/72,
+                                dpi = input$dpi2)
               } else{
                 barplot(kk,showCategory=kk[selectedRows(),]$Description) +
                   scale_fill_gradient(low=input$lowcolor2,
@@ -463,9 +579,9 @@ mod_MDenrichment_server <- function(id){
           }
         }
 
-
       })
 
   })
 }
+
 

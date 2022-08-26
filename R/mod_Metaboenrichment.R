@@ -10,15 +10,11 @@
 #' @examples mod_Metaboenrichment_ui("Metaboenrichment_ui")
 mod_Metaboenrichment_ui <- function(id,
                                     label = "Input: Metabolite list",
-                                    universelist = list("SMPDB",
-                                                        "KEGG",
-                                                        "HMDB",
+                                    universelist = list("Default",
                                                "customer_defined_universe")){
   ns <- NS(id)
   tagList(
     tags$div(
-      helpText("Tip: Please make sure that the input id type
-               consists with the universe."),
       conditionalPanel(
         condition = "input.smoother == ture",
         selectInput(ns("type"),"ID Type",list("SMPDB.Metabolite.ID",
@@ -34,6 +30,7 @@ mod_Metaboenrichment_ui <- function(id,
                     list("BH", "holm", "hochberg", "hommel", "bonferroni",
                          "BY", "fdr", "none"),selected = "BH")),
       numericInput(ns("qvalue"),"p Ajusted value cutoff",value = 0.05),
+      uiOutput(ns("backset")),
       conditionalPanel(
         condition = "input.smoother == ture",
         selectInput(ns("Universe"),"Select Universe Gene Set:",
@@ -212,7 +209,28 @@ mod_Metaboenrichment_server <- function(id){
       output$barPlot <- NULL
       output$dt <- NULL
     })
+    observe({
+        if (input$type == "SMPDB.Metabolite.ID") {
+            output$backset <- renderUI({
+                ns <- session$ns
+                selectInput(ns("backgroundset"),"Select Background Set:",
+                            c("SMPDB"), selected = "SMPDB")
 
+            })
+        } else if(input$type == "KEGG.ID"){
+            output$backset <- renderUI({
+                ns <- session$ns
+                selectInput(ns("backgroundset"),"Select Background Set:",
+                            c("KEGG"), selected = "KEGG")
+            })
+        }else if(input$type == "HMDB.ID"){
+            output$backset <- renderUI({
+                ns <- session$ns
+                selectInput(ns("backgroundset"),"Select Background Set:",
+                            c("SMPDB"), selected = "SMPDB")
+            })
+        }
+    })
     observe({
       if (input$Universe == "customer_defined_universe") {
         output$background1 <- renderUI({
@@ -240,7 +258,7 @@ mod_Metaboenrichment_server <- function(id){
        unlist(strsplit(input$universelist1, split = "\\s"))
      })
 
-    if(input$type == "SMPDB.Metabolite.ID" & input$Universe == "SMPDB"){
+    if(input$type == "SMPDB.Metabolite.ID" & input$Universe == "Default"){
         kk <- isolate(enrichSMPDB(metabo_list = metabolitelist(),
                                        pvalueCutoff = input$pvalue,
                                        pAdjustMethod = input$padjustmethod,
@@ -256,7 +274,7 @@ mod_Metaboenrichment_server <- function(id){
                                        maxGSSize = 500,
                                        qvalueCutoff = input$qvalue))
 
-    } else if(input$type == "KEGG.ID"& input$Universe == "KEGG"){
+    } else if(input$type == "KEGG.ID"& input$Universe == "Default"){
       kk <- isolate(enrichMBKEGG(metabo_list = metabolitelist(),
                                 pvalueCutoff = input$pvalue,
                                 pAdjustMethod = input$padjustmethod,
@@ -275,21 +293,23 @@ mod_Metaboenrichment_server <- function(id){
                                 maxGSSize = 500,
                                 qvalueCutoff = input$qvalue))
 
-    } else if(input$type == "HMDB.ID"& input$Universe == "HMDB"){
-      kk <- isolate(enrichHMDB(metabo_list = metabolitelist(),
+    } else if(input$type == "HMDB.ID"& input$Universe == "Default"){
+        kk <- isolate(enrichHMDB(metabo_list = metabolitelist(),
                                  pvalueCutoff = input$pvalue,
                                  pAdjustMethod = input$padjustmethod,
                                  minGSSize = 10,
                                  maxGSSize = 500,
                                  qvalueCutoff = input$qvalue))
-    } else if(input$type == "HMDB.ID" & input$Universe == "customer_defined_universe"){
-      kk <- isolate(enrichMBKEGG(metabo_list = metabolitelist(),
-                                 pvalueCutoff = input$pvalue,
-                                 pAdjustMethod = input$padjustmethod,
-                                 universe=mb_universe_list(),
-                                 minGSSize = 10,
-                                 maxGSSize = 500,
-                                 qvalueCutoff = input$qvalue))
+
+
+    } else if(input$type == "HMDB.ID"& input$Universe == "customer_defined_universe"){
+        kk <- isolate(enrichMBKEGG(metabo_list = metabolitelist(),
+                                   pvalueCutoff = input$pvalue,
+                                   pAdjustMethod = input$padjustmethod,
+                                   universe=mb_universe_list(),
+                                   minGSSize = 10,
+                                   maxGSSize = 500,
+                                   qvalueCutoff = input$qvalue))
     } else{
       kk <- NULL
     }

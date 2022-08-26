@@ -23,36 +23,7 @@ app_ui <- function(request) {
 
                       ")),
           tabsetPanel(
-            tabPanel("KEGG enrichment analysis",
-                     fixedPage(id = "p1",
-                               tags$style(
-                               HTML('#p1 {background-color: white;
-                                          box-shadow:0px 0px 10px #c6d5d7;}')),
-                       fixedRow(column(3,
-                                       tags$div(
-                                       mod_KOenrichment_ui("KOenrichment_ui_1"),
-                                         style = "color:#42464c;
-                                                  font-family:'Times New Roman',
-                                                  Times, serif;")),
-                                column(9,splitLayout(
-                                  tags$div(
-                                    mod_KOenrichment_ui2("KOenrichment_ui_1"),
-                                    style = "color:#42464c;
-                                             font-family:'Times New Roman',
-                                             Times, serif;
-                                             padding:30px 15px;")),
-                                    tags$hr(),
-                                    tags$div(
-                                    mod_KOenrichment_ui3("KOenrichment_ui_1"),
-                                    style = "color:#42464c;
-                                              font-family:'Times New Roman',
-                                              Times, serif;"))
-
-                       )
-
-                     ) #close fixed page
-            ),
-            tabPanel("COG enrichment analysis",
+            tabPanel("Gene enrichment analysis",
                      fixedPage(id = "p2",
                               tags$style(
                               HTML(' #p2 {background-color: white;
@@ -60,20 +31,20 @@ app_ui <- function(request) {
                               fixedRow(
                                 column(3,
                                     tags$div(
-                                    mod_COGenrichment_ui("COGenrichment_ui_1"),
+                                    mod_GENEenrichment_ui("GENEenrichment_ui_1"),
                                     style = "color:#42464c;
                                                 font-family:'Times New Roman',
                                                 Times, serif;")),
                                 column(9,
                                     splitLayout(
                                     tags$div(
-                                    mod_COGenrichment_ui2("COGenrichment_ui_1"),
+                                    mod_GENEenrichment_ui2("GENEenrichment_ui_1"),
                                     style = "color:#42464c;
                                     font-family:'Times New Roman',
                                     Times, serif;")),
                                     tags$hr(),
                                     tags$div(
-                                    mod_COGenrichment_ui3("COGenrichment_ui_1"),
+                                    mod_GENEenrichment_ui3("GENEenrichment_ui_1"),
                                     style = "color:#42464c;
                                     font-family:'Times New Roman',
                                     Times, serif;")
