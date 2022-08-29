@@ -6,7 +6,7 @@
 \usage{
 enrichCOG(
   gene,
-  dtype,
+  dtype = "category",
   pvalueCutoff = 0.05,
   pAdjustMethod = "BH",
   universe,
