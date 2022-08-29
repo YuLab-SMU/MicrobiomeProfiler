@@ -18,7 +18,7 @@
 #' cog <- enrichCOG(Psoriasis_data,dtype="category")
 #'
 enrichCOG <- function(gene,
-                      dtype,
+                      dtype = "category",
                       pvalueCutoff      = 0.05,
                       pAdjustMethod     = "BH",
                       universe,
