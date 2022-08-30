@@ -24,13 +24,13 @@ mod_GENEenrichment_ui <- function(id,label = "Input: Gene list"){
         ),
       textAreaInput(ns("genelist"),label=label,
                     placeholder = "K03430\nK01569\n..."),
-      numericInput(ns("pvalue"),"p value cutoff", value = 0.05),
+      numericInput(ns("pvalue"),"p adjusted value cutoff", value = 0.05),
       conditionalPanel(
         condition = "input.smoother == ture",
         selectInput(ns("padjustmethod"),"p Adjust Method:",
                     list("BH", "holm", "hochberg", "hommel",
                          "bonferroni", "BY", "fdr", "none"),selected = "BH")),
-      numericInput(ns("qvalue"),"p Ajusted value cutoff",value = 0.05),
+      numericInput(ns("qvalue"),"q value cutoff",value = 0.05),
       uiOutput(ns("backset")),
       conditionalPanel(
           condition = "input.smoother == ture",
