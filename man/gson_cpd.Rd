@@ -12,9 +12,3 @@ a 'GSON' object
 \description{
 download compound annotation of the latest version of KEGG pathway and stored in a 'GSON' object
 }
-\examples{
-\donttest{
-cpd_gson <- gson_cpd()
-}
-
-}

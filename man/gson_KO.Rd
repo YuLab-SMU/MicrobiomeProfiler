@@ -12,9 +12,3 @@ a 'GSON' object
 \description{
 download KO annotation of the latest version of KEGG pathway and stored in a 'GSON' object
 }
-\examples{
-\donttest{
-ko_gson <- gson_KO()
-}
-
-}

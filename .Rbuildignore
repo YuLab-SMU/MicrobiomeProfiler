@@ -15,3 +15,5 @@ $run_dev.*
 ^\.Rdata$
 ^\.Rhistory$
 new_bioc_version.sh
+^doc$
+^Meta$

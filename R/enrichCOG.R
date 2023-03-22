@@ -10,6 +10,7 @@
 #' @param maxGSSize maximal size of genes annotated for testing.
 #' @param qvalueCutoff qvalue cutoff on enrichment tests to report.
 #' @importFrom clusterProfiler enricher
+#' @importFrom methods slot<-
 #' @return A \code{enrichResult} instance.
 #' @export
 #' @examples

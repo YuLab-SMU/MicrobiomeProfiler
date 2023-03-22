@@ -10,11 +10,6 @@ kegg_rest <- getFromNamespace("kegg_rest","clusterProfiler")
 ##' @importFrom gson gson
 ##' @importFrom stats na.omit setNames
 ##' @importFrom magrittr %<>%
-##' @export
-##' @examples
-##' \donttest{
-##' ko_gson <- gson_KO()
-##' }
 ##'
 gson_KO <- function() {
     k1 <- kegg_rest("https://rest.kegg.jp/link/ko/pathway")
@@ -32,6 +27,7 @@ gson_KO <- function() {
          species = "KEGG Orthology",
          gsname = "KEGG",
          version = version,
+         keytype = "kegg_orthology",
          accessed_date = as.character(Sys.Date()))
 }
 
@@ -43,11 +39,6 @@ gson_KO <- function() {
 #' @return a 'GSON' object
 #' @importFrom gson gson
 #' @importFrom stats na.omit setNames
-#' @export
-#' @examples
-#' \donttest{
-#' cpd_gson <- gson_cpd()
-#' }
 #'
 gson_cpd <- function(){
     k1 <- kegg_rest("https://rest.kegg.jp/link/cpd/pathway")
@@ -62,9 +53,10 @@ gson_cpd <- function(){
     version <- sub("\\w+\\s+", "", y[grep('Release', y)])
     gson(gsid2gene = gsid2gene,
          gsid2name = gsid2name,
-         species = "KEGG Orthology",
+         species = "KEGG Compound",
          gsname = "KEGG",
          version = version,
+         keytype = "kegg_compound",
          accessed_date = as.character(Sys.Date()))
 }
 

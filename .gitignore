@@ -6,3 +6,5 @@
 inst/doc
 vignettes/*.html
 *.sh
+/doc/
+/Meta/
