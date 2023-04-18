@@ -1,20 +1,23 @@
 ---
 title: "Introduction to MicrobiomeProfiler"
 author: "Meijun Chen and GuangChuang Yu"
-output:
-  BiocStyle::html_document:
-    self_contained: yes
-    toc: true
-    toc_float: true
-    toc_depth: 3
-    code_folding: show
 date: "`r Sys.Date()`"
 bibliography: MicrobiomeProfiler.bib
+biblio-style: apalike
+output:
+  prettydoc::html_pretty:
+    toc: true
+    theme: cayman
+    highlight: vignette
+  pdf_document:
+    toc: true
 vignette: >
-  %\VignetteIndexEntry{MicrobiomeProfiler}
+  %\VignetteIndexEntry{Introduction to MicrobiotaProcess}
   %\VignetteEngine{knitr::rmarkdown}
+  %\usepackage[utf8]{inputenc}
   %\VignetteEncoding{UTF-8}
 ---
+
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
