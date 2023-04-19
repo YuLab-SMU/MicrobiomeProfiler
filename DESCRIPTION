@@ -1,5 +1,6 @@
+Package: MicrobiomeProfiler
 Title: An R/shiny package for microbiome functional enrichment analysis
-Version: 1.5.0
+Version: 1.5.1
 Authors@R: c(
     person(given = "Meijun",family = "Chen",role = c("aut", "cre"),email = "mjchen1996@outlook.com",comment = c(ORCID = "0000-0003-2486-8106")),
     person(given = "Guangchuang", family = "Yu", email = "guangchuangyu@gmail.com", role  = c("aut", "ths"), comment = c(ORCID = "0000-0002-6485-8781"))
@@ -11,11 +12,13 @@ License: GPL-2
 URL: https://github.com/YuLab-SMU/MicrobiomeProfiler/
 BugReports: https://github.com/YuLab-SMU/MicrobiomeProfiler/issues
 Imports: 
-    clusterProfiler (>= 4.0.2),
+    clusterProfiler (>= 4.5.2),
     config,
     DT,
     enrichplot,
     golem,
+    gson,
+    methods,
     magrittr,
     shiny (>= 1.6.0),
     shinyWidgets,
@@ -23,16 +26,16 @@ Imports:
     htmltools,
     ggplot2,
     graphics,
+    stats,
     utils
 Encoding: UTF-8
 biocViews: Microbiome, Software, Visualization,KEGG
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.3
 Depends: 
-    R (>= 4.1.0)
+    R (>= 4.2.0)
 Suggests: 
     rmarkdown,
     knitr,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 VignetteBuilder: knitr
->>>>>>> dc55b94cae673ad4ff0e6a8cd80d991651beac33
