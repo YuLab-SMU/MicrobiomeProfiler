@@ -15,7 +15,7 @@ enrichKO(
 )
 }
 \arguments{
-\item{gene}{a vector of K gene id (e.g. K00001).}
+\item{gene}{a vector of K gene id (e.g. K00001) or EC id (e.g. 1.1.1.27).}
 
 \item{pvalueCutoff}{adjusted pvalue cutoff on enrichment tests to report.}
 
