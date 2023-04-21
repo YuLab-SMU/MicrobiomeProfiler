@@ -1,6 +1,6 @@
-#' KO enrichment for microbiome data
+#' Module enrichment for microbiome data
 #'
-#' @param gene a vector of K gene id (e.g. K00001) or EC id (e.g. 1.1.1.27).
+#' @param gene a vector of K gene id (e.g. K00001).
 #' @param pvalueCutoff adjusted pvalue cutoff on enrichment tests to report.
 #' @param pAdjustMethod one of "holm","hochberg","hommel","bonferroni","BH",
 #' "BY","fdr","none".
@@ -15,22 +15,22 @@
 #' @examples
 #'
 #'   data(Rat_data)
-#'   ko <- enrichKO(Rat_data)
+#'   ko <- enrichModule(Rat_data)
 #'   head(ko)
 #'
-enrichKO <- function(gene,
+enrichModule <- function(gene,
                      pvalueCutoff      = 0.05,
                      pAdjustMethod     = "BH",
                      universe,
                      minGSSize         = 10,
                      maxGSSize         = 500,
                      qvalueCutoff      = 0.2) {
-    
+
     if (all(grepl("^K", gene))){
-        use.gson <- ko_gson
+        use.gson <- module_gson.KO
     }else{
-        use.gson <- ec_gson 
-    }
+        use.gson <- module_gson.ec
+    } 
 
     res <- enricher(gene,
                     gson = use.gson,
@@ -43,7 +43,7 @@ enrichKO <- function(gene,
     if (is.null(res))
         return(res)
 
-    slot(res,"ontology") <- "KEGG"
+    slot(res,"ontology") <- "KEGG Module"
     slot(res,"organism") <- "microbiome"
 
     return(res)

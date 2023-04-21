@@ -60,8 +60,50 @@ gson_cpd <- function(){
          accessed_date = as.character(Sys.Date()))
 }
 
+#' download compound annotation of the latest version of KEGG Module and stored in a 'GSON' object
+#'
+#' @title gson_module
+#' @param db ko or enzyme
+#' @return a 'GSON' object
+gson_module <- function(db='ko'){
+    k1 <- kegg_rest(paste0("https://rest.kegg.jp/link/",db, "/module"))
+    k1[,1] %<>% gsub("[^:]+:", "", .)
+    k1[,2] %<>% gsub("[^:]+:", "", .)
+    k2 <- kegg_rest("https://rest.kegg.jp/list/module")
+    colnames(k1) <- c("gsid", "gene")
+    colnames(k2) <- c("gsid", "name")
+    y <- readLines(paste0("https://rest.kegg.jp/info/", db))
+    version <- sub("\\w+\\s+", "", y[grep('Release', y)])
+    gson(gsid2gene = k1,
+         gsid2name = k2,
+         species = "KEGG Compound",
+         gsname = "KEGGModule",
+         version = version,
+         keytype = "kegg_compound",
+         accessed_date = as.character(Sys.Date()))
 
+}
 
+#' download compound annotation of the latest version of KEGG pathway to enzyme and stored in a 'GSON' object
+#'
+#' @title gson_enzyme
+#' @return a 'GSON' object
+gson_enzyme <- function(){
+    k1 <- kegg_rest("https://rest.kegg.jp/link/enzyme/pathway")
+    k1[,1] %<>% gsub("[^:]+:", "", .)
+    k1[,2] %<>% gsub("[^:]+:", "", .)
+    k1 <- k1[grep("map",k1[,1]),]
+    k2 <- kegg_rest("https://rest.kegg.jp/list/pathway")
+    colnames(k1) <- c("gsid", "gene")
+    colnames(k2) <- c("gsid", "name")
+    y <- readLines("https://rest.kegg.jp/info/enzyme")
+    version <- sub("\\w+\\s+", "", y[grep('Release', y)])
+    gson(gsid2gene = k1,
+         gsid2name = k2,
+         species = "KEGG Enzyme",
+         gsname = "KEGG",
+         version = version,
+         keytype = "kegg_enzyme",
+         accessed_date = as.character(Sys.Date()))
 
-
-
+}

@@ -17,3 +17,4 @@ $run_dev.*
 new_bioc_version.sh
 ^doc$
 ^Meta$
+^\.generate\.sysdata\.R$
