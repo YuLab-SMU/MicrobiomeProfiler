@@ -18,3 +18,4 @@ new_bioc_version.sh
 ^doc$
 ^Meta$
 ^\.generate\.sysdata\.R$
+Makefile
