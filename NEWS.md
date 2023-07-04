@@ -1,3 +1,3 @@
-# MicrobiomeProfiler 0.99.0
+# MicrobiomeProfiler 1.7.1
 
-* Added a `NEWS.md` file to track changes to the package.
++ Change maintainer from Meijun to Guangchuang
