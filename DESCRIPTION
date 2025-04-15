@@ -1,6 +1,6 @@
 Package: MicrobiomeProfiler
 Title: An R/shiny package for microbiome functional enrichment analysis
-Version: 1.14.0
+Version: 1.15.0
 Authors@R: c(
     person(given = "Guangchuang", family = "Yu", email = "guangchuangyu@gmail.com", role  = c("cre", "aut"), comment = c(ORCID = "0000-0002-6485-8781")),
     person(given = "Meijun",family = "Chen", role = "aut", email = "mjchen1996@outlook.com", comment = c(ORCID = "0000-0003-2486-8106"))    
