@@ -1,3 +1,7 @@
+# MicrobiomeProfiler 1.14.0
+
++ Bioconductor RELEASE_3_21 (2025-04-17, Thu)
+
 # MicrobiomeProfiler 1.10.1
 
 + Bioconductor RELEASE_3_20 (2024-10-30, Wed)
