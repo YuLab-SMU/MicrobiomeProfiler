@@ -8,7 +8,7 @@ enrichKO(
   gene,
   pvalueCutoff = 0.05,
   pAdjustMethod = "BH",
-  universe,
+  universe = NULL,
   minGSSize = 10,
   maxGSSize = 500,
   qvalueCutoff = 0.2

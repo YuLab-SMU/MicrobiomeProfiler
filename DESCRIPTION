@@ -1,6 +1,6 @@
 Package: MicrobiomeProfiler
 Title: An R/shiny package for microbiome functional enrichment analysis
-Version: 1.17.0
+Version: 1.17.0.001
 Authors@R: c(
     person(given = "Guangchuang", family = "Yu", email = "guangchuangyu@gmail.com", role  = c("cre", "aut"), comment = c(ORCID = "0000-0002-6485-8781")),
     person(given = "Meijun",family = "Chen", role = "aut", email = "mjchen1996@outlook.com", comment = c(ORCID = "0000-0003-2486-8106"))    
@@ -12,7 +12,7 @@ License: GPL-2
 Depends: 
     R (>= 4.2.0)
 Imports: 
-    clusterProfiler (>= 4.5.2),
+    enrichit,
     config,
     DT,
     enrichplot,
@@ -30,13 +30,14 @@ Imports:
     utils,
     yulab.utils
 Suggests: 
+    clusterProfiler (>= 4.5.2),
     rmarkdown,
     knitr,
     testthat (>= 3.0.0),
     prettydoc
 Encoding: UTF-8
 biocViews: Microbiome, Software, Visualization,KEGG
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 URL: https://github.com/YuLab-SMU/MicrobiomeProfiler/, https://yulab-smu.top/contribution-knowledge-mining/
 BugReports: https://github.com/YuLab-SMU/MicrobiomeProfiler/issues
 Config/testthat/edition: 3
