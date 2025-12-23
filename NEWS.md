@@ -1,4 +1,4 @@
-# MicrobiomeProfiler 1.17.0.001
+# MicrobiomeProfiler 1.17.1
 
 + use 'enrichit' as engine for enrichment analysis (2025-12-07, Sun)
 
