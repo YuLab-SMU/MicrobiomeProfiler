@@ -1,3 +1,7 @@
+# MicrobiomeProfiler 1.18.0
+
++ Bioconductor RELEASE_3_23 (2026-04-29, Wed)
+
 # MicrobiomeProfiler 1.17.1
 
 + use 'enrichit' as engine for enrichment analysis (2025-12-07, Sun)
