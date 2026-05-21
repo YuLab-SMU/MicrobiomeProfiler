@@ -1,3 +1,7 @@
+# MicrobiomeProfiler 1.19.1
+
++ import clusterProfiler to prevent R check error (2026-05-21, Thu)
+
 # MicrobiomeProfiler 1.18.0
 
 + Bioconductor RELEASE_3_23 (2026-04-29, Wed)
