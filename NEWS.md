@@ -1,5 +1,6 @@
 # MicrobiomeProfiler 1.19.1
 
++ setup GitHub Actions workflow for automated internal data updates (KEGG, COG, SMPDB, HMDB, Disbiome) (2026-05-21, Thu)
 + support shinyserver (2026-05-21, Thu, #3)
 + import clusterProfiler to prevent R check error (2026-05-21, Thu)
 

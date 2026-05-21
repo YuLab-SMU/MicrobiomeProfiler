@@ -1,6 +1,7 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^data-raw$
+^\.github$
 dev_history.R
 ^dev$
 $run_dev.*
