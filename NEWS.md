@@ -1,5 +1,6 @@
 # MicrobiomeProfiler 1.19.1
 
++ support shinyserver (2026-05-21, Thu, #3)
 + import clusterProfiler to prevent R check error (2026-05-21, Thu)
 
 # MicrobiomeProfiler 1.18.0

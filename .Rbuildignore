@@ -19,3 +19,5 @@ new_bioc_version.sh
 ^Meta$
 ^\.generate\.sysdata\.R$
 Makefile
+^app\.R$
+^rsconnect$
