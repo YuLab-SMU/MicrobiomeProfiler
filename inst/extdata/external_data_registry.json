@@ -1,0 +1,12 @@
+{
+  "datasets": {
+    "bugsigdb": {
+      "dataset": "bugsigdb",
+      "manifest_url": "https://yulab-smu.github.io/MicrobiomeProfiler/datasets/bugsigdb/current/manifest.json"
+    },
+    "disbiome": {
+      "dataset": "disbiome",
+      "manifest_url": "https://yulab-smu.github.io/MicrobiomeProfiler/datasets/disbiome/current/manifest.json"
+    }
+  }
+}

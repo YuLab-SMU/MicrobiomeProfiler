@@ -11,7 +11,8 @@ enrichMDA(
   universe = NULL,
   minGSSize = 10,
   maxGSSize = 500,
-  qvalueCutoff = 0.2
+  qvalueCutoff = 0.2,
+  refresh = FALSE
 )
 }
 \arguments{
@@ -30,6 +31,8 @@ default.}
 \item{maxGSSize}{maximal size of genes annotated for testing.}
 
 \item{qvalueCutoff}{qvalue cutoff on enrichment tests to report.}
+
+\item{refresh}{whether to force a fresh download of the remote Disbiome artifact.}
 }
 \value{
 A \code{enrichResult} instance.

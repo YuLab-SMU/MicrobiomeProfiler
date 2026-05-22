@@ -9,6 +9,7 @@
 #' @param minGSSize minimal size of genes annotated by KEGG term for testing.
 #' @param maxGSSize maximal size of genes annotated for testing.
 #' @param qvalueCutoff qvalue cutoff on enrichment tests to report.
+#' @param refresh whether to force a fresh download of the remote Disbiome artifact.
 #' @importFrom enrichit ora_gson
 #' @importFrom methods slot<-
 #' @return A \code{enrichResult} instance.
@@ -25,9 +26,11 @@ enrichMDA <- function(microbe_list,
                       universe          = NULL,
                       minGSSize         = 10,
                       maxGSSize         = 500,
-                      qvalueCutoff      = 0.2) {
+                      qvalueCutoff      = 0.2,
+                      refresh           = FALSE) {
+    disbiome_gson <- mp_disbiome_gson(refresh = refresh)
     res <- ora_gson(gene=microbe_list,
-                    gson = disbiome_data2,
+                    gson = disbiome_gson,
                     pvalueCutoff  = pvalueCutoff,
                     pAdjustMethod = pAdjustMethod,
                     universe      = universe,
@@ -58,6 +61,7 @@ enrichMDA <- function(microbe_list,
 #' @param maxPerm maximal number of permutations.
 #' @param pvalThreshold pvalue threshold for adaptive permutation.
 #' @param verbose whether to show progress.
+#' @param refresh whether to force a fresh download of the remote Disbiome artifact.
 #' @importFrom enrichit gsea_gson
 #' @importFrom methods slot<-
 #' @return A \code{gseaResult} instance.
@@ -74,9 +78,11 @@ gseMDA <- function(microbe_list,
                       minPerm           = 101,
                       maxPerm           = 100000,
                       pvalThreshold     = 0.1,
-                      verbose           = TRUE) {
+                      verbose           = TRUE,
+                      refresh           = FALSE) {
+    disbiome_gson <- mp_disbiome_gson(refresh = refresh)
     res <- gsea_gson(geneList      = microbe_list,
-                     gson          = disbiome_data2,
+                     gson          = disbiome_gson,
                      nPerm         = nPerm,
                      exponent      = exponent,
                      minGSSize     = minGSSize,

@@ -1,0 +1,69 @@
+name: Validate External Data
+
+on:
+  pull_request:
+    paths:
+      - "R/**"
+      - "data-raw/**"
+      - "inst/extdata/**"
+      - ".github/workflows/update_external_data.yml"
+      - ".github/workflows/validate_external_data.yml"
+  workflow_dispatch:
+
+jobs:
+  validate-external-data:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "release"
+          use-public-rspm: true
+
+      - name: Setup dependencies
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::pkgload, any::jsonlite, any::digest, bioc::bugsigdbr
+
+      - name: Build external data artifacts
+        run: >
+          Rscript -e 'source("data-raw/build_bugsigdb.R");
+          source("data-raw/build_disbiome.R");
+          build_bugsigdb_artifact(
+            output_dir = "build/external-data/bugsigdb/current",
+            base_url = "https://yulab-smu.github.io/MicrobiomeProfiler/datasets/bugsigdb/current"
+          );
+          build_disbiome_artifact(
+            output_dir = "build/external-data/disbiome/current",
+            base_url = "https://yulab-smu.github.io/MicrobiomeProfiler/datasets/disbiome/current"
+          )'
+
+      - name: Validate manifests and artifacts
+        run: >
+          Rscript -e 'manifests <- list.files("build/external-data",
+          pattern = "manifest.json$", recursive = TRUE, full.names = TRUE);
+          stopifnot(length(manifests) >= 2);
+          for (path in manifests) {
+            manifest <- jsonlite::fromJSON(path, simplifyVector = FALSE);
+            stopifnot(!is.null(manifest$dataset), !is.null(manifest$version),
+              length(manifest$artifact_files) >= 1);
+            artifact <- manifest$artifact_files[[1]];
+            artifact_path <- file.path(dirname(path), artifact$name);
+            stopifnot(file.exists(artifact_path));
+            stopifnot(identical(
+              digest::digest(file = artifact_path, algo = "sha256", serialize = FALSE),
+              artifact$sha256
+            ));
+            object <- readRDS(artifact_path);
+            if (identical(artifact$object_type, "gson")) {
+              stopifnot(inherits(object, "GSON"));
+            } else if (identical(artifact$object_type, "term2gene_bundle")) {
+              stopifnot(all(c("dataset", "version", "term2gene", "term2name", "metadata") %in% names(object)));
+            } else {
+              stop("Unsupported object_type: ", artifact$object_type);
+            }
+          }'

@@ -22,6 +22,7 @@ Useful links:
 
 Authors:
 \itemize{
+  \item Guangchuang Yu \email{guangchuangyu@gmail.com} (\href{https://orcid.org/0000-0002-6485-8781}{ORCID})
   \item Meijun Chen \email{mjchen1996@outlook.com} (\href{https://orcid.org/0000-0003-2486-8106}{ORCID})
 }
 
