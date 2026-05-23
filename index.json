@@ -1,0 +1,16 @@
+{
+  "datasets": [
+    {
+      "dataset": "bugsigdb",
+      "version": "2026-05-23",
+      "released_at": "2026-05-22T23:25:10Z",
+      "manifest_path": "datasets/bugsigdb/current/manifest.json"
+    },
+    {
+      "dataset": "disbiome",
+      "version": "2026-05-23",
+      "released_at": "2026-05-22T23:25:15Z",
+      "manifest_path": "datasets/disbiome/current/manifest.json"
+    }
+  ]
+}
