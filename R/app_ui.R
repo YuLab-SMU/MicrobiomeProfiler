@@ -52,7 +52,7 @@ app_ui <- function(request) {
                               )#closed fixedRow
 
                               )),
-            tabPanel("Microbe-Disease enrichment analysis",
+            tabPanel("Microbe disease/signature enrichment",
                      fixedPage(id = "p3",
                                tags$style(HTML(' #p3
                                                {background-color: white;

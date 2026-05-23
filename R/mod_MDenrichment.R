@@ -16,8 +16,16 @@ mod_MDenrichment_ui <- function(id,label = "Input: Microbe NCBI Taxid list",
   ns <- NS(id)
   tagList(
     tags$div(
+      radioButtons(
+        ns("source_db"),
+        "Data source",
+        choices = c("Disbiome", "BugSigDB"),
+        selected = "Disbiome",
+        inline = TRUE
+      ),
       textAreaInput(ns("genelist"),label=label,
                     placeholder = "1591\n853\n39491\n..."),
+      helpText("BugSigDB will download external data on first use."),
       numericInput(ns("pvalue"),"p adjusted value cutoff", value = 0.05),
       conditionalPanel(
         condition = "input.smoother == ture",
@@ -195,6 +203,15 @@ mod_MDenrichment_ui3 <- function(id){
 #' @importFrom ggplot2 ggsave
 #' @importFrom graphics barplot
 #' @importFrom utils data
+md_source_example_taxa <- function(source_db) {
+  if (identical(source_db, "BugSigDB")) {
+    c("1224", "1236")
+  } else {
+    dis_example
+  }
+}
+
+
 mod_MDenrichment_server <- function(id){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
@@ -203,9 +220,10 @@ mod_MDenrichment_server <- function(id){
     GeneRatio <- NULL
     BgRatio <- NULL
     observeEvent(input$ex,{
+      example_taxa <- md_source_example_taxa(input$source_db)
       updateTextAreaInput(session, "genelist",
                           value = paste0(
-                            dis_example,collapse = "\n")
+                            example_taxa,collapse = "\n")
                           )
     })
     observeEvent(input$clean,{
@@ -217,7 +235,8 @@ mod_MDenrichment_server <- function(id){
     })
 
     observe({
-      if (input$Universe == "customer_defined_universe") {
+      if (isTruthy(input$Universe) &&
+          input$Universe == "customer_defined_universe") {
         output$background1 <- renderUI({
           ns <- session$ns
           textAreaInput(ns("universelist1"), "Input: Customer Defined Universe",
@@ -252,27 +271,39 @@ mod_MDenrichment_server <- function(id){
           unlist(strsplit(input$universelist1, split = "\\s"))
         })
 
+        run_md_like_enrichment <- function(microbe_list, universe = NULL) {
+          enrich_fun <- if (identical(input$source_db, "BugSigDB")) {
+            enrichBugSigDB
+          } else {
+            enrichMDA
+          }
+
+          enrich_fun(
+            microbe_list = microbe_list,
+            pvalueCutoff = input$pvalue,
+            pAdjustMethod = input$padjustmethod,
+            minGSSize = 10,
+            maxGSSize = 500,
+            universe = universe,
+            qvalueCutoff = input$qvalue
+          )
+        }
+
         if (input$Universe == "Default"){
           kk <- isolate(
-            enrichMDA(microbe_list = gene_list(),
-                      pvalueCutoff = input$pvalue,
-                      pAdjustMethod = input$padjustmethod,
-                      minGSSize = 10,
-                      maxGSSize = 500,
-                      qvalueCutoff =input$qvalue)
+            run_md_like_enrichment(
+              microbe_list = gene_list()
+            )
           )
 
         }
 
         else if (input$Universe == "customer_defined_universe"){
             kk <- isolate(
-              enrichMDA(microbe_list = gene_list(),
-                        pvalueCutoff = input$pvalue,
-                        pAdjustMethod = input$padjustmethod,
-                        minGSSize = 10,
-                        maxGSSize = 500,
-                        universe = mda_universe_list(),
-                        qvalueCutoff =input$qvalue)
+              run_md_like_enrichment(
+                microbe_list = gene_list(),
+                universe = mda_universe_list()
+              )
             )
         } else{
             kk <- NULL
