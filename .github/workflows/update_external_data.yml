@@ -53,7 +53,7 @@ jobs:
           rm -rf ../gh-pages
           if git ls-remote --exit-code --heads origin gh-pages; then
             git fetch origin gh-pages
-            git worktree add ../gh-pages origin/gh-pages
+            git worktree add -B gh-pages ../gh-pages origin/gh-pages
           else
             git worktree add --detach ../gh-pages
             cd ../gh-pages
@@ -80,5 +80,5 @@ jobs:
             echo "No external data changes to publish"
           else
             git commit -m "chore: update external data artifacts"
-            git push origin gh-pages
+            git push origin HEAD:gh-pages
           fi
