@@ -59,7 +59,7 @@ mp_load_dataset_file <- function(file, object_type) {
 }
 
 
-mp_get_dataset <- function(dataset, refresh = FALSE) {
+mp_cache_dataset <- function(dataset, refresh = FALSE) {
     entry <- mp_resolve_dataset(dataset)
     manifest <- mp_fetch_manifest(entry$manifest_url)
 
@@ -90,7 +90,23 @@ mp_get_dataset <- function(dataset, refresh = FALSE) {
         stop("Manifest artifact is missing `object_type`.", call. = FALSE)
     }
 
-    mp_load_dataset_file(artifact_paths[[1]], object_type = object_type)
+    object <- mp_load_dataset_file(artifact_paths[[1]], object_type = object_type)
+
+    list(
+        dataset = dataset,
+        version = version,
+        manifest = manifest,
+        dataset_dir = dataset_dir,
+        manifest_path = manifest_path,
+        artifact_paths = unname(artifact_paths),
+        object_type = object_type,
+        object = object
+    )
+}
+
+
+mp_get_dataset <- function(dataset, refresh = FALSE) {
+    mp_cache_dataset(dataset = dataset, refresh = refresh)$object
 }
 
 

@@ -1,3 +1,23 @@
+create_registry_fixture <- function(entries, dir = NULL) {
+    if (is.null(dir)) {
+        dir <- file.path(
+            tempdir(),
+            paste0("microbiomeprofiler-registry-", Sys.getpid(), "-", as.integer(Sys.time()))
+        )
+    }
+    dir.create(dir, recursive = TRUE, showWarnings = FALSE)
+
+    registry_path <- file.path(dir, "external_data_registry.json")
+    jsonlite::write_json(
+        list(datasets = entries),
+        registry_path,
+        auto_unbox = TRUE,
+        pretty = TRUE
+    )
+    registry_path
+}
+
+
 create_external_data_fixture <- function() {
     fixture_dir <- file.path(
         tempdir(),
@@ -49,8 +69,8 @@ create_external_data_fixture <- function() {
     manifest_path <- file.path(fixture_dir, "manifest.json")
     jsonlite::write_json(manifest, manifest_path, auto_unbox = TRUE, pretty = TRUE)
 
-    registry <- list(
-        datasets = list(
+    registry_path <- create_registry_fixture(
+        entries = list(
             bugsigdb = list(
                 dataset = "bugsigdb",
                 manifest_url = paste0(
@@ -58,11 +78,9 @@ create_external_data_fixture <- function() {
                     normalizePath(manifest_path, winslash = "/", mustWork = TRUE)
                 )
             )
-        )
+        ),
+        dir = fixture_dir
     )
-
-    registry_path <- file.path(fixture_dir, "external_data_registry.json")
-    jsonlite::write_json(registry, registry_path, auto_unbox = TRUE, pretty = TRUE)
 
     list(
         dir = fixture_dir,
@@ -125,8 +143,8 @@ create_disbiome_fixture <- function() {
     manifest_path <- file.path(fixture_dir, "manifest.json")
     jsonlite::write_json(manifest, manifest_path, auto_unbox = TRUE, pretty = TRUE)
 
-    registry <- list(
-        datasets = list(
+    registry_path <- create_registry_fixture(
+        entries = list(
             disbiome = list(
                 dataset = "disbiome",
                 manifest_url = paste0(
@@ -134,11 +152,9 @@ create_disbiome_fixture <- function() {
                     normalizePath(manifest_path, winslash = "/", mustWork = TRUE)
                 )
             )
-        )
+        ),
+        dir = fixture_dir
     )
-
-    registry_path <- file.path(fixture_dir, "external_data_registry.json")
-    jsonlite::write_json(registry, registry_path, auto_unbox = TRUE, pretty = TRUE)
 
     list(
         dir = fixture_dir,

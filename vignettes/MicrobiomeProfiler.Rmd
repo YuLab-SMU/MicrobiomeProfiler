@@ -103,6 +103,43 @@ knitr::include_graphics("./screenshot_5.png")
 + Disbiome: Linking microbiome to disease
 + SMPDB: The Small Molecule Pathway Database
 
+# External data delivery
+
+Some annotation resources are now distributed from the package GitHub Pages
+site instead of being bundled directly in the package tarball. This keeps the
+installed package smaller while allowing data artifacts to be refreshed
+independently.
+
+You can inspect configured remote datasets with:
+
+```{r eval = FALSE}
+library(MicrobiomeProfiler)
+
+available_datasets()
+available_datasets(include_remote = TRUE)
+```
+
+To pre-download a dataset into the local cache:
+
+```{r eval = FALSE}
+download_dataset("bugsigdb")
+download_dataset("disbiome", refresh = TRUE)
+```
+
+To inspect or clear the local cache:
+
+```{r eval = FALSE}
+dataset_cache_info()
+dataset_cache_info("bugsigdb")
+
+clear_dataset_cache("bugsigdb")
+clear_dataset_cache()
+```
+
+Currently, `enrichBugSigDB()` downloads BugSigDB artifacts on demand, and
+`enrichMDA()` / `gseMDA()` use remote-first Disbiome data with fallback to the
+bundled internal dataset when the remote resource is unavailable.
+
 #  Session Information
 ```{r echo = FALSE}
 sessionInfo()
