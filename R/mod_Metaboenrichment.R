@@ -16,7 +16,7 @@ mod_Metaboenrichment_ui <- function(id,
   tagList(
     tags$div(
       conditionalPanel(
-        condition = "input.smoother == ture",
+        condition = "input.smoother == true",
         selectInput(ns("type"),"ID Type",list("SMPDB.Metabolite.ID",
                                               "KEGG.ID", "HMDB.ID"),
                     selected = "SMPDB.Metabolite.ID")
@@ -25,14 +25,14 @@ mod_Metaboenrichment_ui <- function(id,
                     placeholder = "PW_C000414\nPW_C000105\n..."),
       numericInput(ns("pvalue"),"p ajusted value cutoff", value = 0.05),
       conditionalPanel(
-        condition = "input.smoother == ture",
+        condition = "input.smoother == true",
         selectInput(ns("padjustmethod"),"p Adjust Method:",
                     list("BH", "holm", "hochberg", "hommel", "bonferroni",
                          "BY", "fdr", "none"),selected = "BH")),
       numericInput(ns("qvalue"),"q value cutoff",value = 0.05),
       uiOutput(ns("backset")),
       conditionalPanel(
-        condition = "input.smoother == ture",
+        condition = "input.smoother == true",
         selectInput(ns("Universe"),"Select Universe Gene Set:",
                     universelist, selected = universelist[1])
       ),
@@ -109,7 +109,7 @@ mod_Metaboenrichment_ui3 <- function(id){
                              uiOutput(ns("dotplot_ui")),loader = "dnaspin")),
                            tags$div(
                              conditionalPanel(
-                               condition = "input.smoother == ture",
+                               condition = "input.smoother == true",
                                selectInput(ns("format"),"Format",
                                            list("pdf", "jpg", "png", "tiff"),
                                            selected = "pdf")),
@@ -144,7 +144,7 @@ mod_Metaboenrichment_ui3 <- function(id){
                              uiOutput(ns("barplot_ui")),loader = "dnaspin")),
                            tags$div(
                              conditionalPanel(
-                               condition = "input.smoother == ture",
+                               condition = "input.smoother == true",
                                selectInput(ns("format2"),"Format",
                                            list("pdf", "jpg", "png", "tiff"),
                                            selected = "pdf")),

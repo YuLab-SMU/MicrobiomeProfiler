@@ -28,18 +28,18 @@ mod_MDenrichment_ui <- function(id,label = "Input: Microbe NCBI Taxid list",
       helpText("BugSigDB will download external data on first use."),
       numericInput(ns("pvalue"),"p adjusted value cutoff", value = 0.05),
       conditionalPanel(
-        condition = "input.smoother == ture",
+        condition = "input.smoother == true",
         selectInput(ns("padjustmethod"),"p Adjust Method:",
                     list("BH", "holm", "hochberg", "hommel",
                          "bonferroni", "BY", "fdr", "none"),selected = "BH")),
       numericInput(ns("qvalue"),"q value cutoff",value = 0.05),
       conditionalPanel(
-          condition = "input.smoother == ture",
+          condition = "input.smoother == true",
           selectInput(ns("backgroundset"),"Select Background Set:",
                       backset, selected = backset[1])
       ),
       conditionalPanel(
-        condition = "input.smoother == ture",
+        condition = "input.smoother == true",
         selectInput(ns("Universe"),"Select Universe Gene Set:",
                     universelist, selected = universelist[1])
       ),
@@ -116,7 +116,7 @@ mod_MDenrichment_ui3 <- function(id){
                                uiOutput(ns("dotplot_ui")),loader = "dnaspin")),
                            tags$div(
                              conditionalPanel(
-                               condition = "input.smoother == ture",
+                               condition = "input.smoother == true",
                                selectInput(ns("format"),"Format",
                                            list("pdf", "jpg", "png", "tiff"),
                                            selected = "pdf")),
@@ -151,7 +151,7 @@ mod_MDenrichment_ui3 <- function(id){
                              uiOutput(ns("barplot_ui")),loader = "dnaspin")),
                            tags$div(
                              conditionalPanel(
-                               condition = "input.smoother == ture",
+                               condition = "input.smoother == true",
                                selectInput(ns("format2"),"Format",
                                            list("pdf", "jpg", "png", "tiff"),
                                            selected = "pdf")),
