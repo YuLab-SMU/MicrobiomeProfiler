@@ -3,13 +3,13 @@
     "bugsigdb": {
       "dataset": "bugsigdb",
       "version": "2026-05-23",
-      "released_at": "2026-05-22T23:25:10Z",
+      "released_at": "2026-05-23T04:55:03Z",
       "manifest_path": "datasets/bugsigdb/current/manifest.json"
     },
     "disbiome": {
       "dataset": "disbiome",
       "version": "2026-05-23",
-      "released_at": "2026-05-22T23:25:15Z",
+      "released_at": "2026-05-23T04:55:07Z",
       "manifest_path": "datasets/disbiome/current/manifest.json"
     }
   }
