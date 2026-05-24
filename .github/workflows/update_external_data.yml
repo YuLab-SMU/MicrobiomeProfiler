@@ -38,15 +38,6 @@ jobs:
             base_url = "https://yulab-smu.github.io/MicrobiomeProfiler/datasets/bugsigdb/current"
           )'
 
-      - name: Build Disbiome artifact
-        working-directory: repo
-        run: >
-          Rscript -e 'source("data-raw/build_disbiome.R");
-          build_disbiome_artifact(
-            output_dir = "build/external-data/disbiome/current",
-            base_url = "https://yulab-smu.github.io/MicrobiomeProfiler/datasets/disbiome/current"
-          )'
-
       - name: Build eggNOG artifact
         working-directory: repo
         run: >
@@ -55,6 +46,25 @@ jobs:
             output_dir = "build/external-data/eggnog/current",
             base_url = "https://yulab-smu.github.io/MicrobiomeProfiler/datasets/eggnog/current"
           )'
+
+      - name: Build Disbiome artifact
+        id: build_disbiome
+        continue-on-error: true
+        working-directory: repo
+        run: >
+          Rscript -e 'source("data-raw/build_disbiome.R");
+          build_disbiome_artifact(
+            output_dir = "build/external-data/disbiome/current",
+            base_url = "https://yulab-smu.github.io/MicrobiomeProfiler/datasets/disbiome/current",
+            timeout = 600
+          )'
+
+      - name: Report partial dataset update
+        if: always()
+        run: |
+          if [ "${{ steps.build_disbiome.outcome }}" != "success" ]; then
+            echo "::warning::Disbiome artifact update failed; keeping the previously published gh-pages version."
+          fi
 
       - name: Prepare gh-pages worktree
         working-directory: repo
