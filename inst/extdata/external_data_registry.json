@@ -7,6 +7,10 @@
     "disbiome": {
       "dataset": "disbiome",
       "manifest_url": "https://yulab-smu.github.io/MicrobiomeProfiler/datasets/disbiome/current/manifest.json"
+    },
+    "eggnog": {
+      "dataset": "eggnog",
+      "manifest_url": "https://yulab-smu.github.io/MicrobiomeProfiler/datasets/eggnog/current/manifest.json"
     }
   }
 }

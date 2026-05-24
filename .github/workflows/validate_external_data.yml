@@ -38,6 +38,15 @@ jobs:
             reporter = "summary"
           )'
 
+      - name: Validate eggNOG builder and runtime with fixtures
+        run: >
+          Rscript -e 'pkgload::load_all(".");
+          testthat::test_dir(
+            "tests/testthat",
+            filter = "build_eggnog|enrichEggNOG_external",
+            reporter = "summary"
+          )'
+
       - name: Build BugSigDB artifact
         run: >
           Rscript -e 'source("data-raw/build_bugsigdb.R");

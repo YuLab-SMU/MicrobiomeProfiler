@@ -119,3 +119,15 @@ mp_disbiome_gson <- function(refresh = FALSE) {
         }
     )
 }
+
+
+mp_eggnog_gson <- function(refresh = FALSE) {
+    tryCatch(
+        suppressWarnings(mp_get_dataset("eggnog", refresh = refresh)),
+        error = function(e) {
+            stop("Failed to load eggNOG external dataset: ",
+                 conditionMessage(e),
+                 call. = FALSE)
+        }
+    )
+}

@@ -47,6 +47,15 @@ jobs:
             base_url = "https://yulab-smu.github.io/MicrobiomeProfiler/datasets/disbiome/current"
           )'
 
+      - name: Build eggNOG artifact
+        working-directory: repo
+        run: >
+          Rscript -e 'source("data-raw/build_eggnog.R");
+          build_eggnog_artifact(
+            output_dir = "build/external-data/eggnog/current",
+            base_url = "https://yulab-smu.github.io/MicrobiomeProfiler/datasets/eggnog/current"
+          )'
+
       - name: Prepare gh-pages worktree
         working-directory: repo
         run: |

@@ -164,3 +164,76 @@ create_disbiome_fixture <- function() {
         registry_path = registry_path
     )
 }
+
+
+create_eggnog_fixture <- function() {
+    fixture_dir <- file.path(
+        tempdir(),
+        paste0("microbiomeprofiler-eggnog-fixture-", Sys.getpid(), "-", as.integer(Sys.time()))
+    )
+    dir.create(fixture_dir, recursive = TRUE, showWarnings = FALSE)
+
+    gsid2gene <- data.frame(
+        gsid = c("map00010", "map00010", "map00020"),
+        gene = c("OG0001", "OG0002", "OG0003"),
+        stringsAsFactors = FALSE
+    )
+    gsid2name <- data.frame(
+        gsid = c("map00010", "map00020"),
+        name = c("Glycolysis / Gluconeogenesis", "Citrate cycle"),
+        stringsAsFactors = FALSE
+    )
+    gson_obj <- gson::gson(
+        gsid2gene = gsid2gene,
+        gsid2name = gsid2name,
+        species = "microbiome",
+        gsname = "eggNOG KEGG",
+        version = "test-2026-05-24",
+        keytype = "eggNOG_OG",
+        accessed_date = "2026-05-24"
+    )
+
+    artifact_path <- file.path(fixture_dir, "eggnog_kegg_gson.rds")
+    saveRDS(gson_obj, artifact_path)
+
+    manifest <- list(
+        dataset = "eggnog",
+        version = "test-2026-05-24",
+        released_at = "2026-05-24T00:00:00Z",
+        source = "eggNOG 7",
+        source_url = "https://eggnogdb.org/public/eggnog7/e7.og_info_kegg_go.tsv.gz",
+        schema_version = "1.0.0",
+        record_count = nrow(gsid2gene),
+        artifact_files = list(list(
+            name = basename(artifact_path),
+            url = paste0("file:///", normalizePath(artifact_path, winslash = "/", mustWork = TRUE)),
+            sha256 = digest::digest(file = artifact_path, algo = "sha256", serialize = FALSE),
+            size_bytes = unname(file.info(artifact_path)$size),
+            object_type = "gson"
+        ))
+    )
+
+    manifest_path <- file.path(fixture_dir, "manifest.json")
+    jsonlite::write_json(manifest, manifest_path, auto_unbox = TRUE, pretty = TRUE)
+
+    registry_path <- create_registry_fixture(
+        entries = list(
+            eggnog = list(
+                dataset = "eggnog",
+                manifest_url = paste0(
+                    "file:///",
+                    normalizePath(manifest_path, winslash = "/", mustWork = TRUE)
+                )
+            )
+        ),
+        dir = fixture_dir
+    )
+
+    list(
+        dir = fixture_dir,
+        artifact_path = artifact_path,
+        manifest = manifest,
+        manifest_path = manifest_path,
+        registry_path = registry_path
+    )
+}
