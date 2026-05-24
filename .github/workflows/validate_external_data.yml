@@ -27,26 +27,30 @@ jobs:
       - name: Setup dependencies
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::pkgload, any::jsonlite, any::digest, bioc::bugsigdbr
+          extra-packages: any::pkgload, any::jsonlite, any::digest, any::gson, any::testthat, bioc::bugsigdbr
 
-      - name: Build external data artifacts
+      - name: Validate Disbiome builder with fixtures
+        run: >
+          Rscript -e 'pkgload::load_all(".");
+          testthat::test_dir(
+            "tests/testthat",
+            filter = "build_disbiome",
+            reporter = "summary"
+          )'
+
+      - name: Build BugSigDB artifact
         run: >
           Rscript -e 'source("data-raw/build_bugsigdb.R");
-          source("data-raw/build_disbiome.R");
           build_bugsigdb_artifact(
             output_dir = "build/external-data/bugsigdb/current",
             base_url = "https://yulab-smu.github.io/MicrobiomeProfiler/datasets/bugsigdb/current"
-          );
-          build_disbiome_artifact(
-            output_dir = "build/external-data/disbiome/current",
-            base_url = "https://yulab-smu.github.io/MicrobiomeProfiler/datasets/disbiome/current"
           )'
 
       - name: Validate manifests and artifacts
         run: >
           Rscript -e 'manifests <- list.files("build/external-data",
           pattern = "manifest.json$", recursive = TRUE, full.names = TRUE);
-          stopifnot(length(manifests) >= 2);
+          stopifnot(length(manifests) >= 1);
           for (path in manifests) {
             manifest <- jsonlite::fromJSON(path, simplifyVector = FALSE);
             stopifnot(!is.null(manifest$dataset), !is.null(manifest$version),
