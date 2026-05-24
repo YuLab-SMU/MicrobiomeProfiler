@@ -57,6 +57,7 @@ Also, `MicrobiomeProfiler` provides several enrich functions for optional analys
 
 + KEGG enrichment analysis
 + COG enrichment analysis
++ eggNOG-based KEGG pathway enrichment analysis
 + Microbe-Disease enrichment analysis
 + Metabo-Pathway analysis
 
@@ -124,6 +125,7 @@ To pre-download a dataset into the local cache:
 ```{r eval = FALSE}
 download_dataset("bugsigdb")
 download_dataset("disbiome", refresh = TRUE)
+download_dataset("eggnog")
 ```
 
 To inspect or clear the local cache:
@@ -136,9 +138,10 @@ clear_dataset_cache("bugsigdb")
 clear_dataset_cache()
 ```
 
-Currently, `enrichBugSigDB()` downloads BugSigDB artifacts on demand, and
-`enrichMDA()` / `gseMDA()` use remote-first Disbiome data with fallback to the
-bundled internal dataset when the remote resource is unavailable.
+Currently, `enrichBugSigDB()` and `enrichEggNOG()` download external artifacts
+on demand, and `enrichMDA()` / `gseMDA()` use remote-first Disbiome data with
+fallback to the bundled internal dataset when the remote resource is
+unavailable.
 
 #  Session Information
 ```{r echo = FALSE}

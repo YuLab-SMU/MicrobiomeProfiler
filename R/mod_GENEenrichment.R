@@ -19,7 +19,7 @@ mod_GENEenrichment_ui <- function(id,label = "Input: Gene list"){
     tags$div(
         conditionalPanel(
             condition = "input.smoother == true",
-            selectInput(ns("type"),"ID Type",list("KEGG","COG"),
+            selectInput(ns("type"),"ID Type",list("KEGG","COG","eggNOG"),
                         selected = "KEGG")
         ),
       textAreaInput(ns("genelist"),label=label,
@@ -214,6 +214,33 @@ mod_GENEenrichment_ui3 <- function(id){
 #' @importFrom enrichplot dotplot
 #' @importFrom graphics barplot
 #' @importFrom utils data
+gene_source_example_ids <- function(source_db, eggnog_loader = mp_eggnog_gson) {
+    if (identical(source_db, "KEGG")) {
+        return(IPF)
+    }
+
+    if (identical(source_db, "COG")) {
+        return(unique(cog_example))
+    }
+
+    if (identical(source_db, "eggNOG")) {
+        example_ids <- tryCatch(
+            {
+                eggnog_obj <- suppressWarnings(eggnog_loader(refresh = FALSE))
+                head(unique(as.character(methods::slot(eggnog_obj, "gsid2gene")$gene)), 10)
+            },
+            error = function(e) {
+                c("OG0001", "OG0002", "OG0003")
+            }
+        )
+
+        example_ids <- unique(example_ids[!is.na(example_ids) & nzchar(example_ids)])
+        return(example_ids)
+    }
+
+    character()
+}
+
 mod_GENEenrichment_server <- function(id){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
@@ -222,15 +249,9 @@ mod_GENEenrichment_server <- function(id){
     GeneRatio <- NULL
     BgRatio <- NULL
     observeEvent(input$ex,{
-        if(input$type == "KEGG"){
-            updateTextAreaInput(session, "genelist",
-                                value = paste0(IPF,
-                                               collapse = "\n"))
-        }else{
-            updateTextAreaInput(session, "genelist",
-                                value = paste0(unique(cog_example),
-                                               collapse = "\n"))
-        }
+        example_ids <- gene_source_example_ids(input$type)
+        updateTextAreaInput(session, "genelist",
+                            value = paste0(example_ids, collapse = "\n"))
     })
     observeEvent(input$clean,{
         updateTextAreaInput(session, "genelist", value = "")
@@ -255,6 +276,15 @@ mod_GENEenrichment_server <- function(id){
                     selectInput(ns("backgroundset"),"Select Background Set:",
                                 list("COG_category","COG_pathway"),
                                 selected = "COG_category")
+                )
+            })
+        } else if(input$type == "eggNOG"){
+            output$backset <- renderUI({
+                ns <- session$ns
+                tagList(
+                    selectInput(ns("backgroundset"),"Select Background Set:",
+                                list("eggNOG_KEGG"),
+                                selected = "eggNOG_KEGG")
                 )
             })
         }
@@ -389,6 +419,27 @@ mod_GENEenrichment_server <- function(id){
 
               }
 
+        } else if(input$type == "eggNOG"){
+            if(input$Universe == "Default"){
+                kk <- isolate(
+                    enrichEggNOG(gene = gene_list(),
+                                 pvalueCutoff = input$pvalue,
+                                 pAdjustMethod = input$padjustmethod,
+                                 minGSSize = 10,
+                                 maxGSSize = 500,
+                                 qvalueCutoff = input$qvalue)
+                )
+            } else if(input$Universe == "customer_defined_universe"){
+                kk <- isolate(
+                    enrichEggNOG(gene = gene_list(),
+                                 pvalueCutoff = input$pvalue,
+                                 pAdjustMethod = input$padjustmethod,
+                                 minGSSize = 10,
+                                 maxGSSize = 500,
+                                 universe = ko_universe_list(),
+                                 qvalueCutoff = input$qvalue)
+                )
+            }
 
         } else{
             kk <- NULL
