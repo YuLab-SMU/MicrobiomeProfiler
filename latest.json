@@ -3,19 +3,19 @@
     "bugsigdb": {
       "dataset": "bugsigdb",
       "version": "2026-05-24",
-      "released_at": "2026-05-24T11:36:50Z",
+      "released_at": "2026-05-24T13:19:15Z",
       "manifest_path": "datasets/bugsigdb/current/manifest.json"
     },
     "disbiome": {
       "dataset": "disbiome",
       "version": "2026-05-24",
-      "released_at": "2026-05-24T11:45:35Z",
+      "released_at": "2026-05-24T13:27:23Z",
       "manifest_path": "datasets/disbiome/current/manifest.json"
     },
     "eggnog": {
       "dataset": "eggnog",
       "version": "eggNOG7-2026-05-24",
-      "released_at": "2026-05-24T11:45:29Z",
+      "released_at": "2026-05-24T13:27:19Z",
       "manifest_path": "datasets/eggnog/current/manifest.json"
     }
   }

@@ -1,7 +1,7 @@
 {
   "dataset": "eggnog",
   "version": "eggNOG7-2026-05-24",
-  "released_at": "2026-05-24T11:45:29Z",
+  "released_at": "2026-05-24T13:27:19Z",
   "source": "eggNOG 7",
   "source_url": "https://eggnogdb.org/public/eggnog7/e7.og_info_kegg_go.tsv.gz",
   "schema_version": "1.0.0",
