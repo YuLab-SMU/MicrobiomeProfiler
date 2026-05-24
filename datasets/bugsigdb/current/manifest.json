@@ -1,7 +1,7 @@
 {
   "dataset": "bugsigdb",
-  "version": "2026-05-23",
-  "released_at": "2026-05-23T04:55:03Z",
+  "version": "2026-05-24",
+  "released_at": "2026-05-24T11:36:50Z",
   "source": "BugSigDB",
   "source_url": "https://bugsigdb.org/",
   "schema_version": "1.0.0",
@@ -10,7 +10,7 @@
     {
       "name": "bugsigdb_signatures.rds",
       "url": "https://yulab-smu.github.io/MicrobiomeProfiler/datasets/bugsigdb/current/bugsigdb_signatures.rds",
-      "sha256": "7ab462a40f562a8776f2e0fe4573163ba5129b9482868583cbf3b1bd52f024b9",
+      "sha256": "7b147bbddd3d30821c16ea6ddd7649460a48320ecaf072fb2ea3aa748ac26a47",
       "size_bytes": 366126,
       "object_type": "term2gene_bundle"
     }
