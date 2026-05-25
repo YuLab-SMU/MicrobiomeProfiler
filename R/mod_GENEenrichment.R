@@ -22,8 +22,10 @@ mod_GENEenrichment_ui <- function(id,label = "Input: Gene list"){
             selectInput(ns("type"),"ID Type",list("KEGG","COG","eggNOG"),
                         selected = "KEGG")
         ),
+      uiOutput(ns("analysis_mode_ui")),
       textAreaInput(ns("genelist"),label=label,
                     placeholder = "K03430\nK01569\n..."),
+      uiOutput(ns("input_help")),
       numericInput(ns("pvalue"),"p adjusted value cutoff", value = 0.05),
       conditionalPanel(
         condition = "input.smoother == true",
@@ -241,6 +243,53 @@ gene_source_example_ids <- function(source_db, eggnog_loader = mp_eggnog_gson) {
     character()
 }
 
+
+gene_source_example_text <- function(source_db,
+                                     analysis_mode = "ORA",
+                                     eggnog_loader = mp_eggnog_gson) {
+    analysis_mode <- toupper(analysis_mode)
+
+    if (identical(source_db, "eggNOG") && identical(analysis_mode, "GSEA")) {
+        example_ids <- gene_source_example_ids(
+            source_db = source_db,
+            eggnog_loader = eggnog_loader
+        )
+        example_ids <- head(example_ids, 5)
+        example_scores <- c(2.5, 1.5, 0.8, -0.8, -1.6)[seq_along(example_ids)]
+        return(paste(example_ids, example_scores, sep = "\t", collapse = "\n"))
+    }
+
+    paste0(
+        gene_source_example_ids(source_db = source_db, eggnog_loader = eggnog_loader),
+        collapse = "\n"
+    )
+}
+
+
+parse_ranked_gene_list <- function(text) {
+    lines <- unlist(strsplit(text, split = "\n", fixed = TRUE))
+    lines <- trimws(lines)
+    lines <- lines[nzchar(lines)]
+
+    if (!length(lines)) {
+        stop("Input is empty.", call. = FALSE)
+    }
+
+    fields <- strsplit(lines, "[,[:space:]]+")
+    if (any(lengths(fields) < 2L)) {
+        stop("Each line must contain an identifier and a numeric score.", call. = FALSE)
+    }
+
+    ids <- vapply(fields, `[[`, character(1), 1)
+    scores <- suppressWarnings(as.numeric(vapply(fields, `[[`, character(1), 2)))
+
+    if (any(is.na(scores))) {
+        stop("Each ranked entry must include a valid numeric score.", call. = FALSE)
+    }
+
+    stats::setNames(sort(scores, decreasing = TRUE), ids[order(scores, decreasing = TRUE)])
+}
+
 mod_GENEenrichment_server <- function(id){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
@@ -248,10 +297,39 @@ mod_GENEenrichment_server <- function(id){
     geneID <- NULL
     GeneRatio <- NULL
     BgRatio <- NULL
+    current_analysis_mode <- reactive({
+        if (identical(input$type, "eggNOG") && identical(input$analysis_mode, "GSEA")) {
+            "GSEA"
+        } else {
+            "ORA"
+        }
+    })
+    output$analysis_mode_ui <- renderUI({
+        if (!identical(input$type, "eggNOG")) {
+            return(NULL)
+        }
+
+        selectInput(
+            ns("analysis_mode"),
+            "Analysis Type",
+            list("ORA", "GSEA"),
+            selected = "ORA"
+        )
+    })
+    output$input_help <- renderUI({
+        if (identical(current_analysis_mode(), "GSEA")) {
+            helpText("GSEA input format: one eggNOG OG and one numeric score per line, e.g. OG0001 2.5. Universe and q value cutoff are ignored in this mode.")
+        } else {
+            helpText("Input one identifier per line.")
+        }
+    })
     observeEvent(input$ex,{
-        example_ids <- gene_source_example_ids(input$type)
+        example_ids <- gene_source_example_text(
+            source_db = input$type,
+            analysis_mode = current_analysis_mode()
+        )
         updateTextAreaInput(session, "genelist",
-                            value = paste0(example_ids, collapse = "\n"))
+                            value = example_ids)
     })
     observeEvent(input$clean,{
         updateTextAreaInput(session, "genelist", value = "")
@@ -319,6 +397,12 @@ mod_GENEenrichment_server <- function(id){
             need(!is.null(input$genelist), c("Input is empty."))
           )
           unlist(strsplit(input$genelist, split = "\\s"))
+        })
+        ranked_gene_list <- reactive({
+          validate(
+            need(!is.null(input$genelist) && nzchar(trimws(input$genelist)), c("Input is empty."))
+          )
+          parse_ranked_gene_list(input$genelist)
         })
 
         ko_universe_list <- reactive({
@@ -420,25 +504,36 @@ mod_GENEenrichment_server <- function(id){
               }
 
         } else if(input$type == "eggNOG"){
-            if(input$Universe == "Default"){
+            if (current_analysis_mode() == "GSEA") {
                 kk <- isolate(
-                    enrichEggNOG(gene = gene_list(),
-                                 pvalueCutoff = input$pvalue,
-                                 pAdjustMethod = input$padjustmethod,
-                                 minGSSize = 10,
-                                 maxGSSize = 500,
-                                 qvalueCutoff = input$qvalue)
+                    gseEggNOG(geneList = ranked_gene_list(),
+                              exponent = 1,
+                              minGSSize = 10,
+                              maxGSSize = 500,
+                              pvalueCutoff = input$pvalue,
+                              pAdjustMethod = input$padjustmethod)
                 )
-            } else if(input$Universe == "customer_defined_universe"){
-                kk <- isolate(
-                    enrichEggNOG(gene = gene_list(),
-                                 pvalueCutoff = input$pvalue,
-                                 pAdjustMethod = input$padjustmethod,
-                                 minGSSize = 10,
-                                 maxGSSize = 500,
-                                 universe = ko_universe_list(),
-                                 qvalueCutoff = input$qvalue)
-                )
+            } else {
+                if(input$Universe == "Default"){
+                    kk <- isolate(
+                        enrichEggNOG(gene = gene_list(),
+                                     pvalueCutoff = input$pvalue,
+                                     pAdjustMethod = input$padjustmethod,
+                                     minGSSize = 10,
+                                     maxGSSize = 500,
+                                     qvalueCutoff = input$qvalue)
+                    )
+                } else if(input$Universe == "customer_defined_universe"){
+                    kk <- isolate(
+                        enrichEggNOG(gene = gene_list(),
+                                     pvalueCutoff = input$pvalue,
+                                     pAdjustMethod = input$padjustmethod,
+                                     minGSSize = 10,
+                                     maxGSSize = 500,
+                                     universe = ko_universe_list(),
+                                     qvalueCutoff = input$qvalue)
+                    )
+                }
             }
 
         } else{
