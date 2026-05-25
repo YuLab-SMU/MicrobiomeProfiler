@@ -23,8 +23,7 @@ mod_GENEenrichment_ui <- function(id,label = "Input: Gene list"){
                         selected = "KEGG")
         ),
       uiOutput(ns("analysis_mode_ui")),
-      textAreaInput(ns("genelist"),label=label,
-                    placeholder = "K03430\nK01569\n..."),
+      uiOutput(ns("genelist_ui")),
       uiOutput(ns("input_help")),
       numericInput(ns("pvalue"),"p adjusted value cutoff", value = 0.05),
       conditionalPanel(
@@ -32,20 +31,9 @@ mod_GENEenrichment_ui <- function(id,label = "Input: Gene list"){
         selectInput(ns("padjustmethod"),"p Adjust Method:",
                     list("BH", "holm", "hochberg", "hommel",
                          "bonferroni", "BY", "fdr", "none"),selected = "BH")),
-      numericInput(ns("qvalue"),"q value cutoff",value = 0.05),
+      uiOutput(ns("qvalue_ui")),
       uiOutput(ns("backset")),
-      conditionalPanel(
-          condition = "input.smoother == true",
-          selectInput(ns("Universe"),"Select Universe Gene Set:",
-                      list("Default",
-                           # "human_gut2014",
-                           # "human_gut2016",
-                           # "human_skin",
-                           # "human_vagina",
-                           "customer_defined_universe"),
-                      selected = "Default"),
-
-      ),
+      uiOutput(ns("universe_ui")),
       #uiOutput(ns("universe")),
 
       uiOutput(ns("background1")),
@@ -290,6 +278,26 @@ parse_ranked_gene_list <- function(text) {
     stats::setNames(sort(scores, decreasing = TRUE), ids[order(scores, decreasing = TRUE)])
 }
 
+
+gene_input_placeholder <- function(source_db, analysis_mode = "ORA") {
+    analysis_mode <- toupper(analysis_mode)
+
+    if (identical(source_db, "eggNOG") && identical(analysis_mode, "GSEA")) {
+        return("OG0001 2.5\nOG0002 1.5\nOG0003 -0.8")
+    }
+
+    if (identical(source_db, "eggNOG")) {
+        return("OG0001\nOG0002\n...")
+    }
+
+    "K03430\nK01569\n..."
+}
+
+
+gene_analysis_supports_universe <- function(source_db, analysis_mode = "ORA") {
+    !(identical(source_db, "eggNOG") && identical(toupper(analysis_mode), "GSEA"))
+}
+
 mod_GENEenrichment_server <- function(id){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
@@ -303,6 +311,16 @@ mod_GENEenrichment_server <- function(id){
         } else {
             "ORA"
         }
+    })
+    output$genelist_ui <- renderUI({
+        textAreaInput(
+            ns("genelist"),
+            label = "Input: Gene list",
+            placeholder = gene_input_placeholder(
+                source_db = input$type,
+                analysis_mode = current_analysis_mode()
+            )
+        )
     })
     output$analysis_mode_ui <- renderUI({
         if (!identical(input$type, "eggNOG")) {
@@ -322,6 +340,27 @@ mod_GENEenrichment_server <- function(id){
         } else {
             helpText("Input one identifier per line.")
         }
+    })
+    output$qvalue_ui <- renderUI({
+        if (!gene_analysis_supports_universe(input$type, current_analysis_mode())) {
+            return(NULL)
+        }
+
+        numericInput(ns("qvalue"), "q value cutoff", value = 0.05)
+    })
+    output$universe_ui <- renderUI({
+        if (!gene_analysis_supports_universe(input$type, current_analysis_mode())) {
+            return(NULL)
+        }
+
+        selectInput(ns("Universe"), "Select Universe Gene Set:",
+                    list("Default",
+                         # "human_gut2014",
+                         # "human_gut2016",
+                         # "human_skin",
+                         # "human_vagina",
+                         "customer_defined_universe"),
+                    selected = "Default")
     })
     observeEvent(input$ex,{
         example_ids <- gene_source_example_text(
@@ -369,7 +408,8 @@ mod_GENEenrichment_server <- function(id){
     })
 
     observe({
-      if (input$Universe == "customer_defined_universe") {
+      if (gene_analysis_supports_universe(input$type, current_analysis_mode()) &&
+          input$Universe == "customer_defined_universe") {
         output$background1 <- renderUI({
           ns <- session$ns
           tagList(

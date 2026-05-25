@@ -106,3 +106,30 @@ test_that("parse_ranked_gene_list rejects malformed input", {
         "valid numeric score"
     )
 })
+
+
+test_that("gene_input_placeholder switches for eggNOG GSEA", {
+    library(MicrobiomeProfiler)
+
+    expect_match(
+        MicrobiomeProfiler:::gene_input_placeholder("eggNOG", "GSEA"),
+        "OG0001 2.5"
+    )
+    expect_match(
+        MicrobiomeProfiler:::gene_input_placeholder("eggNOG", "ORA"),
+        "OG0001"
+    )
+    expect_match(
+        MicrobiomeProfiler:::gene_input_placeholder("KEGG", "ORA"),
+        "K03430"
+    )
+})
+
+
+test_that("gene_analysis_supports_universe disables universe for eggNOG GSEA", {
+    library(MicrobiomeProfiler)
+
+    expect_false(MicrobiomeProfiler:::gene_analysis_supports_universe("eggNOG", "GSEA"))
+    expect_true(MicrobiomeProfiler:::gene_analysis_supports_universe("eggNOG", "ORA"))
+    expect_true(MicrobiomeProfiler:::gene_analysis_supports_universe("KEGG", "ORA"))
+})
