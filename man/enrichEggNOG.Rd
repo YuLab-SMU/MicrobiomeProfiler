@@ -43,7 +43,11 @@ eggNOG-based KEGG pathway enrichment for microbiome data
 }
 \examples{
 \dontrun{
-og <- c("OG0001", "OG0002", "OG0003")
+eggnog_obj <- MicrobiomeProfiler:::mp_eggnog_gson()
+gsid2gene <- methods::slot(eggnog_obj, "gsid2gene")
+pathway_sizes <- sort(table(gsid2gene$gsid))
+pathway_id <- names(pathway_sizes[pathway_sizes >= 3])[1]
+og <- head(unique(gsid2gene[gsid2gene$gsid == pathway_id, "gene"]), 3)
 enrichEggNOG(og, minGSSize = 1)
 }
 }

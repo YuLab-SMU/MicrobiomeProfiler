@@ -39,8 +39,13 @@ GSEA with eggNOG-based KEGG pathway annotations
 }
 \examples{
 \dontrun{
+eggnog_obj <- MicrobiomeProfiler:::mp_eggnog_gson()
+gsid2gene <- methods::slot(eggnog_obj, "gsid2gene")
+pathway_sizes <- sort(table(gsid2gene$gsid))
+pathway_id <- names(pathway_sizes[pathway_sizes >= 3])[1]
+og <- head(unique(gsid2gene[gsid2gene$gsid == pathway_id, "gene"]), 3)
 geneList <- c(2.5, 1.2, -1.8)
-names(geneList) <- c("OG0001", "OG0002", "OG0003")
+names(geneList) <- og
 gseEggNOG(geneList, minGSSize = 1)
 }
 }

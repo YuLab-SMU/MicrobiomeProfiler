@@ -14,10 +14,15 @@
 #' @return An \code{enrichResult} instance.
 #' @importFrom enrichit ora_gson
 #' @importFrom methods slot<-
+#' @importFrom methods slot slotNames
 #' @export
 #' @examples
 #' \dontrun{
-#' og <- c("OG0001", "OG0002", "OG0003")
+#' eggnog_obj <- MicrobiomeProfiler:::mp_eggnog_gson()
+#' gsid2gene <- methods::slot(eggnog_obj, "gsid2gene")
+#' pathway_sizes <- sort(table(gsid2gene$gsid))
+#' pathway_id <- names(pathway_sizes[pathway_sizes >= 3])[1]
+#' og <- head(unique(gsid2gene[gsid2gene$gsid == pathway_id, "gene"]), 3)
 #' enrichEggNOG(og, minGSSize = 1)
 #' }
 enrichEggNOG <- function(gene,
@@ -67,8 +72,13 @@ enrichEggNOG <- function(gene,
 #' @export
 #' @examples
 #' \dontrun{
+#' eggnog_obj <- MicrobiomeProfiler:::mp_eggnog_gson()
+#' gsid2gene <- methods::slot(eggnog_obj, "gsid2gene")
+#' pathway_sizes <- sort(table(gsid2gene$gsid))
+#' pathway_id <- names(pathway_sizes[pathway_sizes >= 3])[1]
+#' og <- head(unique(gsid2gene[gsid2gene$gsid == pathway_id, "gene"]), 3)
 #' geneList <- c(2.5, 1.2, -1.8)
-#' names(geneList) <- c("OG0001", "OG0002", "OG0003")
+#' names(geneList) <- og
 #' gseEggNOG(geneList, minGSSize = 1)
 #' }
 gseEggNOG <- function(geneList,
@@ -94,7 +104,12 @@ gseEggNOG <- function(geneList,
         return(res)
     }
 
-    slot(res, "ontology") <- "eggNOG"
-    slot(res, "organism") <- "microbiome"
+    slot_names <- methods::slotNames(res)
+    if ("ontology" %in% slot_names) {
+        slot(res, "ontology") <- "eggNOG"
+    }
+    if ("organism" %in% slot_names) {
+        slot(res, "organism") <- "microbiome"
+    }
     res
 }
