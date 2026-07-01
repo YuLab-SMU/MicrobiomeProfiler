@@ -1,7 +1,7 @@
 {
   "dataset": "disbiome",
-  "version": "2026-06-01",
-  "released_at": "2026-06-01T05:09:24Z",
+  "version": "2026-07-01",
+  "released_at": "2026-07-01T04:50:44Z",
   "source": "Disbiome",
   "source_url": "https://disbiome.ugent.be/export",
   "schema_version": "1.0.0",
@@ -10,7 +10,7 @@
     {
       "name": "disbiome_gson.rds",
       "url": "https://yulab-smu.github.io/MicrobiomeProfiler/datasets/disbiome/current/disbiome_gson.rds",
-      "sha256": "729d8ae0d23806d4689fe282f4db4cedb6d09a116c5ace4aa20e43f8b86867e0",
+      "sha256": "a02cc3a485ae276e99b8776ebce666a7505a5b2960a05e42b2033bde84eb0531",
       "size_bytes": 49427,
       "object_type": "gson"
     }
