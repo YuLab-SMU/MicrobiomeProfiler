@@ -2,20 +2,20 @@
   "datasets": {
     "bugsigdb": {
       "dataset": "bugsigdb",
-      "version": "2026-08-01",
-      "released_at": "2026-08-01T03:40:50Z",
+      "version": "2026-09-01",
+      "released_at": "2026-09-01T04:43:00Z",
       "manifest_path": "datasets/bugsigdb/current/manifest.json"
     },
     "disbiome": {
       "dataset": "disbiome",
-      "version": "2026-08-01",
-      "released_at": "2026-08-01T03:49:33Z",
+      "version": "2026-09-01",
+      "released_at": "2026-09-01T04:51:33Z",
       "manifest_path": "datasets/disbiome/current/manifest.json"
     },
     "eggnog": {
       "dataset": "eggnog",
-      "version": "eggNOG7-2026-08-01",
-      "released_at": "2026-08-01T03:49:29Z",
+      "version": "eggNOG7-2026-09-01",
+      "released_at": "2026-09-01T04:51:28Z",
       "manifest_path": "datasets/eggnog/current/manifest.json"
     }
   }
