@@ -62,6 +62,11 @@ enrichMDA <- function(microbe_list,
 #' @param pvalThreshold pvalue threshold for adaptive permutation.
 #' @param verbose whether to show progress.
 #' @param refresh whether to force a fresh download of the remote Disbiome artifact.
+#' @param seed random seed for reproducibility, set to a number (or TRUE to use a
+#'   fixed default seed) to make the result reproducible, or FALSE (default) to draw
+#'   a random seed on each run, so results may vary between runs. The underlying
+#'   permutation engine uses its own RNG seeded with this value; see
+#'   \code{enrichit::gsea()} for details.
 #' @importFrom enrichit gsea_gson
 #' @importFrom methods slot<-
 #' @return A \code{gseaResult} instance.
@@ -79,7 +84,8 @@ gseMDA <- function(microbe_list,
                       maxPerm           = 100000,
                       pvalThreshold     = 0.1,
                       verbose           = TRUE,
-                      refresh           = FALSE) {
+                      refresh           = FALSE,
+                      seed              = FALSE) {
     disbiome_gson <- mp_disbiome_gson(refresh = refresh)
     res <- gsea_gson(geneList      = microbe_list,
                      gson          = disbiome_gson,
@@ -94,7 +100,8 @@ gseMDA <- function(microbe_list,
                      minPerm       = minPerm,
                      maxPerm       = maxPerm,
                      pvalThreshold = pvalThreshold,
-                     verbose       = verbose)
+                     verbose       = verbose,
+                     seed          = seed)
     if (is.null(res))
         return(res)
 

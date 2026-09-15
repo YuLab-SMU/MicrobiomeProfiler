@@ -1,3 +1,16 @@
+# MicrobiomeProfiler 1.19.2
+
++ expose an explicit `seed` argument on all GSEA entry points — `gseKO()`,
+  `gseModule()`, `gseCOG()`, `gseMDA()`, `gseMBKEGG()`, `gseSMPDB()`,
+  `gseHMDB()` and `gseEggNOG()` — forwarded to `enrichit::gsea_gson()`
+  (2026-08-15, Fri)
+  - set it to a number (or TRUE for a fixed default seed) to get identical GSEA
+    results across runs, FALSE (default) draws a fresh seed on each run;
+    `set.seed()` before the call still works
+  - `pvalueCutoff` is applied to both `pvalue` and `p.adjust` inside
+    `enrichit::gsea_gson()` (requires enrichit >= 0.2.2), matching the historical
+    clusterProfiler/DOSE double-filtering behavior
+
 # MicrobiomeProfiler 1.19.1
 
 + setup GitHub Actions workflow for automated internal data updates (KEGG, COG, SMPDB, HMDB, Disbiome) (2026-05-21, Thu)

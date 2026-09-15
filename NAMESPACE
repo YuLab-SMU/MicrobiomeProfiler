@@ -24,40 +24,56 @@ export(gseSMPDB)
 export(run_MicrobiomeProfiler)
 import(clusterProfiler)
 import(shiny)
-importFrom(DT,DTOutput)
-importFrom(DT,JS)
-importFrom(DT,datatable)
-importFrom(DT,renderDT)
-importFrom(enrichit,gsea_gson)
-importFrom(enrichit,ora_gson)
+importFrom(DT,
+  DTOutput,
+  JS,
+  datatable,
+  renderDT
+)
+importFrom(enrichit,
+  gsea_gson,
+  ora_gson
+)
 importFrom(enrichplot,dotplot)
-importFrom(ggplot2,ggsave)
-importFrom(ggplot2,guide_colorbar)
-importFrom(ggplot2,guides)
-importFrom(ggplot2,scale_color_gradient)
-importFrom(ggplot2,scale_fill_gradient)
-importFrom(ggplot2,xlab)
-importFrom(golem,activate_js)
-importFrom(golem,add_resource_path)
-importFrom(golem,bundle_resources)
-importFrom(golem,favicon)
-importFrom(golem,with_golem_options)
+importFrom(ggplot2,
+  ggsave,
+  guide_colorbar,
+  guides,
+  scale_color_gradient,
+  scale_fill_gradient,
+  xlab
+)
+importFrom(golem,
+  activate_js,
+  add_resource_path,
+  bundle_resources,
+  favicon,
+  with_golem_options
+)
 importFrom(graphics,barplot)
 importFrom(gson,gson)
 importFrom(magrittr,"%<>%")
-importFrom(methods,"slot<-")
-importFrom(methods,slot)
-importFrom(methods,slotNames)
-importFrom(shiny,NS)
-importFrom(shiny,shinyApp)
-importFrom(shiny,tagList)
+importFrom(methods,
+  "slot<-",
+  slot,
+  slotNames
+)
+importFrom(shiny,
+  NS,
+  shinyApp,
+  tagList
+)
 importFrom(shinyWidgets,colorPickr)
 importFrom(shinycustomloader,withLoader)
-importFrom(stats,na.omit)
-importFrom(stats,setNames)
-importFrom(utils,data)
-importFrom(utils,download.file)
-importFrom(utils,read.csv)
-importFrom(utils,read.delim)
-importFrom(utils,unzip)
+importFrom(stats,
+  na.omit,
+  setNames
+)
+importFrom(utils,
+  data,
+  download.file,
+  read.csv,
+  read.delim,
+  unzip
+)
 importFrom(yulab.utils,yread)

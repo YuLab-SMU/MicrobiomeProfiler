@@ -67,6 +67,11 @@ enrichEggNOG <- function(gene,
 #' "BH", "BY", "fdr", "none".
 #' @param refresh whether to force a fresh download of the remote eggNOG
 #' artifact.
+#' @param seed random seed for reproducibility, set to a number (or TRUE to use a
+#'   fixed default seed) to make the result reproducible, or FALSE (default) to draw
+#'   a random seed on each run, so results may vary between runs. The underlying
+#'   permutation engine uses its own RNG seeded with this value; see
+#'   \code{enrichit::gsea()} for details.
 #' @return A \code{gseaResult} instance.
 #' @importFrom enrichit gsea_gson
 #' @export
@@ -87,7 +92,8 @@ gseEggNOG <- function(geneList,
                       maxGSSize = 500,
                       pvalueCutoff = 0.05,
                       pAdjustMethod = "BH",
-                      refresh = FALSE) {
+                      refresh = FALSE,
+                      seed = FALSE) {
     gson_obj <- mp_eggnog_gson(refresh = refresh)
 
     res <- gsea_gson(
@@ -97,7 +103,8 @@ gseEggNOG <- function(geneList,
         minGSSize = minGSSize,
         maxGSSize = maxGSSize,
         pvalueCutoff = pvalueCutoff,
-        pAdjustMethod = pAdjustMethod
+        pAdjustMethod = pAdjustMethod,
+        seed = seed
     )
 
     if (is.null(res)) {

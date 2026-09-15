@@ -17,7 +17,8 @@ gseHMDB(
   minPerm = 101,
   maxPerm = 1e+05,
   pvalThreshold = 0.1,
-  verbose = TRUE
+  verbose = TRUE,
+  seed = FALSE
 )
 }
 \arguments{
@@ -47,6 +48,12 @@ gseHMDB(
 \item{pvalThreshold}{pvalue threshold for adaptive permutation.}
 
 \item{verbose}{whether to show progress.}
+
+\item{seed}{random seed for reproducibility, set to a number (or TRUE to use a
+fixed default seed) to make the result reproducible, or FALSE (default) to draw
+a random seed on each run, so results may vary between runs. The underlying
+permutation engine uses its own RNG seeded with this value; see
+\code{enrichit::gsea()} for details.}
 }
 \value{
 A \code{gseaResult} instance.

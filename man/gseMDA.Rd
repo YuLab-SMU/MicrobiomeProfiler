@@ -18,7 +18,8 @@ gseMDA(
   maxPerm = 1e+05,
   pvalThreshold = 0.1,
   verbose = TRUE,
-  refresh = FALSE
+  refresh = FALSE,
+  seed = FALSE
 )
 }
 \arguments{
@@ -50,6 +51,12 @@ gseMDA(
 \item{verbose}{whether to show progress.}
 
 \item{refresh}{whether to force a fresh download of the remote Disbiome artifact.}
+
+\item{seed}{random seed for reproducibility, set to a number (or TRUE to use a
+fixed default seed) to make the result reproducible, or FALSE (default) to draw
+a random seed on each run, so results may vary between runs. The underlying
+permutation engine uses its own RNG seeded with this value; see
+\code{enrichit::gsea()} for details.}
 }
 \value{
 A \code{gseaResult} instance.

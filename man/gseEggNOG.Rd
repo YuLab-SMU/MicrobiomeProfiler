@@ -11,7 +11,8 @@ gseEggNOG(
   maxGSSize = 500,
   pvalueCutoff = 0.05,
   pAdjustMethod = "BH",
-  refresh = FALSE
+  refresh = FALSE,
+  seed = FALSE
 )
 }
 \arguments{
@@ -30,6 +31,12 @@ gseEggNOG(
 
 \item{refresh}{whether to force a fresh download of the remote eggNOG
 artifact.}
+
+\item{seed}{random seed for reproducibility, set to a number (or TRUE to use a
+fixed default seed) to make the result reproducible, or FALSE (default) to draw
+a random seed on each run, so results may vary between runs. The underlying
+permutation engine uses its own RNG seeded with this value; see
+\code{enrichit::gsea()} for details.}
 }
 \value{
 A \code{gseaResult} instance.
