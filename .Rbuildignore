@@ -22,3 +22,5 @@ new_bioc_version.sh
 Makefile
 ^app\.R$
 ^rsconnect$
+docs/
+.workbuddy-ai/
