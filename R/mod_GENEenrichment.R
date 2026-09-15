@@ -204,6 +204,114 @@ mod_GENEenrichment_ui3 <- function(id){
 #' @importFrom enrichplot dotplot
 #' @importFrom graphics barplot
 #' @importFrom utils data
+mp_eggnog_gene_index <- function(gson_obj) {
+    gsid2gene <- tryCatch(
+        methods::slot(gson_obj, "gsid2gene"),
+        error = function(e) NULL
+    )
+
+    if (is.null(gsid2gene) || !nrow(gsid2gene)) {
+        return(NULL)
+    }
+
+    gsid <- as.character(gsid2gene$gsid)
+    gene <- as.character(gsid2gene$gene)
+    keep <- !is.na(gsid) & nzchar(gsid) & !is.na(gene) & nzchar(gene)
+
+    if (!any(keep)) {
+        return(NULL)
+    }
+
+    list(gsid = gsid[keep], gene = gene[keep])
+}
+
+
+#' Build a real eggNOG example from the loaded annotation artifact
+#'
+#' The `Example` button must never inject placeholder identifiers that cannot
+#' be analysed. Rather than hard-coding IDs, the example is derived from the
+#' published eggNOG artifact: the genes of the smallest KEGG pathway that fits
+#' the size window used by the app become the foreground, and the genes of a
+#' larger pathway become the background of the ranked list. Because the
+#' foreground covers a whole pathway, the generated example always yields a
+#' non-empty enrichment result.
+#'
+#' @param gson_obj a `GSON` object as returned by [mp_eggnog_gson()].
+#' @param min_size,max_size gene set size window used by the analysis.
+#' @param n_background number of background identifiers used for GSEA.
+#' @return a list with `foreground` and `background` character vectors. Both are
+#' empty when the artifact does not contain any pathway inside the window.
+#' @noRd
+mp_eggnog_example_sets <- function(gson_obj,
+                                   min_size = 10L,
+                                   max_size = 500L,
+                                   n_background = 20L) {
+    empty <- list(foreground = character(), background = character())
+    index <- mp_eggnog_gene_index(gson_obj)
+
+    if (is.null(index)) {
+        return(empty)
+    }
+
+    sizes <- table(index$gsid)
+    candidates <- names(sizes)[sizes >= min_size & sizes <= max_size]
+
+    if (!length(candidates)) {
+        return(empty)
+    }
+
+    ## deterministic: smallest pathway first, ties broken by pathway id
+    candidates <- candidates[order(as.integer(sizes[candidates]), candidates)]
+
+    foreground <- character()
+    for (candidate in candidates) {
+        ids <- unique(index$gene[index$gsid == candidate])
+        if (length(ids) >= min_size) {
+            foreground <- ids
+            break
+        }
+    }
+
+    if (!length(foreground)) {
+        return(empty)
+    }
+
+    ## a ranked list needs genes outside the foreground pathway, otherwise the
+    ## GSEA null distribution degenerates and no p-value can be computed
+    others <- rev(candidates)
+    others <- others[others != candidate]
+
+    background <- character()
+    if (length(others)) {
+        pool <- unique(index$gene[index$gsid == others[[1]]])
+        background <- utils::head(setdiff(pool, foreground), n_background)
+    }
+
+    list(foreground = foreground, background = background)
+}
+
+
+mp_eggnog_example_og <- function(gson_obj, ...) {
+    mp_eggnog_example_sets(gson_obj, ...)$foreground
+}
+
+
+mp_eggnog_example_ranked <- function(gson_obj, ...) {
+    sets <- mp_eggnog_example_sets(gson_obj, ...)
+
+    if (!length(sets$foreground) || !length(sets$background)) {
+        return(NULL)
+    }
+
+    scores <- c(
+        round(seq(4, 2, length.out = length(sets$foreground)), 2),
+        round(seq(-1.5, -4, length.out = length(sets$background)), 2)
+    )
+
+    stats::setNames(scores, c(sets$foreground, sets$background))
+}
+
+
 gene_source_example_ids <- function(source_db, eggnog_loader = mp_eggnog_gson) {
     if (identical(source_db, "KEGG")) {
         return(IPF)
@@ -215,13 +323,10 @@ gene_source_example_ids <- function(source_db, eggnog_loader = mp_eggnog_gson) {
 
     if (identical(source_db, "eggNOG")) {
         example_ids <- tryCatch(
-            {
-                eggnog_obj <- suppressWarnings(eggnog_loader(refresh = FALSE))
-                head(unique(as.character(methods::slot(eggnog_obj, "gsid2gene")$gene)), 10)
-            },
-            error = function(e) {
-                c("OG0001", "OG0002", "OG0003")
-            }
+            mp_eggnog_example_og(
+                suppressWarnings(eggnog_loader(refresh = FALSE))
+            ),
+            error = function(e) character()
         )
 
         example_ids <- unique(example_ids[!is.na(example_ids) & nzchar(example_ids)])
@@ -238,13 +343,18 @@ gene_source_example_text <- function(source_db,
     analysis_mode <- toupper(analysis_mode)
 
     if (identical(source_db, "eggNOG") && identical(analysis_mode, "GSEA")) {
-        example_ids <- gene_source_example_ids(
-            source_db = source_db,
-            eggnog_loader = eggnog_loader
+        ranked <- tryCatch(
+            mp_eggnog_example_ranked(
+                suppressWarnings(eggnog_loader(refresh = FALSE))
+            ),
+            error = function(e) NULL
         )
-        example_ids <- head(example_ids, 5)
-        example_scores <- c(2.5, 1.5, 0.8, -0.8, -1.6)[seq_along(example_ids)]
-        return(paste(example_ids, example_scores, sep = "\t", collapse = "\n"))
+
+        if (is.null(ranked) || !length(ranked)) {
+            return("")
+        }
+
+        return(paste(names(ranked), unname(ranked), sep = "\t", collapse = "\n"))
     }
 
     paste0(
@@ -282,12 +392,15 @@ parse_ranked_gene_list <- function(text) {
 gene_input_placeholder <- function(source_db, analysis_mode = "ORA") {
     analysis_mode <- toupper(analysis_mode)
 
+    ## eggNOG OG identifiers look like `<gene>@<taxid>|<label>`; the placeholder
+    ## only illustrates the expected shape, the `Example` button fills in a
+    ## ready-to-run list taken from the published artifact.
     if (identical(source_db, "eggNOG") && identical(analysis_mode, "GSEA")) {
-        return("OG0001 2.5\nOG0002 1.5\nOG0003 -0.8")
+        return("Arginase@131567|ET-10!\t2.5\nGATase_7@131567|C-2!\t1.5\n...")
     }
 
     if (identical(source_db, "eggNOG")) {
-        return("OG0001\nOG0002\n...")
+        return("Arginase@131567|ET-10!\nGATase_7@131567|C-2!\n...")
     }
 
     "K03430\nK01569\n..."
@@ -336,7 +449,9 @@ mod_GENEenrichment_server <- function(id){
     })
     output$input_help <- renderUI({
         if (identical(current_analysis_mode(), "GSEA")) {
-            helpText("GSEA input format: one eggNOG OG and one numeric score per line, e.g. OG0001 2.5. Universe and q value cutoff are ignored in this mode.")
+            helpText("GSEA input format: one eggNOG OG and one numeric score per line, e.g. Arginase@131567|ET-10! 2.5. Universe and q value cutoff are ignored in this mode. Click Example for a ready-to-run ranked list.")
+        } else if (identical(input$type, "eggNOG")) {
+            helpText("Input one eggNOG OG per line, e.g. Arginase@131567|ET-10!. Click Example for a ready-to-run gene list.")
         } else {
             helpText("Input one identifier per line.")
         }
@@ -367,6 +482,16 @@ mod_GENEenrichment_server <- function(id){
             source_db = input$type,
             analysis_mode = current_analysis_mode()
         )
+
+        if (!nzchar(trimws(example_ids))) {
+            showNotification(
+                paste("Could not build an example from the eggNOG annotation",
+                      "dataset. Check your network connection, or pre-download",
+                      "it with download_dataset(\"eggnog\")."),
+                type = "warning", duration = NULL)
+            return(invisible(NULL))
+        }
+
         updateTextAreaInput(session, "genelist",
                             value = example_ids)
     })
@@ -408,8 +533,10 @@ mod_GENEenrichment_server <- function(id){
     })
 
     observe({
+      ## `input$Universe` is NULL until the dynamic selectInput has rendered, so
+      ## compare through isTRUE() to avoid an NA condition on the first pass
       if (gene_analysis_supports_universe(input$type, current_analysis_mode()) &&
-          input$Universe == "customer_defined_universe") {
+          isTRUE(input$Universe == "customer_defined_universe")) {
         output$background1 <- renderUI({
           ns <- session$ns
           tagList(

@@ -1,5 +1,16 @@
 # MicrobiomeProfiler 1.19.2
 
++ stop advertising placeholder `OG0001`-style identifiers for `eggNOG` (2026-09-15, Tue)
+  - the `Example` button now builds its input from the published eggNOG
+    artifact instead of hard-coded fixture IDs, and uses a complete KEGG
+    pathway that fits the analysis window, so the generated example really
+    produces a non-empty enrichment result
+  - the `GSEA` example also carries background identifiers from outside the
+    pathway, without which the permutation p-values cannot be computed
+  - when the eggNOG artifact cannot be loaded the app reports the problem
+    instead of filling the input with identifiers that cannot be analysed
+  - guard against an `NA` condition while the universe selector has not
+    rendered yet
 + expose an explicit `seed` argument on all GSEA entry points — `gseKO()`,
   `gseModule()`, `gseCOG()`, `gseMDA()`, `gseMBKEGG()`, `gseSMPDB()`,
   `gseHMDB()` and `gseEggNOG()` — forwarded to `enrichit::gsea_gson()`

@@ -64,12 +64,13 @@ The Shiny interface currently provides:
   - BugSigDB
 - `Metabo-Pathway analysis`
 
-For `eggNOG` GSEA in the app, provide one ranked item per line, for example:
+For `eggNOG` GSEA in the app, provide one ranked item per line, that is an
+identifier and a numeric score separated by whitespace:
 
 ```text
-OG0001 2.5
-OG0002 1.5
-OG0003 -0.8
+Arginase@131567|ET-10!	2.5
+GATase_7@131567|C-2!	1.5
+...
 ```
 
 ## Programmatic Usage
@@ -88,6 +89,10 @@ cog_res <- enrichCOG(Psoriasis_data, dtype = "pathway")
 
 ### eggNOG
 
+`eggNOG` orthologous groups are used as the input identifiers. They are not
+plain `OG0001`-style numbers: an identifier carries the gene name, the
+taxonomic id and a suffix, for example `Collectrin@131567|A-1*`.
+
 ```r
 library(MicrobiomeProfiler)
 
@@ -98,11 +103,21 @@ og <- c(
 )
 
 ora_res <- enrichEggNOG(og, minGSSize = 1, maxGSSize = 500)
+```
 
-# GSEA expects a named ranked numeric vector of real eggNOG OG IDs.
+ORA is the primary quick-start example. GSEA expects a named ranked numeric
+vector of the same identifiers:
+
+```r
 geneList <- c(2.5, 1.5, -0.8)
 names(geneList) <- og
 ```
+
+A ranked list has to span more than one pathway for the permutation p-values to
+be computable, so a handful of identifiers taken from a single pathway is not
+enough to obtain a result. In the Shiny app, the `Example` button of
+`eggNOG` + `GSEA` builds a ready-to-run ranked list from the published
+annotation artifact.
 
 ### Microbe-Disease And Signature Enrichment
 
