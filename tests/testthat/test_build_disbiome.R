@@ -1,8 +1,12 @@
+## `data-raw/` is excluded from the package tarball (see .Rbuildignore), so the
+## builder sources are only reachable when the tests run against the source
+## tree (e.g. `devtools::test()`); under `R CMD check` they are skipped.
 builder_env <- new.env(parent = globalenv())
-sys.source(
-    testthat::test_path("..", "..", "data-raw", "build_disbiome.R"),
-    envir = builder_env
-)
+builder_path <- testthat::test_path("..", "..", "data-raw", "build_disbiome.R")
+
+if (file.exists(builder_path)) {
+    sys.source(builder_path, envir = builder_env)
+}
 
 
 create_disbiome_builder_payload <- function() {
@@ -24,6 +28,8 @@ create_disbiome_builder_payload <- function() {
 
 
 test_that("normalize_disbiome_records removes invalid mappings and annotates stage", {
+    skip_if_not(file.exists(builder_path),
+                "`data-raw/build_disbiome.R` is not part of the package tarball")
     payload <- create_disbiome_builder_payload()
 
     normalized <- builder_env$normalize_disbiome_records(
@@ -39,6 +45,8 @@ test_that("normalize_disbiome_records removes invalid mappings and annotates sta
 
 
 test_that("build_disbiome_artifact writes manifest and gson artifact from payload", {
+    skip_if_not(file.exists(builder_path),
+                "`data-raw/build_disbiome.R` is not part of the package tarball")
     payload <- create_disbiome_builder_payload()
     output_dir <- file.path(tempdir(), paste0("disbiome-builder-", Sys.getpid(), "-", as.integer(Sys.time())))
 
