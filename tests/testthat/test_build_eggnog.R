@@ -1,13 +1,5 @@
-## `data-raw/` is excluded from the package tarball (see .Rbuildignore), so the
-## builder sources are only reachable when the tests run against the source
-## tree (e.g. `devtools::test()`); under `R CMD check` they are skipped.
-builder_env <- new.env(parent = globalenv())
-builder_path <- testthat::test_path("..", "..", "data-raw", "build_eggnog.R")
-
-if (file.exists(builder_path)) {
-    sys.source(builder_path, envir = builder_env)
-}
-
+## The builders live in `R/build_eggnog.R`, so they are part of the installed
+## package and these tests run under `R CMD check` like any other test.
 
 create_eggnog_builder_file <- function() {
     file <- tempfile(fileext = ".tsv.gz")
@@ -35,17 +27,13 @@ create_eggnog_builder_file <- function() {
 
 
 test_that("parse_eggnog_kos extracts valid KEGG identifiers", {
-    skip_if_not(file.exists(builder_path),
-                "`data-raw/build_eggnog.R` is not part of the package tarball")
-    kos <- builder_env$parse_eggnog_kos("K00001|50;K00002|10;not_a_ko|5")
+    kos <- parse_eggnog_kos("K00001|50;K00002|10;not_a_ko|5")
     expect_equal(kos, c("K00001", "K00002"))
-    expect_equal(builder_env$parse_eggnog_kos(""), character())
+    expect_equal(parse_eggnog_kos(""), character())
 })
 
 
 test_that("build_eggnog_artifact constructs GSON from eggNOG OG annotations", {
-    skip_if_not(file.exists(builder_path),
-                "`data-raw/build_eggnog.R` is not part of the package tarball")
     eggnog_file <- create_eggnog_builder_file()
     output_dir <- file.path(tempdir(), paste0("eggnog-builder-", Sys.getpid(), "-", as.integer(Sys.time())))
 
@@ -63,7 +51,7 @@ test_that("build_eggnog_artifact constructs GSON from eggNOG OG annotations", {
         )
     }
 
-    result <- builder_env$build_eggnog_artifact(
+    result <- build_eggnog_artifact(
         output_dir = output_dir,
         base_url = "https://example.org/datasets/eggnog/current",
         version = "test-version",

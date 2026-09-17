@@ -1,5 +1,10 @@
 # MicrobiomeProfiler 1.19.2
 
++ move the external-data builders for `Disbiome` and `eggNOG` from `data-raw/`
+  into `R/` so that they ship with the package and their tests run under
+  `R CMD check` instead of being skipped (2026-09-17, Thu)
+  - `data-raw/build_disbiome.R` and `data-raw/build_eggnog.R` are now thin
+    loaders, so the scheduled external-data update workflow is unaffected
 + stop advertising placeholder `OG0001`-style identifiers for `eggNOG` (2026-09-15, Tue)
   - the `Example` button now builds its input from the published eggNOG
     artifact instead of hard-coded fixture IDs, and uses a complete KEGG

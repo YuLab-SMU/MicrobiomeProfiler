@@ -1,13 +1,5 @@
-## `data-raw/` is excluded from the package tarball (see .Rbuildignore), so the
-## builder sources are only reachable when the tests run against the source
-## tree (e.g. `devtools::test()`); under `R CMD check` they are skipped.
-builder_env <- new.env(parent = globalenv())
-builder_path <- testthat::test_path("..", "..", "data-raw", "build_disbiome.R")
-
-if (file.exists(builder_path)) {
-    sys.source(builder_path, envir = builder_env)
-}
-
+## The builders live in `R/build_disbiome.R`, so they are part of the installed
+## package and these tests run under `R CMD check` like any other test.
 
 create_disbiome_builder_payload <- function() {
     list(
@@ -28,11 +20,9 @@ create_disbiome_builder_payload <- function() {
 
 
 test_that("normalize_disbiome_records removes invalid mappings and annotates stage", {
-    skip_if_not(file.exists(builder_path),
-                "`data-raw/build_disbiome.R` is not part of the package tarball")
     payload <- create_disbiome_builder_payload()
 
-    normalized <- builder_env$normalize_disbiome_records(
+    normalized <- normalize_disbiome_records(
         experiments = payload$experiments,
         diseases = payload$diseases
     )
@@ -45,8 +35,6 @@ test_that("normalize_disbiome_records removes invalid mappings and annotates sta
 
 
 test_that("build_disbiome_artifact writes manifest and gson artifact from payload", {
-    skip_if_not(file.exists(builder_path),
-                "`data-raw/build_disbiome.R` is not part of the package tarball")
     payload <- create_disbiome_builder_payload()
     output_dir <- file.path(tempdir(), paste0("disbiome-builder-", Sys.getpid(), "-", as.integer(Sys.time())))
 
@@ -59,7 +47,7 @@ test_that("build_disbiome_artifact writes manifest and gson artifact from payloa
         )
     }
 
-    result <- builder_env$build_disbiome_artifact(
+    result <- build_disbiome_artifact(
         output_dir = output_dir,
         base_url = "https://example.org/datasets/disbiome/current",
         version = "test-version",
