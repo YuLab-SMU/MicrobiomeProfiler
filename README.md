@@ -5,7 +5,7 @@ enrichment analysis in microbiome studies. It builds on the
 `clusterProfiler` ecosystem and provides both interactive and programmatic
 workflows for common microbiome annotation tasks.
 
-The package now supports a hybrid data-delivery model:
+Annotation resources are provided through two delivery modes:
 
 - Stable built-in resources remain available in the package.
 - Larger or fast-moving annotation resources are distributed from GitHub
@@ -15,7 +15,7 @@ The package now supports a hybrid data-delivery model:
 
 ## What It Supports
 
-`MicrobiomeProfiler` currently supports:
+Supported workflows include:
 
 - KEGG enrichment and GSEA for microbiome gene profiles
 - COG enrichment and GSEA
@@ -52,7 +52,7 @@ library(MicrobiomeProfiler)
 run_MicrobiomeProfiler()
 ```
 
-The Shiny interface currently provides:
+The Shiny interface provides:
 
 - `Gene enrichment analysis`
   - KEGG
@@ -133,11 +133,10 @@ mda_res <- enrichMDA(microbiota_taxlist)
 ## External Data Delivery
 
 Some annotation resources are distributed from the package GitHub Pages site
-instead of being bundled directly in the source tarball. This keeps package
-size under control and allows annotation artifacts to be refreshed
-independently.
+instead of being bundled directly in the source tarball. These resources can be
+refreshed independently of the package release.
 
-Current external datasets include:
+External datasets include:
 
 - `bugsigdb`
 - `disbiome`
