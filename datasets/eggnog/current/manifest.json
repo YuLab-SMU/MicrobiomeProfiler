@@ -1,17 +1,17 @@
 {
   "dataset": "eggnog",
-  "version": "eggNOG7-2026-09-01",
-  "released_at": "2026-09-01T04:51:28Z",
+  "version": "eggNOG7-2026-10-01",
+  "released_at": "2026-10-01T05:36:03Z",
   "source": "eggNOG 7",
   "source_url": "https://eggnogdb.org/public/eggnog7/e7.og_info_kegg_go.tsv.gz",
   "schema_version": "1.0.0",
-  "record_count": 3861204,
+  "record_count": 3869078,
   "artifact_files": [
     {
       "name": "eggnog_kegg_gson.rds",
       "url": "https://yulab-smu.github.io/MicrobiomeProfiler/datasets/eggnog/current/eggnog_kegg_gson.rds",
-      "sha256": "50a9f64564c75e08dbd5fd63b9ffb128fd3213df259b445574aa74e60e059e1e",
-      "size_bytes": 5712113,
+      "sha256": "eb3cdc8f82bb4e9ebbc776b57fb7624dc49a0dc50ef5209fb9f04bff091d6c7d",
+      "size_bytes": 5727214,
       "object_type": "gson"
     }
   ]
