@@ -1,3 +1,7 @@
+# MicrobiomeProfiler 1.20.0
+
++ Bioconductor RELEASE_3_24 (2026-11-25, Wed)
+
 # MicrobiomeProfiler 1.19.2
 
 + move the external-data builders for `Disbiome` and `eggNOG` from `data-raw/`
